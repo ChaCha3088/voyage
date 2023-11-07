@@ -1,0 +1,32 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/voyage?useSSL=false&serverTimezone=Asia/Seoul
+        username: ssafy
+        password: ssafy
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                show_sql: true
+                format_sql: true
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        open-in-view: false
+    logging:
+        level:
+            org:
+                hibernate:
+                    SQL: trace
+
+# JWT
+jwt:
+    secret: ${JWT_SECRET}
+    token:
+        access:
+            expiration: 300000 # 5분
+            header: Authorization
+        refresh:
+            expiration: 604800000 # 7일 (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> d) * 7L(d -> w))
+            header: Authorization-refresh
