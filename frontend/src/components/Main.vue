@@ -6,7 +6,7 @@
     <div class="hello">
         <h1>{{ msg }}</h1>
         <h2>이곳은 라우터를 통해 계속 바뀔 메인 페이지</h2>
-        <h3>광고용 이미지가 들어갈 자리</h3>
+        <h3>광교용 이미지가 들어갈 자리</h3>
         <ul>
             <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank"
                     rel="noopener">babel</a></li>
