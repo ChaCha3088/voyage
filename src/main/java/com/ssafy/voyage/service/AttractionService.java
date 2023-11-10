@@ -3,6 +3,7 @@ package com.ssafy.voyage.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import com.ssafy.voyage.entity.AttractionInfo;
 import com.ssafy.voyage.repository.AttractionDetailRepository;
 import com.ssafy.voyage.repository.AttractionInfoRepository;
 
+@Log
 @Service
 public class AttractionService {
 
@@ -21,7 +23,8 @@ public class AttractionService {
     private AttractionDetailRepository attractionDetailRepository;
 
     public List<AttractionInfo> findAll(AttractionInfo attractionInfo) throws SQLException {
-        return attractionRepository.findAll(attractionInfo);
+        List<AttractionInfo>  res = attractionRepository.findAll(attractionInfo);
+        return  res;
     }
 
 

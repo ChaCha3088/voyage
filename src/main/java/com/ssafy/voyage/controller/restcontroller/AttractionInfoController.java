@@ -5,12 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.voyage.entity.AttractionDescription;
 import com.ssafy.voyage.entity.AttractionInfo;
@@ -22,16 +17,18 @@ public class AttractionInfoController {
 
     @Autowired
     AttractionService attractionService;
-    
-    @ResponseBody
+
+
     @GetMapping("/list")
-    public List<AttractionInfo> attractionList(@ModelAttribute AttractionInfo attractionInfo) throws SQLException{
+    public List<AttractionInfo> attractionList(@RequestBody(required = false) AttractionInfo attractionInfo) throws SQLException{
+        System.out.println("AttractionInfoController attractionList");
         return attractionService.findAll(attractionInfo);
     }
 
     @ResponseBody
     @GetMapping(value = "/search")
     public List<AttractionInfo> findByTitleContainingAndSidoCode(@ModelAttribute AttractionInfo attractionInfo) throws SQLException {
+        System.out.println(attractionInfo.getTitle());
         return attractionService.findByTitleContainingAndSidoCode(attractionInfo.getTitle(), attractionInfo.getSidoCode());
     }
 

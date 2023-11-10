@@ -31,8 +31,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-@Configuration
-@EnableWebSecurity //Spring Securty 필터가 Spring Filter Chain에 등록된다.
+//@Configuration
+//@EnableWebSecurity //Spring Securty 필터가 Spring Filter Chain에 등록된다.
 //@EnableGlobalMethodSecurity(securedEnabled = true) //secured 어노테이션 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {

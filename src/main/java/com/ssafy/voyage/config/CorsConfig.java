@@ -18,7 +18,7 @@ public class CorsConfig {
         config.setAllowedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken"));
         config.setExposedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken"));
 
-        config.setAllowedOrigins(List.of("https://localhost:8443"));
+        config.setAllowedOrigins(List.of("https://localhost:8443","https://localhost:9000"));
         config.setAllowedMethods(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -22,6 +22,8 @@ public class AttractionInfoRepositoryImpl implements AttractionCustom{
 
         JPAQueryFactory query = new JPAQueryFactory(em);
 
+        if(attractionInfo == null) return query.selectFrom(info).fetch();
+
         if(attractionInfo.getSidoCode() == 0) {
 			if(attractionInfo.getContentTypeId() == 0) {
 
