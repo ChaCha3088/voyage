@@ -19,7 +19,7 @@ const getList = (param, success, fail) => {
   };
 
   const findByContentIdForDes = (contentId, success, fail) => {
-    attractionApi.get(`/des/search/${contentId}`).then(success).catch(fail);
+    attractionApi.get(`${url}/des/search/${contentId}`).then(success).catch(fail);
   };
   
   export default { getList, findByTitleAndSidoCode, findByContentId, findByContentIdForDes };
