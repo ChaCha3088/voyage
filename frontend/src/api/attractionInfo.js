@@ -10,20 +10,16 @@ const getList = (param, success, fail) => {
     attractionApi.get(`${url}/list`, param).then(success).catch(fail);
   };
   
-  const get = (deptno, success, fail) => {
-    deptApi.get(`/api/depts/${deptno}`).then(success).catch(fail);
+  const findByTitleAndSidoCode = (param, success, fail) => {
+    attractionApi.get(`${url}/search`, param).then(success).catch(fail);
   };
   
-  const add = (dept, success, fail) => {
-    deptApi.post("/api/depts", dept).then(success).catch(fail);
+  const findByContentId = (contentId, success, fail) => {
+    attractionApi.get(`${url}/search/${contentId}`).then(success).catch(fail);
+  };
+
+  const findByContentIdForDes = (contentId, success, fail) => {
+    attractionApi.get(`/des/search/${contentId}`).then(success).catch(fail);
   };
   
-  const modify = (dept, success, fail) => {
-    deptApi.put(`/api/depts/${dept.deptno}`, dept).then(success).catch(fail);
-  };
-  
-  const deletes = (deptno, success, fail) => {
-    deptApi.delete(`/api/depts/${deptno}`).then(success).catch(fail);
-  };
-  
-  export default { getList, get, add, modify, deletes };
+  export default { getList, findByTitleAndSidoCode, findByContentId, findByContentIdForDes };
