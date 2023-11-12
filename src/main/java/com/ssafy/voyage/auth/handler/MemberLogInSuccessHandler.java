@@ -32,19 +32,19 @@ public class MemberLogInSuccessHandler implements AuthenticationSuccessHandler {
     @Transactional
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        try {
-            String email = authentication.getName();
-
-            // token들을 발급한다.
-            String[] accessTokenAndRefreshToken = jwtService.issueTokens(email);
-
-            // access token, refresh token을 헤더에 실어서 보낸다.
-            response.setHeader(ACCESS_TOKEN_HEADER, BEARER + accessTokenAndRefreshToken[0]);
-            response.setHeader(REFRESH_TOKEN_HEADER, BEARER + accessTokenAndRefreshToken[1]);
-
-        } catch (NoSuchMemberException e) {
-            // 회원을 찾을 수 없거나, DeviceToken이 없으면, 로그인 페이지로 이동
-            response.sendRedirect("/auth/login");
-        }
+//        try {
+//            String email = authentication.getName();
+//
+//            // token들을 발급한다.
+//            String[] accessTokenAndRefreshToken = jwtService.issueTokens(email);
+//
+//            // access token, refresh token을 헤더에 실어서 보낸다.
+//            response.setHeader(ACCESS_TOKEN_HEADER, BEARER + accessTokenAndRefreshToken[0]);
+//            response.setHeader(REFRESH_TOKEN_HEADER, BEARER + accessTokenAndRefreshToken[1]);
+//
+//        } catch (NoSuchMemberException e) {
+//            // 회원을 찾을 수 없거나, DeviceToken이 없으면, 로그인 페이지로 이동
+//            response.sendRedirect("/auth/login");
+//        }
     }
 }

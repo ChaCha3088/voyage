@@ -48,20 +48,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .cors().configurationSource(corsConfig.corsConfigurationSource());
+                .csrf().disable();
+//                .cors().configurationSource(corsConfig.corsConfigurationSource());
 //            .and()
 //                .addFilter(corsConfig.corsFilter());
 
         http
                 // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeRequests(authorize -> authorize
 //                        .antMatchers("/members/**").hasAuthority(MemberRole.ADMIN.toString())
                         .antMatchers("/","/css/**","/img/**","/js/**","/favicon.ico").permitAll()
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/auth/**").permitAll()
                         .antMatchers("/api/subscription/**").permitAll()
-//                        .antMatchers("**/api/**").permitAll()
+                      .antMatchers("**/api/**").permitAll()
+                                .antMatchers("/api/attraction/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -74,14 +75,14 @@ public class SecurityConfig {
                 .disable(); // 해제
 
         //Filter
-        http
-            .addFilterBefore(apiContentTypeFilter, LogoutFilter.class)
-            .addFilterAfter(authenticationProcessFilter, APIContentTypeFilter.class)
-            .addFilterAfter(memberAuthenticationFilter(), AuthenticationProcessFilter.class);
+//        http
+//            .addFilterBefore(apiContentTypeFilter, LogoutFilter.class)
+//            .addFilterAfter(authenticationProcessFilter, APIContentTypeFilter.class)
+//            .addFilterAfter(memberAuthenticationFilter(), AuthenticationProcessFilter.class);
 
         //로그인
-        http
-                .formLogin().disable()
+//        http
+//                .formLogin().disable()
 //                .loginProcessingUrl("/auth/api/signin/v1")
 //                .usernameParameter("email")
 //                .passwordParameter("password")
@@ -89,16 +90,16 @@ public class SecurityConfig {
 //                .failureHandler(memberLogInFailureHandler)
 //                .permitAll()
 //            .and()
-                .userDetailsService(principalUserDetailsService)
-                .authenticationProvider(memberAuthenticationProvider)
-
-                //로그아웃
-                .logout()
-                .logoutUrl("/auth/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .addLogoutHandler(jwtLogoutHandler);
+//                .userDetailsService(principalUserDetailsService)
+//                .authenticationProvider(memberAuthenticationProvider)
+//
+//                //로그아웃
+//                .logout()
+//                .logoutUrl("/auth/logout")
+//                .logoutSuccessUrl("/")
+//                .invalidateHttpSession(true)
+//                .deleteCookies("JSESSIONID")
+//                .addLogoutHandler(jwtLogoutHandler);
 
         //OAuth2 로그인
 //        http

@@ -9,21 +9,23 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfig{
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // Whether user credentials are supported.
 
-        config.setAllowedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken"));
-        config.setExposedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken"));
+        config.setAllowedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken", "Content-Type"));
+        config.setExposedHeaders(List.of("Authorization", "Authorization-refresh, DeviceToken", "Content-Type"));
 
-        config.setAllowedOrigins(List.of("https://localhost:8443","https://localhost:9000"));
-        config.setAllowedMethods(List.of("*"));
+        config.setAllowedOrigins(List.of("https://localhost:8443","https://localhost:9000","https://localhost:8080"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setMaxAge(6000L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
         return source;
     }
+
 }
