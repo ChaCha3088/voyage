@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
           <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
             <li class="nav-item">
-              <a class="nav-link" href="#">메인페이지</a>
+              <router-link :to="{ name: 'home' }" class="nav-link">메인페이지</router-link>
             </li>
             <li class="nav-item">
               <router-link :to="{ name: 'attractionInfo' }" class="nav-link">여행 검색</router-link>
@@ -47,15 +47,17 @@
             <button class="btn btn-outline-success" type="button">search</button>
           </form>
           <div class="dropdown" style="padding-left: 2vw;">
-            <a class="btn btn-secondary" href="#" role="button" id="dropdownMenuLink"
-              aria-expanded="false" style="background-color: white; color: black;">
+            <a class="btn btn-secondary" href="#" role="button" id="dropdownMenuLink" aria-expanded="false"
+              style="background-color: white; color: black;">
               로그인
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><a class="dropdown-item" href="#">Action</a></li>
               <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </div>
