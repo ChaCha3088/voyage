@@ -5,12 +5,16 @@ import java.util.List;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.voyage.entity.AttractionDescription;
 import com.ssafy.voyage.entity.AttractionInfo;
 import com.ssafy.voyage.repository.AttractionDetailRepository;
 import com.ssafy.voyage.repository.AttractionInfoRepository;
+import org.w3c.dom.Attr;
 
 @Log
 @Service
@@ -22,8 +26,10 @@ public class AttractionService {
     @Autowired
     private AttractionDetailRepository attractionDetailRepository;
 
-    public List<AttractionInfo> findAll(AttractionInfo attractionInfo) throws SQLException {
-        List<AttractionInfo>  res = attractionRepository.findAll(attractionInfo);
+    public Page<AttractionInfo> findAll(AttractionInfo attractionInfo, int page) throws SQLException {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<AttractionInfo> res = attractionRepository.findAll(pageable);
+        //List<AttractionInfo>  res = attractionRepository.findAll(attractionInfo, page);
         return  res;
     }
 

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,10 @@ public class AttractionInfoController {
 
 
     @GetMapping("/list")
-    public List<AttractionInfo> attractionList(@RequestBody(required = false) AttractionInfo attractionInfo) throws SQLException{
+    public Page<AttractionInfo> attractionList(AttractionInfo attractionInfo,
+                                               @RequestParam/*(required = false)*/ int page) throws SQLException{
         System.out.println("AttractionInfoController attractionList");
-        return attractionService.findAll(attractionInfo);
+        return attractionService.findAll(attractionInfo,page);
     }
 
     @ResponseBody

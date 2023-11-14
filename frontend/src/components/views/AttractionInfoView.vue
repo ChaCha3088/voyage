@@ -2,28 +2,34 @@
 import { ref } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
 
-const attractions = ref([])
+const attractions = ref({
+})
 
-const params = ref([])
+const params = ref({
+    sidoCode: 0,
+    contentTypeId: 0,
+    page: 0
+})
 
 const getAttraction = () => {
-    attractionApi.getList(params,
+    attractionApi.getList(params.value,
         ({ data }) => {
             //data : json 부서목록
-            attractions.value = data
-        }, ({ data }) => {
-            console.log(data.value)
+            attractions.value = data.content
+
+        }, () => {
             console.log("여행지 목록 조회에 실패")
         })
 }
 
+getAttraction()
 
 </script>
 
 <template>
     <h2>전국 관광지 정보</h2>
     <div id="wrapper-body" class="dark:bg-gray-900 " style="display: flex; justify-content : center;">
-        <div class="col-md-9 col-lg-5">
+        <div class=" col-md-9 col-lg-5">
             <!-- 관광지 검색 start -->
             <form class="d-flex my-3" onsubmit="return false;" role="search">
                 <div style="display: flex; justify-content : center;">
@@ -109,6 +115,7 @@ body {
     color: #666;
     font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
     font-size: 140%;
+
 }
 
 h2 {
@@ -119,7 +126,8 @@ h2 {
 table {
     border-collapse: separate;
     border-spacing: 0;
-    width: 100%;
+    margin: auto;
+    width: 70%;
 }
 
 th,
@@ -203,7 +211,7 @@ body {
         height: 38px;
         min-width: 38px;
         border-radius: 38px;
-        border: 2px solid rgb(159, 240, 240);
+        border: 2px solid rgb(56, 68, 68);
         line-height: 38px;
         padding: 0;
         color: #000;
@@ -225,7 +233,7 @@ body {
     }
 
     &_i:hover {
-        background-color: rgb(159, 240, 240);
+        background-color: #787b8d;
         color: #fff;
     }
 
@@ -265,7 +273,7 @@ body {
 
         // active
         .cdp_i:nth-child(#{$i + 1}) {
-            background-color: cyan;
+            background-color: #42444e;
             color: #fff;
             display: inline-block;
 

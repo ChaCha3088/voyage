@@ -1,17 +1,20 @@
 <script setup></script>
 
 <template>
-    <p class="p">
-        <div class="right">All rights reserved</div>
-        Demo by cha_cha and mushroom <a href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions" target="_blank">See article</a>.</p>
+  <p class="p">
+  <div class="right">All rights reserved</div>
+  Demo by cha_cha and mushroom <a href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions"
+    target="_blank">See article</a>
+  </p>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@500&display=swap');
 @import '@/assets/base.css';
+
 .right {
-    font-family: 'Edu TAS Beginner', cursive;
-    font-size: 30px
+  font-family: 'Edu TAS Beginner', cursive;
+  font-size: 30px
 }
 
 #footer {
@@ -38,6 +41,7 @@ a,
 .p {
   text-align: center;
   padding-top: 140px;
+  padding-bottom: 3vh;
   font-size: 14px;
 }
 </style>
