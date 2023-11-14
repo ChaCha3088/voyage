@@ -1,14 +1,8 @@
-# 2023/11/10
+# 2023/11/14
 
 ## 작성자
 - Cha Cha(차명훈)
 - 능이 버섯(이혜지)
-
-## 구현 기능
-- [x] API
-  - [x] 회원가입
-  - [x] 로그인
-    - [x] JWT 발급
 
 ## 개발 환경
 - Java 11
@@ -31,10 +25,14 @@
 #### 로그인 - 성공 - JWT 발급
 ![SignIn - Success](https://github.com/ChaCha3088/voyage/assets/90785316/0551cbce-0896-49be-b8b6-dbe618489ca8)
 
-## 다음 할 일
-- [ ] API
-  - [ ] 회원
-    - [ ] 로그아웃
+## 할 일
+- [ ] [API](https://cha3088.notion.site/API-54ad5cc3557b4485959a965e3f1b4b82?pvs=4)
+  - [x] Auth
+    - [x] 회원가입
+    - [x] 로그인
+      - [x] JWT 발급
+    - [x] 로그아웃
+    - [x] JWT 재발급
     - [ ] 회원 정보 수정
     - [ ] 회원 탈퇴
   - [ ] 공지사항
