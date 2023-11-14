@@ -27,19 +27,23 @@ public class AttractionService {
     private AttractionDetailRepository attractionDetailRepository;
 
     public Page<AttractionInfo> findAll(AttractionInfo attractionInfo, int page) throws SQLException {
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 20);
         Page<AttractionInfo> res = attractionRepository.findAll(pageable);
         //List<AttractionInfo>  res = attractionRepository.findAll(attractionInfo, page);
         return  res;
     }
 
 
-	public List<AttractionInfo> findByTitleContainingAndSidoCode(String title, int sidoCode) throws SQLException {
-        return attractionRepository.findByTitleContainingAndSidoCode(title, sidoCode);
+	public Page<AttractionInfo> findByTitleContainingAndSidoCode(String title, int sidoCode, int page) throws SQLException {
+        Pageable pageable = PageRequest.of(page, 20);
+        Page<AttractionInfo> res = attractionRepository.findByTitleContainingAndSidoCode(title, sidoCode);
+        return res;
     }
 
-    public List<AttractionInfo> findByContentId(int contentId) throws SQLException {
-        return attractionRepository.findByContentId(contentId);
+    public Page<AttractionInfo> findByContentId(int contentId, int page) throws SQLException {
+        Pageable pageable = PageRequest.of(page, 20);
+        Page<AttractionInfo> res = attractionRepository.findByContentId(contentId);
+        return res;
     }
 
 	public List<AttractionDescription> findByContentIdForDescriptions(int contentId) throws SQLException {

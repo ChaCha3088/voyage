@@ -29,15 +29,15 @@ public class AttractionInfoController {
 
     @ResponseBody
     @GetMapping(value = "/search")
-    public List<AttractionInfo> findByTitleContainingAndSidoCode(@ModelAttribute AttractionInfo attractionInfo) throws SQLException {
+    public Page<AttractionInfo> findByTitleContainingAndSidoCode(@ModelAttribute AttractionInfo attractionInfo, int page) throws SQLException {
         System.out.println(attractionInfo.getTitle());
-        return attractionService.findByTitleContainingAndSidoCode(attractionInfo.getTitle(), attractionInfo.getSidoCode());
+        return attractionService.findByTitleContainingAndSidoCode(attractionInfo.getTitle(), attractionInfo.getSidoCode(), page);
     }
 
     @ResponseBody
     @GetMapping(value = "/search", params = "contentId")
-    public List<AttractionInfo> findByContentId(@RequestParam("contentId") int contentId) throws SQLException {
-        return attractionService.findByContentId(contentId);
+    public Page<AttractionInfo> findByContentId(@RequestParam("contentId") int contentId, int page) throws SQLException {
+        return attractionService.findByContentId(contentId, page);
     }
 
     @ResponseBody

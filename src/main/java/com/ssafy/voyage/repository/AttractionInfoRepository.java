@@ -13,8 +13,8 @@ public interface AttractionInfoRepository extends JpaRepository<AttractionInfo, 
 
     Page<AttractionInfo> findAll(AttractionInfo attractionInfo);
 
-	List<AttractionInfo> findByTitleContainingAndSidoCode(String title, int sidoCode) throws SQLException;
-	
-    List<AttractionInfo> findByContentId(int contentId) throws SQLException;
+    Page<AttractionInfo> findByTitleContainingAndSidoCode(String title, int sidoCode) throws SQLException;
+
+    Page<AttractionInfo> findByContentId(int contentId) throws SQLException;
 
 }

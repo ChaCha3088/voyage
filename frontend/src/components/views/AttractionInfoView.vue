@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
 
 const attractions = ref({
 })
+
+const totalPages = ref(3819)
+const pages = reactive([])
 
 const params = ref({
     sidoCode: 0,
@@ -16,13 +19,23 @@ const getAttraction = () => {
         ({ data }) => {
             //data : json 부서목록
             attractions.value = data.content
-
+            totalPages.value = data.totalPages
+            console.log(totalPages.value)
         }, () => {
             console.log("여행지 목록 조회에 실패")
         })
 }
 
 getAttraction()
+
+const pageCalc = () => {
+    for (var i = 1; i <= totalPages.value; i++) {
+        pages.push(i)
+    }
+
+}
+
+pageCalc()
 
 </script>
 
@@ -255,7 +268,7 @@ body {
 
             &:after {
                 content: '...';
-                color: #fff;
+                color: black;
                 font-size: 32px;
                 margin-left: -6px;
             }
@@ -302,7 +315,7 @@ body {
 
             &:after {
                 content: '...';
-                color: #fff;
+                color: black;
                 font-size: 32px;
                 margin-left: -6px;
             }
