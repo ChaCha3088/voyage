@@ -4,14 +4,16 @@ import com.ssafy.voyage.dto.member.MemberCreationDto;
 import com.ssafy.voyage.dto.member.MemberUpdateDto;
 import com.ssafy.voyage.entity.Member;
 import com.ssafy.voyage.exception.NoSuchMemberException;
-import com.ssafy.voyage.message.MessageMaker;
 import com.ssafy.voyage.repository.MemberRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.ssafy.voyage.message.MemberMessages.MEMBER;
+import static com.ssafy.voyage.message.message.MemberMessages.EMAIL;
 import static com.ssafy.voyage.message.message.Messages.NOT_EXISTS;
 import static com.ssafy.voyage.message.message.Messages.SUCH;
 
@@ -31,7 +33,7 @@ public class MemberService {
     }
 
     @Transactional
-    public long createMember(MemberCreationDto memberCreationDto) {
+    public long createMember(MemberCreationDto memberCreationDto) throws DataIntegrityViolationException {
         Member newMember = Member.builder()
             .email(memberCreationDto.getEmail())
             .password(passwordEncoder.encode(memberCreationDto.getPassword()))
@@ -45,7 +47,7 @@ public class MemberService {
     public long updateMember(MemberUpdateDto memberUpdateDto, String email) throws NoSuchMemberException {
         Member member = getMemberByEmail(email);
 
-        member.update(memberUpdateDto);
+        member.changePassword(memberUpdateDto.getPassword());
 
         return member.getId();
     }
@@ -59,11 +61,11 @@ public class MemberService {
 
     private Member getMemberById(long memberId) throws NoSuchMemberException {
         return memberRepository.findById(memberId)
-            .orElseThrow(() -> new NoSuchMemberException(MessageMaker.getMessageMaker().add(SUCH).add(MEMBER).add(NOT_EXISTS).toString()));
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 
     private Member getMemberByEmail(String email) {
         return memberRepository.findNotDeletedByEmail(email)
-            .orElseThrow(() -> new NoSuchMemberException(MessageMaker.getMessageMaker().add(SUCH).add(MEMBER).add(NOT_EXISTS).toString()));
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 }

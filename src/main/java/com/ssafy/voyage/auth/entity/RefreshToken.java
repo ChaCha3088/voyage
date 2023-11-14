@@ -37,6 +37,8 @@ public class RefreshToken {
         this.refreshToken = refreshToken;
         this.expiredAt = LocalDateTime.now().plusDays(7);
         this.member = member;
+
+        member.addRefreshToken(this);
     }
 
     //== 비즈니스 로직 ==//

@@ -9,12 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "attraction_info")
 public class AttractionInfo {
-    
     @Id
     private int contentId;
 	private int contentTypeId;
@@ -31,5 +27,4 @@ public class AttractionInfo {
 	private double latitude;
 	private double longitude;
 	private String mlevel;
-
 }

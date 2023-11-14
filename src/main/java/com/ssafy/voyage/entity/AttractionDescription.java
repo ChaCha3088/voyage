@@ -6,9 +6,6 @@ import javax.persistence.Id;
 import lombok.*;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "attraction_description")
 public class AttractionDescription {
     @Id
