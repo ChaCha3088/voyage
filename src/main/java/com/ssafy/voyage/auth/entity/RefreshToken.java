@@ -30,6 +30,7 @@ public class RefreshToken {
 
     @NotNull
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_member_id")
     private Member member;
 
     @Builder
