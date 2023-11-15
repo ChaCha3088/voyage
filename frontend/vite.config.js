@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -11,11 +10,15 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  outputDir: "../src/main/resources/static",
+
+  build: {
+    outDir: "../src/main/resources/static",
+  },
+
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: process.env.VITE_API_BASE_URL,
         changeOrigin: true,
       },
     },
