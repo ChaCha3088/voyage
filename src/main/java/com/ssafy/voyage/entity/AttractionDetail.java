@@ -1,23 +1,39 @@
 package com.ssafy.voyage.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "attraction_detail")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AttractionDetail {
     @Id
     private int contentId;
-	private String cat1;
-	private String cat2;
-	private String cat3;
-	private String createdTime;
-	private String modifiedTime;
-	private String booktour;
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "content_id")
+    @JsonBackReference
+    private AttractionInfo attractionInfo;
+
+    @Column(columnDefinition = "varchar(3) default NULL")
+	private String cat1;
+
+    @Column(columnDefinition = "varchar(5) default NULL")
+	private String cat2;
+
+    @Column(columnDefinition = "varchar(9) default NULL")
+	private String cat3;
+
+    @Column(columnDefinition = "varchar(14) default NULL")
+	private String createdTime;
+
+    @Column(columnDefinition = "varchar(14) default NULL")
+	private String modifiedTime;
+
+    @Column(columnDefinition = "varchar(5) default NULL")
+	private String booktour;
 }

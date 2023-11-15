@@ -3,7 +3,7 @@ package com.ssafy.voyage.exception;
 import lombok.Getter;
 
 @Getter
-public class MemberCreationValidationException extends Exception {
+public class MemberCreationValidationException extends RuntimeException {
     private final String reason;
     private final String message;
 

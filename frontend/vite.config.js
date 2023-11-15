@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -12,7 +11,7 @@ export default defineConfig({
     },
   },
 
-  build : {
+  build: {
     outDir: "../src/main/resources/static",
   },
 

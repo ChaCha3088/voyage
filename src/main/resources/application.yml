@@ -7,7 +7,7 @@ spring:
     jpa:
         database: mysql
         hibernate:
-            ddl-auto: update
+            ddl-auto: validate
         properties:
             hibernate:
                 show_sql: true
@@ -19,12 +19,6 @@ spring:
             org:
                 hibernate:
                     SQL: trace
-            com:
-                ssafy:
-                    voyage:
-                        service : trace
-                        repository: trace
-
 
 # JWT
 jwt:

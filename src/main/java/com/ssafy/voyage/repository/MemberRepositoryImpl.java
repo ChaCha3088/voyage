@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static com.ssafy.voyage.auth.entity.QRefreshToken.refreshToken1;
 import static com.ssafy.voyage.entity.QMember.member;
 
 @RequiredArgsConstructor
@@ -37,6 +36,20 @@ public class MemberRepositoryImpl implements MemberRepositoryQueryDsl {
                         .selectFrom(member)
                         .where(member.email.eq(email)
                                 .and(member.status.ne(MemberStatus.DELETED)))
+                        .fetchOne()
+        );
+    }
+
+    @Override
+    public Optional<Member> findNotDeletedByEmailWithRefreshToken(String email) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(member)
+                        .where(member.email.eq(email)
+                                .and(member.status.ne(MemberStatus.DELETED)))
+                        .leftJoin(member.refreshTokens).fetchJoin()
                         .fetchOne()
         );
     }

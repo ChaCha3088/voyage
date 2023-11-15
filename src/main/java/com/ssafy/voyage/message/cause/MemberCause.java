@@ -1,12 +1,19 @@
 package com.ssafy.voyage.message.cause;
 
-public class MemberCause {
-    public static final String MEMBER = "member";
-    public static final String NAME = "name";
-    public static final String EMAIL = "email";
-    public static final String PASSWORD = "password";
-    public static final String VERIFICATION = "verification";
-    public static final String FORM = "form";
+import lombok.Getter;
 
-    private MemberCause() {}
+@Getter
+public enum MemberCause {
+    MEMBER("member"),
+    NAME("name"),
+    EMAIL("email"),
+    PASSWORD("password"),
+    VERIFICATION("verification"),
+    FORM("form");
+
+    private final String message;
+
+    private MemberCause(String message) {
+        this.message = message;
+    }
 }

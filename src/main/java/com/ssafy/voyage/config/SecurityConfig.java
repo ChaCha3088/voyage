@@ -1,20 +1,17 @@
 package com.ssafy.voyage.config;
 
-import com.auth0.jwt.JWT;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.ssafy.voyage.auth.enumstorage.MemberRole;
-import com.ssafy.voyage.auth.handler.JwtLogoutHandler;
-import com.ssafy.voyage.auth.handler.MemberLogInFailureHandler;
-import com.ssafy.voyage.auth.handler.MemberLogInSuccessHandler;
+import com.ssafy.voyage.auth.handler.JwtSignOutHandler;
+import com.ssafy.voyage.auth.handler.MemberSignInFailureHandler;
+import com.ssafy.voyage.auth.handler.MemberSignInSuccessHandler;
 import com.ssafy.voyage.auth.provider.MemberAuthenticationProvider;
-import com.ssafy.voyage.filter.auth.APIContentTypeFilter;
-import com.ssafy.voyage.filter.auth.AuthenticationProcessFilter;
 import com.ssafy.voyage.auth.service.PrincipalUserDetailsService;
+import com.ssafy.voyage.filter.APIContentTypeFilter;
+import com.ssafy.voyage.auth.filter.AuthenticationProcessFilter;
 
-import com.ssafy.voyage.filter.auth.MemberAuthenticationFilter;
-import com.ssafy.voyage.message.MessageMaker;
+import com.ssafy.voyage.auth.filter.MemberAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
@@ -26,20 +23,17 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-//@Configuration
-//@EnableWebSecurity //Spring Securty 필터가 Spring Filter Chain에 등록된다.
+@Configuration
+@EnableWebSecurity //Spring Securty 필터가 Spring Filter Chain에 등록된다.
 //@EnableGlobalMethodSecurity(securedEnabled = true) //secured 어노테이션 활성화
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final PrincipalUserDetailsService principalUserDetailsService;
-    private final MemberLogInSuccessHandler memberLogInSuccessHandler;
-    private final MemberLogInFailureHandler memberLogInFailureHandler;
-    private final JwtLogoutHandler jwtLogoutHandler;
+    private final MemberSignInSuccessHandler memberSignInSuccessHandler;
+    private final JwtSignOutHandler jwtSignOutHandler;
     private final AuthenticationProcessFilter authenticationProcessFilter;
     private final APIContentTypeFilter apiContentTypeFilter;
     private final MemberAuthenticationProvider memberAuthenticationProvider;
@@ -48,21 +42,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable();
-//                .cors().configurationSource(corsConfig.corsConfigurationSource());
+                .csrf().disable()
+                .cors().configurationSource(corsConfig.corsConfigurationSource());
 //            .and()
 //                .addFilter(corsConfig.corsFilter());
 
         http
                 // 기본 페이지, css, image, js 하위 폴더에 있는 자료들은 모두 접근 가능, h2-console에 접근 가능
-                .authorizeRequests(authorize -> authorize
+                .authorizeHttpRequests(authorize -> authorize
 //                        .antMatchers("/members/**").hasAuthority(MemberRole.ADMIN.toString())
-                        .antMatchers("/","/css/**","/img/**","/js/**","/favicon.ico").permitAll()
+                        .antMatchers("/","/css/**","/img/**","/js/**","/favicon.ico", "/error").permitAll()
                         .antMatchers("/api/auth/**").permitAll()
-                        .antMatchers("/auth/**").permitAll()
+                        .antMatchers("/api/attraction/**").permitAll()
                         .antMatchers("/api/subscription/**").permitAll()
-                      .antMatchers("**/api/**").permitAll()
-                                .antMatchers("/api/attraction/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
@@ -75,14 +67,14 @@ public class SecurityConfig {
                 .disable(); // 해제
 
         //Filter
-//        http
-//            .addFilterBefore(apiContentTypeFilter, LogoutFilter.class)
-//            .addFilterAfter(authenticationProcessFilter, APIContentTypeFilter.class)
-//            .addFilterAfter(memberAuthenticationFilter(), AuthenticationProcessFilter.class);
+        http
+            .addFilterBefore(apiContentTypeFilter, LogoutFilter.class)
+            .addFilterAfter(authenticationProcessFilter, APIContentTypeFilter.class)
+            .addFilterAfter(memberAuthenticationFilter(), AuthenticationProcessFilter.class);
 
         //로그인
-//        http
-//                .formLogin().disable()
+        http
+                .formLogin().disable()
 //                .loginProcessingUrl("/auth/api/signin/v1")
 //                .usernameParameter("email")
 //                .passwordParameter("password")
@@ -90,16 +82,16 @@ public class SecurityConfig {
 //                .failureHandler(memberLogInFailureHandler)
 //                .permitAll()
 //            .and()
-//                .userDetailsService(principalUserDetailsService)
-//                .authenticationProvider(memberAuthenticationProvider)
-//
-//                //로그아웃
-//                .logout()
-//                .logoutUrl("/auth/logout")
-//                .logoutSuccessUrl("/")
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID")
-//                .addLogoutHandler(jwtLogoutHandler);
+                .userDetailsService(principalUserDetailsService)
+                .authenticationProvider(memberAuthenticationProvider)
+
+                //로그아웃
+                .logout()
+                .logoutUrl("/api/auth/signout/v1")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .addLogoutHandler(jwtSignOutHandler);
 
         //OAuth2 로그인
 //        http
@@ -127,7 +119,12 @@ public class SecurityConfig {
 
     @Bean
     public MemberAuthenticationFilter memberAuthenticationFilter() {
-        return new MemberAuthenticationFilter(objectMapper(), authenticationManager(), memberLogInSuccessHandler, memberLogInFailureHandler);
+        return new MemberAuthenticationFilter(objectMapper(), authenticationManager(), memberSignInSuccessHandler, memberSignInFailureHandler());
+    }
+
+    @Bean
+    public MemberSignInFailureHandler memberSignInFailureHandler() {
+        return new MemberSignInFailureHandler(objectMapper());
     }
 
     @Bean
@@ -138,7 +135,7 @@ public class SecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        //이 부분에서 큰 권한 순서로 ' > ' 를 사용하여 입력해준다. 띄어쓰기도 중요하다.
+        // 이 부분에서 큰 권한 순서로 ' > ' 를 사용하여 입력해준다. 띄어쓰기도 중요하다.
         roleHierarchy.setHierarchy(MemberRole.ADMIN + " > " + MemberRole.MEMBER);
 
         return roleHierarchy;

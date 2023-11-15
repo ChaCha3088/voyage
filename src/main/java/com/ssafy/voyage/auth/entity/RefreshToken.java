@@ -30,6 +30,7 @@ public class RefreshToken {
 
     @NotNull
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Builder
@@ -37,6 +38,8 @@ public class RefreshToken {
         this.refreshToken = refreshToken;
         this.expiredAt = LocalDateTime.now().plusDays(7);
         this.member = member;
+
+        member.addRefreshToken(this);
     }
 
     //== 비즈니스 로직 ==//

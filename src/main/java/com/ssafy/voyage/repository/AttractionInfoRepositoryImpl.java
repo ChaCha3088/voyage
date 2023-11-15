@@ -1,57 +1,69 @@
 package com.ssafy.voyage.repository;
 
-import static com.ssafy.voyage.entity.QAttractionInfo.attractionInfo;
-
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.voyage.dto.request.AttractionInfoRequestDto;
 import com.ssafy.voyage.entity.AttractionInfo;
-import com.ssafy.voyage.entity.QAttractionInfo;
-
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Optional;
+
+import static com.ssafy.voyage.entity.QAttractionInfo.attractionInfo;
+
 @RequiredArgsConstructor
-public class AttractionInfoRepositoryImpl implements AttractionCustom{
+public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQueryDsl {
     private final EntityManager em;
 
-    QAttractionInfo info = new QAttractionInfo("info");
+    @Override
+    public Optional<AttractionInfo> findByContentIdWithDetailAndDescription(int contentId) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-    public List<AttractionInfo> findAll(AttractionInfo attractionInfo) {
+        return Optional.ofNullable(queryFactory
+            .selectFrom(attractionInfo)
+            .where(attractionInfo.contentId.eq(contentId))
+            .leftJoin(attractionInfo.attractionDetail).fetchJoin()
+            .leftJoin(attractionInfo.attractionDescription).fetchJoin()
+            .fetchOne());
+    }
 
-        JPAQueryFactory query = new JPAQueryFactory(em);
+    @Override
+    public List<AttractionInfo> findWithNoOffset(AttractionInfoRequestDto attractionInfoRequestDto) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-        if(attractionInfo == null) return query.selectFrom(info).fetch();
+        return queryFactory
+            .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.tel))
+            .from(attractionInfo)
+            .where(
+                ltId(attractionInfoRequestDto.getLastId()),
+                eqSidoCode(attractionInfoRequestDto.getSidoCode()),
+                eqContentTypeId(attractionInfoRequestDto.getContentTypeId()),
+                likeTitle(attractionInfoRequestDto.getTitle())
+            )
+            .orderBy(attractionInfo.contentId.desc())
+            .limit(getPageSize(attractionInfoRequestDto.getPageSize()))
+            .fetch();
+    }
 
-        if(attractionInfo.getSidoCode() == 0) {
-			if(attractionInfo.getContentTypeId() == 0) {
+    private BooleanExpression ltId(long lastId) {
+        return lastId == 0 ? null : attractionInfo.contentId.lt(lastId);
+    }
 
-                return query.selectFrom(info).fetch();
+    private BooleanExpression eqSidoCode(int sidoCode) {
+        return sidoCode == 0 ? null : attractionInfo.sidoCode.sidoCode.eq(sidoCode);
+    }
 
-			} else {
-                return query.
-                selectFrom(info).
-                where(info.contentTypeId.eq(attractionInfo.getContentTypeId())).
-                fetch();
-			}
-		}
-		else {
-			if(attractionInfo.getContentTypeId() == 0) {
+    private BooleanExpression eqContentTypeId(int contentTypeId) {
+        return contentTypeId == 0 ? null : attractionInfo.contentTypeId.eq(contentTypeId);
+    }
 
-                return query.
-                selectFrom(info).
-                where(info.sidoCode.eq(attractionInfo.getSidoCode())).
-                fetch();
-			} else {
-                return query.
-                selectFrom(info).
-                where(info.sidoCode.eq(attractionInfo.getSidoCode())
-                .and(info.contentTypeId.eq(attractionInfo.getContentTypeId())))
-                .fetch();
-            }
-        }
+    private BooleanExpression likeTitle(String title) {
+        return title.isBlank() ? null : attractionInfo.title.contains(title);
+    }
+
+    private int getPageSize(int pageSize) {
+        return pageSize == 0 ? 10 : pageSize;
     }
 }
-
-
