@@ -12,8 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ssafy.voyage.message.MemberMessages.MEMBER;
-import static com.ssafy.voyage.message.message.MemberMessages.EMAIL;
+import static com.ssafy.voyage.message.message.MemberMessages.MEMBER;
 import static com.ssafy.voyage.message.message.Messages.NOT_EXISTS;
 import static com.ssafy.voyage.message.message.Messages.SUCH;
 

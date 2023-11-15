@@ -3,6 +3,9 @@ package com.ssafy.voyage.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ssafy.voyage.dto.response.AttractionInfoDto;
 import lombok.*;
 
 import static javax.persistence.FetchType.LAZY;
@@ -13,14 +16,6 @@ import static javax.persistence.FetchType.LAZY;
 public class AttractionInfo {
     @Id
     private int contentId;
-
-    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private AttractionDetail attractionDetail;
-
-    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private AttractionDescription attractionDescription;
 
     @Column(columnDefinition = "default NULL")
 	private int contentTypeId;
@@ -51,11 +46,13 @@ public class AttractionInfo {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sido_code")
-	private Sido sidoCode;
+    @JsonBackReference
+    private Sido sidoCode;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "gugun_code")
-	private Gugun gugunCode;
+    @JsonBackReference
+    private Gugun gugunCode;
 
     @Column(columnDefinition = "decimal(20, 17) default NULL")
 	private double latitude;
@@ -65,4 +62,36 @@ public class AttractionInfo {
 
     @Column(columnDefinition = "varchar(2) default NULL")
 	private String mlevel;
+
+    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    @JsonManagedReference
+    private AttractionDetail attractionDetail;
+
+    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    @JsonManagedReference
+    private AttractionDescription attractionDescription;
+
+    public AttractionInfoDto toAttractionInfoDto() {
+        return AttractionInfoDto.builder()
+            .contentId(contentId)
+            .attractionDetail(attractionDetail)
+            .attractionDescription(attractionDescription)
+            .contentTypeId(contentTypeId)
+            .title(title)
+            .addr1(addr1)
+            .addr2(addr2)
+            .zipcode(zipcode)
+            .tel(tel)
+            .firstImage(firstImage)
+            .firstImage2(firstImage2)
+            .readcount(readcount)
+            .sidoCode(sidoCode.getSidoCode())
+            .gugunCode(gugunCode.getGugunCode())
+            .latitude(latitude)
+            .longitude(longitude)
+            .mlevel(mlevel)
+        .build();
+    }
 }

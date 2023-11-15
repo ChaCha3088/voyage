@@ -2,6 +2,8 @@ package com.ssafy.voyage.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 @Getter
@@ -13,6 +15,7 @@ public class AttractionDescription {
     @OneToOne
     @MapsId
     @JoinColumn(name = "content_id")
+    @JsonBackReference
     private AttractionInfo attractionInfo;
 
     @Column(columnDefinition = "varchar(100) default NULL")

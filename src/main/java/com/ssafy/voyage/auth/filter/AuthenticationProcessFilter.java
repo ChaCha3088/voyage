@@ -29,7 +29,8 @@ import java.util.List;
 public class AuthenticationProcessFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
 
-    private static final String NO_CHECK_URL = "/auth"; // "/auth/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String NO_CHECK_URL = "/api/auth"; // "/auth/login"으로 들어오는 요청은 Filter 작동 X
+    private static final String TEST = "/api/attraction-info";
 
     /**
      * "/auth/login"으로 시작하는 URL 요청은 logIn 검증 및 authenticate X
@@ -37,7 +38,7 @@ public class AuthenticationProcessFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals("/") || request.getRequestURI().startsWith(NO_CHECK_URL) || request.getRequestURI().startsWith("/api/auth") || request.getRequestURI().startsWith("/error") || request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/js") || request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/favicon.ico")) {
+        if (request.getRequestURI().equals("/") || request.getRequestURI().startsWith(NO_CHECK_URL) || request.getRequestURI().startsWith(TEST) || request.getRequestURI().startsWith("/error") || request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/js") || request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/favicon.ico")) {
             filterChain.doFilter(request, response); // "/auth/login"으로 시작하는 URL 요청이 들어오면, 다음 필터 호출
             return; // return으로 이후 현재 필터 진행 막기 (안해주면 아래로 내려가서 계속 필터 진행시킴)
         }

@@ -39,14 +39,14 @@ public class MemberRestController {
     }
 
     @PostMapping
-    public void createMember(@Valid MemberCreationDto memberCreationDto, HttpServletResponse response) throws IOException {
+    public void createMember(@Valid @RequestBody MemberCreationDto memberCreationDto, HttpServletResponse response) throws IOException {
         long newMemberId = memberService.createMember(memberCreationDto);
 
         response.sendRedirect(PREFIX + newMemberId);
     }
 
     @PutMapping
-    public void updateMember(@Valid MemberUpdateDto memberUpdateDto, HttpServletRequest request, HttpServletResponse response) throws NoSuchMemberException, IOException {
+    public void updateMember(@Valid @RequestBody MemberUpdateDto memberUpdateDto, HttpServletRequest request, HttpServletResponse response) throws NoSuchMemberException, IOException {
         String email = (String) request.getAttribute("email");
 
         long memberId = memberService.updateMember(memberUpdateDto, email);

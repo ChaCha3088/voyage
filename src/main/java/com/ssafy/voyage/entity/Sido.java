@@ -1,5 +1,6 @@
 package com.ssafy.voyage.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +19,17 @@ import java.util.List;
 public class Sido {
     @Id
     private int sidoCode;
+
     @Column(columnDefinition = "varchar(30) default NULL")
     private String sidoName;
 
     @NotNull
     @OneToMany(mappedBy = "sidoCode")
+    @JsonManagedReference
     private List<Gugun> guguns = new ArrayList<>();
 
     @NotNull
     @OneToMany(mappedBy = "sidoCode")
+    @JsonManagedReference
     private List<AttractionInfo> attractionInfos = new ArrayList<>();
 }

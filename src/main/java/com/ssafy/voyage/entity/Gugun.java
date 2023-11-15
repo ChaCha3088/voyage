@@ -1,5 +1,6 @@
 package com.ssafy.voyage.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,6 @@ public class Gugun {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sido_code")
+    @JsonBackReference
     private Sido sidoCode;
 }

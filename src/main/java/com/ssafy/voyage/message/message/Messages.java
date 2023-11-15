@@ -26,6 +26,7 @@ public enum Messages {
     CONTAINED("포함된 "),
     IN("안에 "),
     VALIDATION("검증 "),
+    REQUEST_VALIDATION("요청 검증 "),
     ATTEMPT("시도 "),
     REQUEST_HEADER("Request Header "),
     HEADER("header ");
