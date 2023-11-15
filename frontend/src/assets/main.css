@@ -1,4 +1,11 @@
-@import './base.css';
+body {
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+/* @import './base.css';
 
 #app {
   max-width: 1280px;
@@ -32,4 +39,4 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
-}
+} */
