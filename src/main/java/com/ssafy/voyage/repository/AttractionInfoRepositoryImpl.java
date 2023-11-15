@@ -1,7 +1,9 @@
 package com.ssafy.voyage.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.voyage.dto.request.AttractionInfoRequestDto;
 import com.ssafy.voyage.entity.AttractionInfo;
 import lombok.RequiredArgsConstructor;
 
@@ -16,21 +18,32 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
     private final EntityManager em;
 
     @Override
-    public List<AttractionInfo> findAttractionInfoNoOffset(long lastId, int sidoCode, int contentTypeId, String title, int pageSize) {
+    public Optional<AttractionInfo> findByContentIdWithDetailAndDescription(int contentId) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        return Optional.ofNullable(queryFactory
+            .selectFrom(attractionInfo)
+            .where(attractionInfo.contentId.eq(contentId))
+            .leftJoin(attractionInfo.attractionDetail).fetchJoin()
+            .leftJoin(attractionInfo.attractionDescription).fetchJoin()
+            .fetchOne());
+    }
+
+    @Override
+    public List<AttractionInfo> findWithNoOffset(AttractionInfoRequestDto attractionInfoRequestDto) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory
-                .selectFrom(attractionInfo)
-                .where(
-                    ltId(lastId),
-                    eqSidoCode(sidoCode),
-                    eqContentTypeId(contentTypeId),
-                    likeTitle(title)
-                )
-                .join(attractionInfo.attractionDetail).fetchJoin()
-                .join(attractionInfo.attractionDescription).fetchJoin()
-                .orderBy(attractionInfo.contentId.desc())
-                .limit(getPageSize(pageSize))
+            .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.tel))
+            .from(attractionInfo)
+            .where(
+                ltId(attractionInfoRequestDto.getLastId()),
+                eqSidoCode(attractionInfoRequestDto.getSidoCode()),
+                eqContentTypeId(attractionInfoRequestDto.getContentTypeId()),
+                likeTitle(attractionInfoRequestDto.getTitle())
+            )
+            .orderBy(attractionInfo.contentId.desc())
+            .limit(getPageSize(attractionInfoRequestDto.getPageSize()))
             .fetch();
     }
 

@@ -21,15 +21,15 @@ public class AttractionInfoDto {
     private final String tel;
     private final String firstImage;
     private final String firstImage2;
-    private final int readcount;
-    private final int sidoCode;
-    private final int gugunCode;
-    private final double latitude;
-    private final double longitude;
+    private final Integer readcount;
+    private final Integer sidoCode;
+    private final Integer gugunCode;
+    private final Double latitude;
+    private final Double longitude;
     private final String mlevel;
 
     @Builder
-    protected AttractionInfoDto(int contentId, AttractionDetail attractionDetail, AttractionDescription attractionDescription, int contentTypeId, String title, String addr1, String addr2, String zipcode, String tel, String firstImage, String firstImage2, int readcount, int sidoCode, int gugunCode, double latitude, double longitude, String mlevel) {
+    protected AttractionInfoDto(int contentId, AttractionDetail attractionDetail, AttractionDescription attractionDescription, int contentTypeId, String title, String addr1, String addr2, String zipcode, String tel, String firstImage, String firstImage2, Integer readcount, Integer sidoCode, Integer gugunCode, Double latitude, Double longitude, String mlevel) {
         this.contentId = contentId;
         this.attractionDetail = attractionDetail;
         this.attractionDescription = attractionDescription;

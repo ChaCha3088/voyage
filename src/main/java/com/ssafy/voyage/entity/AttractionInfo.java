@@ -1,10 +1,8 @@
 package com.ssafy.voyage.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ssafy.voyage.dto.response.AttractionInfoDto;
 import lombok.*;
 
@@ -12,7 +10,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Entity(name = "attraction_info")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class AttractionInfo {
     @Id
     private int contentId;
@@ -63,17 +61,37 @@ public class AttractionInfo {
     @Column(columnDefinition = "varchar(2) default NULL")
 	private String mlevel;
 
-    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "attractionInfo", fetch = LAZY)
     @PrimaryKeyJoinColumn
-    @JsonManagedReference
     private AttractionDetail attractionDetail;
 
-    @OneToOne(mappedBy = "attractionInfo", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "attractionInfo", fetch = LAZY)
     @PrimaryKeyJoinColumn
-    @JsonManagedReference
     private AttractionDescription attractionDescription;
 
-    public AttractionInfoDto toAttractionInfoDto() {
+    public AttractionInfoDto toAttractionInfoDtoForList() {
+        return AttractionInfoDto.builder()
+            .contentId(contentId)
+            .attractionDetail(null)
+            .attractionDescription(null)
+            .contentTypeId(contentTypeId)
+            .title(title)
+            .addr1(null)
+            .addr2(null)
+            .zipcode(null)
+            .tel(tel)
+            .firstImage(firstImage)
+            .firstImage2(null)
+            .readcount(null)
+            .sidoCode(null)
+            .gugunCode(null)
+            .latitude(null)
+            .longitude(null)
+            .mlevel(null)
+        .build();
+    }
+
+    public AttractionInfoDto toAttractionInfoDtoWithAttractionDetailAndAttractionDescription() {
         return AttractionInfoDto.builder()
             .contentId(contentId)
             .attractionDetail(attractionDetail)

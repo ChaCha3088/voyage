@@ -53,7 +53,7 @@ public class SecurityConfig {
 //                        .antMatchers("/members/**").hasAuthority(MemberRole.ADMIN.toString())
                         .antMatchers("/","/css/**","/img/**","/js/**","/favicon.ico", "/error").permitAll()
                         .antMatchers("/api/auth/**").permitAll()
-                        .antMatchers("/api/attraction-info/**").permitAll()
+                        .antMatchers("/api/attraction/**").permitAll()
                         .antMatchers("/api/subscription/**").permitAll()
                         .anyRequest().authenticated()
                 );

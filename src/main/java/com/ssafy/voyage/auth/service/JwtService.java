@@ -188,7 +188,7 @@ public class JwtService {
      */
     public String extractAccessToken(HttpServletRequest request) throws NoAccessTokenException {
         return Optional.ofNullable(request.getHeader(ACCESS_TOKEN_HEADER))
-            .orElseThrow(() -> new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN).append(HEADER).append(NOT_FOUND).toString()))
+            .orElseThrow(() -> new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(HEADER.getMessage()).append(NOT_FOUND.getMessage()).toString()))
             .replace(BEARER, "");
     }
 
@@ -199,7 +199,7 @@ public class JwtService {
      */
     public String extractRefreshToken(HttpServletRequest request) throws IllegalArgumentException {
         return Optional.ofNullable(request.getHeader(REFRESH_TOKEN_HEADER))
-            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN).append(HEADER).append(NOT_FOUND).toString()))
+            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(HEADER.getMessage()).append(NOT_FOUND.getMessage()).toString()))
             .replace(BEARER, "");
     }
 
