@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Main from "../components/views/WelcomeView.vue";
 import Attraction from "../components/views/AttractionInfoView.vue";
+<<<<<<< HEAD
 import Login from "../components/member/MemberSignin.vue";
 import Signup from "../components/member/MemberSignup.vue";
+=======
+import Login from "../components/UserLogin.vue";
+import Signup from "../components/UserSignup.vue";
+>>>>>>> 6be8287023fb2724aac2b54aa057de39240a7653
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
