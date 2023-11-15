@@ -35,11 +35,13 @@ public class JwtSignOutHandler implements LogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         try {
             // refreshToken
-            String refreshToken = jwtService.extractRefreshToken(request);
+            String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);
 
-            authService.signOut(refreshToken);
+            authService.signOut(emailAndRefreshToken[1]);
         }
         // 들어오는 값이 이상할 때 || refreshToken이 유효하지 않을 때
-        catch (IllegalArgumentException | JWTVerificationException e) {}
+        catch (IllegalArgumentException | JWTVerificationException e) {
+            response.setStatus(SC_BAD_REQUEST);
+        }
     }
 }

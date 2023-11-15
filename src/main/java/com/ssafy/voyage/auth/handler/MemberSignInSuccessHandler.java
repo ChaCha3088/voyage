@@ -1,6 +1,7 @@
 package com.ssafy.voyage.auth.handler;
 
 import com.ssafy.voyage.auth.service.AuthService;
+import com.ssafy.voyage.auth.service.JwtService;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,7 @@ import static com.ssafy.voyage.auth.service.JwtService.*;
 @Component
 @RequiredArgsConstructor
 public class MemberSignInSuccessHandler implements AuthenticationSuccessHandler {
-    private final AuthService authService;
+    private final JwtService jwtService;
 
     /**
      * 로그인 성공 시, JwtEntity를 생성하고 AccessToken과 RefreshToken을 Header에 담아 보낸다.
@@ -35,7 +36,7 @@ public class MemberSignInSuccessHandler implements AuthenticationSuccessHandler 
             String email = authentication.getName();
 
             // Transaction 있음
-            String[] accessTokenAndRefreshToken = authService.whenMemberSignIn_IssueJwts(email);
+            String[] accessTokenAndRefreshToken = jwtService.issueJwts(email);
 
             // access token, refresh token을 헤더에 실어서 보낸다.
             response.setHeader(ACCESS_TOKEN_HEADER, BEARER + accessTokenAndRefreshToken[0]);

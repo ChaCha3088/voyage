@@ -60,11 +60,11 @@ public class MemberService {
 
     private Member getMemberById(long memberId) throws NoSuchMemberException {
         return memberRepository.findById(memberId)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 
     private Member getMemberByEmail(String email) {
         return memberRepository.findNotDeletedByEmail(email)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 }

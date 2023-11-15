@@ -48,10 +48,10 @@ public class AuthenticationProcessFilter extends OncePerRequestFilter {
             String accessToken = jwtService.extractAccessToken(request);
 
             //access token에서 email 검증
-            String email = jwtService.validateAndExtractEmailFromAccessToken(accessToken);
+            String[] emailAndAccessToken = jwtService.validateAndExtractEmailFromAccessToken(request);
 
             // request에 email 담기
-            request.setAttribute("email", email);
+            request.setAttribute("email", emailAndAccessToken[0]);
 
             // Header에 accessToken 담기
             jwtService.setAccessTokenOnHeader(response, accessToken);

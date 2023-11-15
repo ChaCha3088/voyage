@@ -11,16 +11,15 @@ import com.ssafy.voyage.exception.MemberCreationValidationException;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.message.cause.MemberCause;
 import com.ssafy.voyage.message.message.MemberMessages;
-import com.ssafy.voyage.message.message.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.net.URI;
 
 import static com.ssafy.voyage.auth.message.JwtMessages.JWT;
@@ -51,10 +50,10 @@ public class AuthRestController {
 
     // JWT 토큰 재발급
     @GetMapping("/reissue/v1")
-    public ResponseEntity reissueV1(@RequestParam String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = jwtService.extractRefreshToken(request);
+    public ResponseEntity reissueJwtsV1(@RequestParam @NotBlank String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
+        String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);
 
-        String[] jwts = authService.reissueJwts(refreshToken);
+        String[] jwts = jwtService.reissueJwts(emailAndRefreshToken[0], emailAndRefreshToken[1]);
 
         // Header에 accessToken, refreshToken 담기
         jwtService.setAccessTokenOnHeader(response, jwts[0]);

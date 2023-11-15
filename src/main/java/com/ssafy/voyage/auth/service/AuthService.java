@@ -35,26 +35,10 @@ public class AuthService {
         memberService.createMember(memberCreationDto);
     }
 
-    // 로그인
-    // Transactional 필요 없음
-    public String[] whenMemberSignIn_IssueJwts(String email) throws NoSuchMemberException {
-        String[] issuedJwts = jwtService.issueJwts(email);
-
-        return issuedJwts;
-    }
-
     // 로그아웃
     // Transactional 필요 없음
     public void signOut(String refreshToken) {
         // 해당 refreshToken 삭제
         jwtService.deleteRefreshToken(refreshToken);
-    }
-
-    // Jwt 재발급
-    // Transactional 필요 없음
-    public String[] reissueJwts(String refreshToken) throws IllegalArgumentException, JWTVerificationException, NoSuchRefreshTokenInDBException {
-        String[] issuedJwts = jwtService.reissueJwts(refreshToken);
-
-        return issuedJwts;
     }
 }
