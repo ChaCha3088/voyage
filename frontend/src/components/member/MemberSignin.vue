@@ -1,8 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import memberApi from '@/api/member.js'
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
 
+const memberStore = useMemberStore();
+
+const { isLogin } = storeToRefs(memberStore);
+const { userSignIn, getUserInfo } = memberStore;
 
 const router = useRouter();
 
@@ -11,15 +16,17 @@ const User = ref({
     password: "",
 });
 
-const signIn = () => {
-    memberApi.signIn(User.value,
-        ({ data }) => {
-
-        }, (error) => {
-            console.log(error)
-        })
+const signIn = async () => {
+    await userSignIn(User.value);
+    let token = sessionStorage.getItem("accessToken");
+    console.log("토큰. ", token);
+    console.log("isLogin: ", isLogin);
+    if (isLogin) {
+        console.log("로그인 성공");
+        //getUserInfo(token);
+    }
     router.push("/");
-}
+};
 
 </script>
 

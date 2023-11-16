@@ -39,6 +39,8 @@ public class AuthRestController {
     // 회원가입
     @PostMapping("/signup/v1")
     public ResponseEntity signUpV1(@RequestBody MemberCreationDto memberCreationDto) throws MemberCreationValidationException {
+        System.out.println("hello");
+        System.out.println(memberCreationDto);
         authService.signUp(memberCreationDto);
 
         return ResponseEntity.created(

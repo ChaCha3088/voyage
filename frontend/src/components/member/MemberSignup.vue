@@ -1,4 +1,26 @@
 <script setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import MemberApi from "@/api/member.js"
+
+const router = useRouter();
+
+const User = ref({
+    email: "",
+    password: "",
+    passwordAgain: "",
+    name: ""
+});
+
+const signUp = () => {
+    MemberApi.signUp(User.value,
+        ({ data }) => {
+
+        }, () => {
+            console.log("회원가입에 실패")
+        })
+    router.push("/");
+}
 
 </script>
 
@@ -6,24 +28,30 @@
 <template>
     <div class="login container mt-5 pt-5 mx-auto max-w-xs" id="login">
         <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">| SignUp |</h1>
-        <form action=" " class="group" method="POST" novalidate>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">이메일 주소</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">비밀번호</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">비밀번호 확인</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">이름</label>
-            </div>
-        </form>
+        <div id="form">
+            <form action=" " class="group" method="POST" novalidate>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                        v-model="User.email">
+                    <label for="floatingInput">이메일 주소</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                        v-model="User.password">
+                    <label for="floatingPassword">비밀번호</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPasswordAgain" placeholder="Password"
+                        v-model="User.passwordAgain">
+                    <label for="floatingPassword">비밀번호 확인</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingName" placeholder="홍길동" v-model="User.name">
+                    <label for="floatingInput">이름</label>
+                </div>
+                <button class="btn btn-outline-success" type="button" @click="signUp">회원가입</button>
+            </form>
+        </div>
         <div class="mt-4 flex justify-center items-center">
             <span class="text-gray-500 text-sm mr-2">이미 아이디가 있으신가요? </span>
             <router-link :to="{ name: 'login' }">로그인</router-link>
@@ -45,6 +73,11 @@
 
     display: grid;
     place-items: center;
+}
+
+#form {
+    display: inline-block;
+    text-align: center;
 }
 
 @font-face {

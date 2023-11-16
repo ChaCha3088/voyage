@@ -1,16 +1,31 @@
 <script setup>
+import { useMenuStore } from "@/stores/menu";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
+const menuStore = useMenuStore();
+const memberStore = useMemberStore();
+
+const { isLogin } = storeToRefs(memberStore);
+const { menuList } = storeToRefs(menuStore);
+const { changeMenuState } = menuStore;
+
+const signout = () => {
+  console.log("로그아웃!!!!");
+  changeMenuState();
+  memberStore.userSignOut()
+};
 </script>
 
 <template>
-  <div class="hello">
+  <div class="hello shadow-sm p-3 mb-5 bg-body rounded">
     <div class="logo text-center py-6 pt-10 dark:bg-gray-700">
       <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">|
-        Voyager |</h1> <!-- <img src="{% static 'img/logo.svg' %}" class="h-20 dark:hidden" alt="Flowbite Logo"/>
+        Voyage |</h1> <!-- <img src="{% static 'img/logo.svg' %}" class="h-20 dark:hidden" alt="Flowbite Logo"/>
             <img src="{% static 'img/logo_white.png' %}" class="h-20 hidden dark:block" alt="Flowbite Logo"/> -->
 
     </div>
-    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: white;">
+    <nav class="navbar navbar-expand-lg sticky-top " style="background-color: white;">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
           aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,21 +61,54 @@
             <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search" />
             <button class="btn btn-outline-success" type="button">search</button>
           </form>
+
           <div class="dropdown-center" style="padding-left: 2vw;">
             <li class="nav-item dropdown" style="list-style: none; margin-right: 2vw; clear:both">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                회원 메뉴
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
-                <li style="margin-left: 0.7vw;"><router-link :to="{ name: 'signup' }">회원가입</router-link></li>
-                <li><a class="dropdown-item" href="#">비밀번호 찾기</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li style="margin-left: 0.7vw;"><router-link :to="{ name: 'login' }">로그인</router-link></li>
-              </ul>
+              <template v-if="isLogin">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  로그인 중
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                  <template v-for="menu in menuList" :key="menu.routeName">
+                    <template v-if="!menu.show">
+                      <template v-if="menu.routeName === 'signout'">
+                        <li class=" dropdown-item" style="margin-left: 0.7vw;">
+                          <router-link to="/" @click.prevent="signout">{{
+                            menu.name
+                          }} </router-link>
+                        </li>
+                      </template>
+                      <template v-else>
+                        <li class=" dropdown-item" style="margin-left: 0.7vw;">
+                          <router-link :to="{ name: menu.routeName }">{{
+                            menu.name
+                          }} </router-link>
+                        </li>
+                      </template>
+                    </template>
+                  </template>
+                </ul>
+              </template>
+              <template v-else>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  회원 메뉴
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                  <li style="margin-left: 0.7vw;"><router-link :to="{ name: 'signup' }">회원가입</router-link></li>
+                  <li><a class="dropdown-item" href="#">비밀번호 찾기</a></li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li style="margin-left: 0.7vw;"><router-link :to="{ name: 'login' }">로그인</router-link></li>
+                </ul>
+              </template>
             </li>
           </div>
+
+
+
         </div>
       </div>
     </nav>
@@ -96,6 +144,7 @@
 /* ul {
   margin-left: auto;
 } */
+
 
 .search {
   padding-right: 1vw;

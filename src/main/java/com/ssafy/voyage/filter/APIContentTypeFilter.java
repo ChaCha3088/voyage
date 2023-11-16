@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
@@ -24,12 +25,10 @@ public class APIContentTypeFilter extends OncePerRequestFilter {
                 response.setStatus(SC_BAD_REQUEST);
 
                 // 다음 필터 호출 X
-
+                return;
             }
-            return;
+
         }
-
-
 
         filterChain.doFilter(request, response);
     }
