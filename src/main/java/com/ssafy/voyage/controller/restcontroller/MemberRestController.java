@@ -1,9 +1,10 @@
 package com.ssafy.voyage.controller.restcontroller;
 
-import com.ssafy.voyage.dto.member.MemberCreationDto;
+import com.ssafy.voyage.auth.exception.AuthorizationException;
 import com.ssafy.voyage.dto.member.MemberUpdateDto;
-import com.ssafy.voyage.dto.response.MemberResponseDto;
+import com.ssafy.voyage.dto.response.MemberDto;
 import com.ssafy.voyage.entity.Member;
+import com.ssafy.voyage.exception.MemberFormValidationException;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,53 +20,69 @@ import java.io.IOException;
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
 public class MemberRestController {
-    private final MemberService memberService;
     private static final String PREFIX = "/api/member/";
+    private final MemberService memberService;
 
+    // 회원 조회
     @GetMapping
     public ResponseEntity findMemberByEmail(HttpServletRequest request) throws NoSuchMemberException {
         String email = (String) request.getAttribute("email");
 
-        Member member = memberService.findMemberByEmail(email);
+        MemberDto memberDto = memberService.findMemberByEmail(email);
 
         return ResponseEntity.ok()
             .body(
-                MemberResponseDto
+                MemberDto
                     .builder()
-                    .email(member.getEmail())
-                    .name(member.getName())
+                    .email(memberDto.getEmail())
+                    .name(memberDto.getName())
                     .build()
             );
     }
 
-    @PostMapping
-    public void createMember(@Valid @RequestBody MemberCreationDto memberCreationDto, HttpServletResponse response) throws IOException {
-        long newMemberId = memberService.createMember(memberCreationDto);
-
-        response.sendRedirect(PREFIX + newMemberId);
-    }
-
+    // 비밀번호 수정
     @PutMapping
-    public void updateMember(@Valid @RequestBody MemberUpdateDto memberUpdateDto, HttpServletRequest request, HttpServletResponse response) throws NoSuchMemberException, IOException {
+    public ResponseEntity updateMember(@Valid @RequestBody MemberUpdateDto memberUpdateDto, HttpServletRequest request, HttpServletResponse response) throws NoSuchMemberException, IOException {
         String email = (String) request.getAttribute("email");
 
-        long memberId = memberService.updateMember(memberUpdateDto, email);
+        Member updatedMember = memberService.updateMember(memberUpdateDto, email);
 
-        response.sendRedirect(PREFIX + memberId);
+        return ResponseEntity.ok()
+            .body(
+                MemberDto
+                    .builder()
+                    .email(updatedMember.getEmail())
+                    .name(updatedMember.getName())
+                    .build()
+            );
     }
 
+    // 회원 탈퇴
     @DeleteMapping
     public void deleteMember(HttpServletRequest request, HttpServletResponse response) throws NoSuchMemberException, IOException {
         String email = (String) request.getAttribute("email");
 
-        memberService.deleteMember(email);
-
-        response.sendRedirect(PREFIX);
+        memberService.deleteMember(email, response);
     }
 
     @ExceptionHandler(NoSuchMemberException.class)
     public ResponseEntity handleNoSuchMemberException(NoSuchMemberException e) {
         return ResponseEntity.badRequest()
-            .body(e.getMessage());
+            .body(e.getMessage()
+            );
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity handleAuthorizationException(AuthorizationException e) {
+        return ResponseEntity.badRequest()
+            .body(e.getMessage()
+            );
+    }
+
+    @ExceptionHandler(MemberFormValidationException.class)
+    public ResponseEntity handleMemberFormValidationException(MemberFormValidationException e) {
+        return ResponseEntity.badRequest()
+            .body(e.getMessage()
+            );
     }
 }

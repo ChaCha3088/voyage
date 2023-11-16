@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 import static com.ssafy.voyage.auth.message.JwtMessages.REFRESH_TOKEN;
+import static com.ssafy.voyage.auth.service.JwtService.ACCESS_TOKEN_HEADER;
 import static com.ssafy.voyage.auth.service.JwtService.REFRESH_TOKEN_HEADER;
 import static com.ssafy.voyage.message.message.Messages.NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
@@ -38,6 +39,8 @@ public class JwtSignOutHandler implements LogoutHandler {
             String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);
 
             authService.signOut(emailAndRefreshToken[1]);
+
+            response.setHeader(ACCESS_TOKEN_HEADER, "");
         }
         // 들어오는 값이 이상할 때 || refreshToken이 유효하지 않을 때
         catch (IllegalArgumentException | JWTVerificationException e) {

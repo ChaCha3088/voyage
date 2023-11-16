@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.voyage.auth.entity.RefreshToken;
 import com.ssafy.voyage.auth.enumstorage.MemberRole;
 import com.ssafy.voyage.auth.enumstorage.MemberStatus;
+import com.ssafy.voyage.dto.response.MemberDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -133,4 +134,10 @@ public class Member extends BaseEntity {
     }
 
     //==DTO==//
+    public MemberDto toMemberDto() {
+        return MemberDto.builder()
+            .email(this.email)
+            .name(this.name)
+            .build();
+    }
 }

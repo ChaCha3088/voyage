@@ -7,7 +7,7 @@ import com.ssafy.voyage.auth.service.AuthService;
 import com.ssafy.voyage.auth.service.JwtService;
 import com.ssafy.voyage.dto.member.MemberCreationDto;
 import com.ssafy.voyage.dto.response.Response;
-import com.ssafy.voyage.exception.MemberCreationValidationException;
+import com.ssafy.voyage.exception.MemberFormValidationException;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.message.cause.MemberCause;
 import com.ssafy.voyage.message.message.MemberMessages;
@@ -37,7 +37,7 @@ public class AuthRestController {
 
     // 회원가입
     @PostMapping("/signup/v1")
-    public ResponseEntity signUpV1(@RequestBody MemberCreationDto memberCreationDto) throws MemberCreationValidationException {
+    public ResponseEntity signUpV1(@RequestBody MemberCreationDto memberCreationDto) throws MemberFormValidationException {
         authService.signUp(memberCreationDto);
 
         return ResponseEntity.created(
@@ -70,7 +70,7 @@ public class AuthRestController {
     }
 
     // 회원가입 유효성 검사
-    @ExceptionHandler(MemberCreationValidationException.class)
+    @ExceptionHandler(MemberFormValidationException.class)
     public ResponseEntity handleMemberCreationValidationException(Exception e) {
         return ResponseEntity.badRequest().body(
             Response.builder()

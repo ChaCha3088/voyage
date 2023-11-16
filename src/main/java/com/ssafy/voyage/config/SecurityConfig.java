@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .antMatchers("/","/css/**","/img/**","/js/**","/favicon.ico", "/error").permitAll()
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/api/attraction/**").permitAll()
-                        .antMatchers("/api/subscription/**").permitAll()
+                        .antMatchers("/api/member/**").permitAll()
                         .anyRequest().authenticated()
                 );
 
