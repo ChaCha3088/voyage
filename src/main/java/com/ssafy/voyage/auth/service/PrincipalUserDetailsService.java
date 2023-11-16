@@ -28,7 +28,11 @@ public class PrincipalUserDetailsService implements UserDetailsService {
         // Member를 찾는다.
         Member member = memberRepository.findNotDeletedByEmail(email)
                 // 없으면, UsernameNotFoundException 발생
+<<<<<<< HEAD
                 .orElseThrow(() -> new UsernameNotFoundException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+=======
+                .orElseThrow(() -> new UsernameNotFoundException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
         // 로그인 시도 횟수 증가
         member.countUpLogInAttempt();

@@ -60,11 +60,19 @@ public class MemberService {
 
     private Member getMemberById(long memberId) throws NoSuchMemberException {
         return memberRepository.findById(memberId)
+<<<<<<< HEAD
             .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+=======
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     }
 
     private Member getMemberByEmail(String email) {
         return memberRepository.findNotDeletedByEmail(email)
+<<<<<<< HEAD
             .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+=======
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     }
 }

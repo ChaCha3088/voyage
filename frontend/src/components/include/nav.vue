@@ -106,9 +106,6 @@ const signout = () => {
               </template>
             </li>
           </div>
-
-
-
         </div>
       </div>
     </nav>
@@ -125,6 +122,14 @@ const signout = () => {
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-family: 'Yeongdo-Rg';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/Yeongdo-Rg.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.hello {
+  background-color: white;
 }
 
 .hello {
@@ -132,6 +137,7 @@ const signout = () => {
 }
 
 .logo-font {
+  font-family: 'Yeongdo-Rg' !important;
   font-family: 'Yeongdo-Rg' !important;
 }
 

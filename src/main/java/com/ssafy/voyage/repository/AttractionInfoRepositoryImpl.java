@@ -34,7 +34,11 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory
+<<<<<<< HEAD
             .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.tel))
+=======
+            .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.addr1, attractionInfo.latitude, attractionInfo.longitude))
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .from(attractionInfo)
             .where(
                 ltId(attractionInfoRequestDto.getLastId()),
@@ -56,7 +60,11 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
     }
 
     private BooleanExpression eqContentTypeId(int contentTypeId) {
+<<<<<<< HEAD
         return contentTypeId == 0 ? null : attractionInfo.contentTypeId.eq(contentTypeId);
+=======
+        return contentTypeId == 0 ? null : attractionInfo.contentTypeId.contentTypeId.eq(contentTypeId);
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     }
 
     private BooleanExpression likeTitle(String title) {

@@ -57,7 +57,11 @@ public class JwtService {
     @Transactional(readOnly = true)
     public JwtFindDto findJwtFindDtoByRefreshToken(String refreshToken) throws NoSuchRefreshTokenInDBException {
         return refreshTokenRepository.findByRefreshToken(refreshToken)
+<<<<<<< HEAD
                 .orElseThrow(() -> new NoSuchRefreshTokenInDBException(new StringBuffer().append(SUCH).append(REFRESH_TOKEN).append(NOT_EXISTS.getMessage()).toString()))
+=======
+                .orElseThrow(() -> new NoSuchRefreshTokenInDBException(new StringBuffer().append(SUCH.getMessage()).append(REFRESH_TOKEN.getMessage()).append(NOT_EXISTS.getMessage()).toString()))
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
                 .toJwtFindDto();
     }
 
@@ -66,7 +70,11 @@ public class JwtService {
     public String[] issueJwts(String email) throws NoSuchMemberException {
         // email로 member를 찾는다.
         Member member = memberRepository.findNotDeletedByEmailWithRefreshToken(email)
+<<<<<<< HEAD
             .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
+=======
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
         // 기존 Refresh Token 전부 삭제
         Set<RefreshToken> refreshTokensInDB = member.getRefreshTokens();
@@ -104,6 +112,7 @@ public class JwtService {
         return new String[] {newAccessToken, newRefreshToken};
     }
 
+<<<<<<< HEAD
     @Transactional(propagation = Propagation.REQUIRES_NEW, noRollbackFor = NoSuchRefreshTokenInDBException.class)
     public String[] reissueJwts(String refreshToken) throws IllegalArgumentException, JWTVerificationException, NoSuchMemberException, NoSuchRefreshTokenInDBException {
         // refreshToken 값 검증
@@ -119,6 +128,15 @@ public class JwtService {
 
         RefreshToken refreshTokenInDB = refreshTokenRepository.findByRefreshToken(refreshToken)
             // DB에 refreshToken이 없으면
+=======
+    @Transactional(noRollbackFor = NoSuchRefreshTokenInDBException.class)
+    public String[] reissueJwts(String email, String refreshToken) throws IllegalArgumentException, JWTVerificationException, NoSuchMemberException, NoSuchRefreshTokenInDBException {
+        Member member = memberRepository.findNotDeletedByEmailWithRefreshToken(email)
+            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+
+        RefreshToken refreshTokenInDB = refreshTokenRepository.findByRefreshToken(refreshToken)
+            // DB에 해당 refreshToken이 없으면, 유효하지 않은 refreshToken이므로
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .orElseThrow(()
                 // 예외 발생
                 -> {
@@ -138,7 +156,11 @@ public class JwtService {
             .withSubject("refreshToken")
             .withIssuedAt(new Date(System.currentTimeMillis()))
             .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+<<<<<<< HEAD
             .withClaim("email", emailInToken)
+=======
+            .withClaim("email", email)
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .withClaim("issuedTime", System.currentTimeMillis())
             .sign(Algorithm.HMAC512(secret));
 
@@ -148,7 +170,11 @@ public class JwtService {
             .withSubject("accessToken")
             .withIssuedAt(new Date(System.currentTimeMillis()))
             .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
+<<<<<<< HEAD
             .withClaim("email", emailInToken)
+=======
+            .withClaim("email", email)
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .withClaim("issuedTime", System.currentTimeMillis())
             .sign(Algorithm.HMAC512(secret));
 
@@ -164,6 +190,7 @@ public class JwtService {
         return new String[] {newAccessToken, newRefreshToken};
     }
 
+<<<<<<< HEAD
     @Transactional(noRollbackFor = JWTVerificationException.class)
     public String deleteRefreshToken(String refreshToken) throws JWTVerificationException {
         try {
@@ -179,6 +206,12 @@ public class JwtService {
         catch (JWTVerificationException e) {
             throw new JWTVerificationException(new StringBuffer().append(JwtMessages.JWT.getMessage()).append(INVALID.getMessage()).toString());
         }
+=======
+    @Transactional
+    public void deleteRefreshToken(String refreshToken) throws JWTVerificationException {
+        // refreshToken을 삭제한다.
+        refreshTokenRepository.deleteByRefreshToken(refreshToken);
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     }
 
     /**
@@ -192,6 +225,7 @@ public class JwtService {
             .replace(BEARER, "");
     }
 
+<<<<<<< HEAD
     /**
      * 헤더에서 RefreshToken 추출
      * 토큰 형식 : Bearer XXX에서 Bearer를 제외하고 순수 토큰만 가져오기 위해서
@@ -206,12 +240,27 @@ public class JwtService {
     public String validateAndExtractEmailFromAccessToken(String accessToken) throws JWTVerificationException {
         // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
         return JWT.require(Algorithm.HMAC512(secret))
+=======
+    public String[] validateAndExtractEmailFromAccessToken(HttpServletRequest request) throws JWTVerificationException {
+        String accessToken = Optional.ofNullable(request.getHeader(ACCESS_TOKEN_HEADER))
+            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
+            .replace(BEARER, "");
+
+        if (accessToken.isBlank()) {
+            throw new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString());
+        }
+
+        try {
+            // accessToken 값 검증
+            String email = JWT.require(Algorithm.HMAC512(secret))
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
                 .withIssuer("LetMeKnow")
                 .withSubject("accessToken")
                 .build() // 반환된 빌더로 JWT verifier 생성
                 .verify(accessToken) // accessToken을 검증하고 유효하지 않다면 예외 발생
                 .getClaim("email") // claim(Email) 가져오기
                 .asString();
+<<<<<<< HEAD
     }
 
     // 유효하지 않은 refreshToken이면, 바로 DB에서 지우고, 예외 발생시킨다.
@@ -219,6 +268,33 @@ public class JwtService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, noRollbackFor = JWTVerificationException.class) // 부모 트랜잭션과 관계 없이 독립적으로 실행 + 예외 발생해도 롤백 X
     public String validateAndExtractEmailFromRefreshToken(String refreshToken) throws JWTVerificationException {
         try {
+=======
+
+            return new String[]{email, accessToken};
+        }
+        catch (JWTVerificationException e) {
+            throw new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(INVALID.getMessage()).toString());
+        }
+    }
+
+    /**
+     * 헤더에서 RefreshToken 추출
+     * 토큰 형식 : Bearer XXX에서 Bearer를 제외하고 순수 토큰만 가져오기 위해서
+     * 헤더를 가져온 후 "Bearer"를 삭제(""로 replace)
+     */
+    public String[] validateAndExtractEmailFromRefreshToken(HttpServletRequest request) throws IllegalArgumentException {
+        String refreshToken = Optional.ofNullable(request.getHeader(REFRESH_TOKEN_HEADER))
+            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
+            .replace(BEARER, "");
+
+        // refreshToken 값 검증
+        if (refreshToken.isBlank()) {
+            throw new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString());
+        }
+
+        try {
+            // refreshToken을 검증한다.
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             String emailInRefreshToken = JWT.require(Algorithm.HMAC512(secret))
                 .withIssuer("LetMeKnow")
                 .withSubject("refreshToken")
@@ -227,6 +303,7 @@ public class JwtService {
                 .getClaim("email")
                 .asString();
 
+<<<<<<< HEAD
             return emailInRefreshToken;
         }
         // 문제 있는 토큰이면
@@ -271,6 +348,15 @@ public class JwtService {
 //        response.addCookie(tokenCookie);
 //    }
 
+=======
+            return new String[]{emailInRefreshToken, refreshToken};
+        }
+        catch (JWTVerificationException e) {
+            throw new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(INVALID.getMessage()).toString());
+        }
+    }
+
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     /**
      * accessToken을 Header에 작성한다.
      */

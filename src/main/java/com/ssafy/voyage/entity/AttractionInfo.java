@@ -15,8 +15,13 @@ public class AttractionInfo {
     @Id
     private int contentId;
 
+<<<<<<< HEAD
     @Column(columnDefinition = "default NULL")
 	private int contentTypeId;
+=======
+    @ManyToOne(fetch = LAZY)
+	private ContentType contentTypeId;
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
     @Column(columnDefinition = "varchar(100) default NULL")
 	private String title;
@@ -74,19 +79,33 @@ public class AttractionInfo {
             .contentId(contentId)
             .attractionDetail(null)
             .attractionDescription(null)
+<<<<<<< HEAD
             .contentTypeId(contentTypeId)
             .title(title)
             .addr1(null)
             .addr2(null)
             .zipcode(null)
             .tel(tel)
+=======
+            .contentTypeId(contentTypeId.getContentTypeId())
+            .title(title)
+            .addr1(addr1)
+            .addr2(null)
+            .zipcode(null)
+            .tel(null)
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .firstImage(firstImage)
             .firstImage2(null)
             .readcount(null)
             .sidoCode(null)
             .gugunCode(null)
+<<<<<<< HEAD
             .latitude(null)
             .longitude(null)
+=======
+            .latitude(latitude)
+            .longitude(longitude)
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .mlevel(null)
         .build();
     }
@@ -96,7 +115,11 @@ public class AttractionInfo {
             .contentId(contentId)
             .attractionDetail(attractionDetail)
             .attractionDescription(attractionDescription)
+<<<<<<< HEAD
             .contentTypeId(contentTypeId)
+=======
+            .contentTypeId(contentTypeId.getContentTypeId())
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             .title(title)
             .addr1(addr1)
             .addr2(addr2)

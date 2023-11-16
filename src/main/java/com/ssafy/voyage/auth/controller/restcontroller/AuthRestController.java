@@ -11,16 +11,22 @@ import com.ssafy.voyage.exception.MemberCreationValidationException;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.message.cause.MemberCause;
 import com.ssafy.voyage.message.message.MemberMessages;
+<<<<<<< HEAD
 import com.ssafy.voyage.message.message.Messages;
+=======
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
+=======
+import javax.validation.constraints.NotBlank;
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 import java.net.URI;
 
 import static com.ssafy.voyage.auth.message.JwtMessages.JWT;
@@ -39,8 +45,11 @@ public class AuthRestController {
     // 회원가입
     @PostMapping("/signup/v1")
     public ResponseEntity signUpV1(@RequestBody MemberCreationDto memberCreationDto) throws MemberCreationValidationException {
+<<<<<<< HEAD
         System.out.println("hello");
         System.out.println(memberCreationDto);
+=======
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
         authService.signUp(memberCreationDto);
 
         return ResponseEntity.created(
@@ -53,10 +62,17 @@ public class AuthRestController {
 
     // JWT 토큰 재발급
     @GetMapping("/reissue/v1")
+<<<<<<< HEAD
     public ResponseEntity reissueV1(@RequestParam String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = jwtService.extractRefreshToken(request);
 
         String[] jwts = authService.reissueJwts(refreshToken);
+=======
+    public ResponseEntity reissueJwtsV1(@RequestParam @NotBlank String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
+        String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);
+
+        String[] jwts = jwtService.reissueJwts(emailAndRefreshToken[0], emailAndRefreshToken[1]);
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
         // Header에 accessToken, refreshToken 담기
         jwtService.setAccessTokenOnHeader(response, jwts[0]);

@@ -19,7 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Set;
+=======
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
 
 /**
@@ -39,7 +42,10 @@ public class AuthenticationProcessFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+<<<<<<< HEAD
 
+=======
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
         if (request.getRequestURI().equals("/") || request.getRequestURI().startsWith(NO_CHECK_URL) || request.getRequestURI().startsWith(ATTRACTION) || request.getRequestURI().startsWith("/error") || request.getRequestURI().startsWith("/css") || request.getRequestURI().startsWith("/js") || request.getRequestURI().startsWith("/img") || request.getRequestURI().startsWith("/favicon.ico")) {
             filterChain.doFilter(request, response); // "/auth/login"으로 시작하는 URL 요청이 들어오면, 다음 필터 호출
             return; // return으로 이후 현재 필터 진행 막기 (안해주면 아래로 내려가서 계속 필터 진행시킴)
@@ -50,10 +56,17 @@ public class AuthenticationProcessFilter extends OncePerRequestFilter {
             String accessToken = jwtService.extractAccessToken(request);
 
             //access token에서 email 검증
+<<<<<<< HEAD
             String email = jwtService.validateAndExtractEmailFromAccessToken(accessToken);
 
             // request에 email 담기
             request.setAttribute("email", email);
+=======
+            String[] emailAndAccessToken = jwtService.validateAndExtractEmailFromAccessToken(request);
+
+            // request에 email 담기
+            request.setAttribute("email", emailAndAccessToken[0]);
+>>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
             // Header에 accessToken 담기
             jwtService.setAccessTokenOnHeader(response, accessToken);

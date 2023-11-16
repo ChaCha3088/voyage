@@ -9,6 +9,7 @@ const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
 const { userSignIn, getUserInfo } = memberStore;
 
+
 const router = useRouter();
 
 const User = ref({
