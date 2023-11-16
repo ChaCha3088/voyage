@@ -11,10 +11,6 @@ import com.ssafy.voyage.exception.MemberCreationValidationException;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.message.cause.MemberCause;
 import com.ssafy.voyage.message.message.MemberMessages;
-<<<<<<< HEAD
-import com.ssafy.voyage.message.message.Messages;
-=======
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,10 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-=======
 import javax.validation.constraints.NotBlank;
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 import java.net.URI;
 
 import static com.ssafy.voyage.auth.message.JwtMessages.JWT;
@@ -45,15 +38,10 @@ public class AuthRestController {
     // 회원가입
     @PostMapping("/signup/v1")
     public ResponseEntity signUpV1(@RequestBody MemberCreationDto memberCreationDto) throws MemberCreationValidationException {
-<<<<<<< HEAD
-        System.out.println("hello");
-        System.out.println(memberCreationDto);
-=======
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
         authService.signUp(memberCreationDto);
 
         return ResponseEntity.created(
-            URI.create("/api/auth/signin/v1")
+                URI.create("/api/auth/signin/v1")
         ).build();
     }
 
@@ -62,17 +50,10 @@ public class AuthRestController {
 
     // JWT 토큰 재발급
     @GetMapping("/reissue/v1")
-<<<<<<< HEAD
-    public ResponseEntity reissueV1(@RequestParam String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = jwtService.extractRefreshToken(request);
-
-        String[] jwts = authService.reissueJwts(refreshToken);
-=======
     public ResponseEntity reissueJwtsV1(@RequestParam @NotBlank String redirectUrl, HttpServletRequest request, HttpServletResponse response) {
         String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);
 
         String[] jwts = jwtService.reissueJwts(emailAndRefreshToken[0], emailAndRefreshToken[1]);
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
 
         // Header에 accessToken, refreshToken 담기
         jwtService.setAccessTokenOnHeader(response, jwts[0]);
@@ -81,10 +62,10 @@ public class AuthRestController {
         response.setHeader("Location", redirectUrl);
 
         return ResponseEntity.ok(
-            Response.builder()
-                .cause("")
-                .message(new StringBuffer().append(JWT.getMessage()).append(REISSUE.getMessage()).append(SUCCESS.getMessage()).toString())
-                .build()
+                Response.builder()
+                        .cause("")
+                        .message(new StringBuffer().append(JWT.getMessage()).append(REISSUE.getMessage()).append(SUCCESS.getMessage()).toString())
+                        .build()
         );
     }
 
@@ -92,10 +73,10 @@ public class AuthRestController {
     @ExceptionHandler(MemberCreationValidationException.class)
     public ResponseEntity handleMemberCreationValidationException(Exception e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(FORM.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(FORM.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 
@@ -103,10 +84,10 @@ public class AuthRestController {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(EMAIL.getMessage())
-                .message(new StringBuffer().append(MemberMessages.EMAIL.getMessage()).append(ALREADY.getMessage()).append(EXISTS.getMessage()).toString())
-                .build()
+                Response.builder()
+                        .cause(EMAIL.getMessage())
+                        .message(new StringBuffer().append(MemberMessages.EMAIL.getMessage()).append(ALREADY.getMessage()).append(EXISTS.getMessage()).toString())
+                        .build()
         );
     }
 
@@ -115,10 +96,10 @@ public class AuthRestController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(JwtCauses.JWT.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(JwtCauses.JWT.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 
@@ -127,13 +108,13 @@ public class AuthRestController {
     @ExceptionHandler({JWTVerificationException.class, NoSuchRefreshTokenInDBException.class})
     public ResponseEntity handleInvalidJWT(RuntimeException e) {
         Response response = Response.builder()
-            .cause(JwtCauses.JWT.getMessage())
-            .message(e.getMessage())
-            .build();
+                .cause(JwtCauses.JWT.getMessage())
+                .message(e.getMessage())
+                .build();
 
         return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .body(response);
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
     }
 
     // 회원이 없을 때
@@ -141,10 +122,10 @@ public class AuthRestController {
     @ExceptionHandler({NoSuchMemberException.class})
     public ResponseEntity handleNoSuchMemberException(NoSuchMemberException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(MemberCause.MEMBER.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(MemberCause.MEMBER.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 }

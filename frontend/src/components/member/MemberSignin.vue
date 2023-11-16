@@ -19,7 +19,7 @@ const User = ref({
 
 const signIn = async () => {
     await userSignIn(User.value);
-    let token = sessionStorage.getItem("accessToken");
+    let token = sessionStorage.getItem("Authorization");
     console.log("토큰. ", token);
     console.log("isLogin: ", isLogin);
     if (isLogin) {

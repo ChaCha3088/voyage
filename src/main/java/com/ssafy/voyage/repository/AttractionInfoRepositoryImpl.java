@@ -22,11 +22,11 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return Optional.ofNullable(queryFactory
-            .selectFrom(attractionInfo)
-            .where(attractionInfo.contentId.eq(contentId))
-            .leftJoin(attractionInfo.attractionDetail).fetchJoin()
-            .leftJoin(attractionInfo.attractionDescription).fetchJoin()
-            .fetchOne());
+                .selectFrom(attractionInfo)
+                .where(attractionInfo.contentId.eq(contentId))
+                .leftJoin(attractionInfo.attractionDetail).fetchJoin()
+                .leftJoin(attractionInfo.attractionDescription).fetchJoin()
+                .fetchOne());
     }
 
     @Override
@@ -34,21 +34,17 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         return queryFactory
-<<<<<<< HEAD
-            .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.tel))
-=======
-            .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.addr1, attractionInfo.latitude, attractionInfo.longitude))
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
-            .from(attractionInfo)
-            .where(
-                ltId(attractionInfoRequestDto.getLastId()),
-                eqSidoCode(attractionInfoRequestDto.getSidoCode()),
-                eqContentTypeId(attractionInfoRequestDto.getContentTypeId()),
-                likeTitle(attractionInfoRequestDto.getTitle())
-            )
-            .orderBy(attractionInfo.contentId.desc())
-            .limit(getPageSize(attractionInfoRequestDto.getPageSize()))
-            .fetch();
+                .select(Projections.fields(AttractionInfo.class, attractionInfo.contentId, attractionInfo.contentTypeId, attractionInfo.firstImage, attractionInfo.title, attractionInfo.addr1, attractionInfo.latitude, attractionInfo.longitude))
+                .from(attractionInfo)
+                .where(
+                        ltId(attractionInfoRequestDto.getLastId()),
+                        eqSidoCode(attractionInfoRequestDto.getSidoCode()),
+                        eqContentTypeId(attractionInfoRequestDto.getContentTypeId()),
+                        likeTitle(attractionInfoRequestDto.getTitle())
+                )
+                .orderBy(attractionInfo.contentId.desc())
+                .limit(getPageSize(attractionInfoRequestDto.getPageSize()))
+                .fetch();
     }
 
     private BooleanExpression ltId(long lastId) {
@@ -60,11 +56,7 @@ public class AttractionInfoRepositoryImpl implements AttractionInfoRepositoryQue
     }
 
     private BooleanExpression eqContentTypeId(int contentTypeId) {
-<<<<<<< HEAD
-        return contentTypeId == 0 ? null : attractionInfo.contentTypeId.eq(contentTypeId);
-=======
         return contentTypeId == 0 ? null : attractionInfo.contentTypeId.contentTypeId.eq(contentTypeId);
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
     }
 
     private BooleanExpression likeTitle(String title) {

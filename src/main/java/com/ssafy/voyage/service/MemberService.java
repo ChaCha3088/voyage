@@ -34,10 +34,10 @@ public class MemberService {
     @Transactional
     public long createMember(MemberCreationDto memberCreationDto) throws DataIntegrityViolationException {
         Member newMember = Member.builder()
-            .email(memberCreationDto.getEmail())
-            .password(passwordEncoder.encode(memberCreationDto.getPassword()))
-            .name(memberCreationDto.getName())
-            .build();
+                .email(memberCreationDto.getEmail())
+                .password(passwordEncoder.encode(memberCreationDto.getPassword()))
+                .name(memberCreationDto.getName())
+                .build();
 
         return memberRepository.save(newMember).getId();
     }
@@ -60,19 +60,11 @@ public class MemberService {
 
     private Member getMemberById(long memberId) throws NoSuchMemberException {
         return memberRepository.findById(memberId)
-<<<<<<< HEAD
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
-=======
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 
     private Member getMemberByEmail(String email) {
         return memberRepository.findNotDeletedByEmail(email)
-<<<<<<< HEAD
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
-=======
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
     }
 }

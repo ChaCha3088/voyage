@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
-import contentTypeApi from '@/api/contentType.js'
 
 const attractions = ref({})
-const selectedContentType = ref("");
 
 const params = ref({
     lastId: 0,

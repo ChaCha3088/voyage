@@ -8,6 +8,8 @@ function localAxios() {
     // baseURL: "http://localhost:8080",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      "Access-Control-Allow-Origin": `http://localhost:9000`,
+      "Access-Control-Allow-Credentials": "true",
     },
   });
   return instance;

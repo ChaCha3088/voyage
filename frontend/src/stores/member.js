@@ -21,13 +21,13 @@ export const useMemberStore = defineStore("memberStore", () => {
         if (response.status === httpStatusCode.OK) {
           let accessToken = response.headers.get("Authorization");
           let refreshToken = response.headers.get("Authorization-Refresh");
-          // console.log("accessToken", accessToken);
-          // console.log("refreshToken", refreshToken);
+          console.log("accessToken", accessToken);
+          console.log("refreshToken", refreshToken);
           isLogin.value = true;
           isLoginError.value = false;
           isValidToken.value = true;
-          sessionStorage.setItem("accessToken", accessToken);
-          sessionStorage.setItem("refreshToken", refreshToken);
+          sessionStorage.setItem("Authorization", accessToken);
+          sessionStorage.setItem("Authorization-refresh", refreshToken);
           console.log("sessiontStorage 저장", isLogin.value);
         } else {
           console.log("로그인 실패");

@@ -17,20 +17,8 @@ public class APIContentTypeFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // "/api"로 시작하지 않으면
-<<<<<<< HEAD
         if (request.getRequestURI().startsWith("/api")) {
-=======
-        if (!request.getRequestURI().startsWith("/api")) {
-            // 다음 필터 호출 X
-            return;
-        }
 
-        // Content-Type이 null이거나 application/json이 아니면
-        if (request.getContentType() == null || !request.getContentType().equals("application/json")) {
-            // 400 Bad Request
-            response.setStatus(SC_BAD_REQUEST);
-
->>>>>>> f516500ccb7cee30e4cc4c7da4a3441a682a4b21
             // 다음 필터 호출 X
             // Content-Type이 null이거나 application/json이 아니면
             if (request.getContentType() == null || !request.getContentType().contains("application/json")) {

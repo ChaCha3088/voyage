@@ -14,7 +14,7 @@ const url = "/api/auth";
 async function signIn(param, success, fail) {
   await memberApi
     .post(`${url}/signin/v1`, param, {
-      header: {
+      headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": `http://localhost:8080`,
         "Access-Control-Allow-Credentials": "true",
@@ -25,45 +25,25 @@ async function signIn(param, success, fail) {
 }
 
 function signUp(param, success, fail) {
-  memberApi
-    .post(`${url}/signup/v1`, param, {
-      header: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": `http://localhost:8080`,
-        "Access-Control-Allow-Credentials": "true",
-      },
-    })
-    .then(success)
-    .catch(fail);
+  memberApi.post(`${url}/signup/v1`, param).then(success).catch(fail);
 }
 
 async function reIssue(param, success, fail) {
   const reUrl = new URLSearchParams(param);
 
-  memberApi.defaults.headers["refreshToken"] = sessionStorage.getItem("refreshToken");
+  memberApi.defaults.headers["Authorization-Refresh"] =
+    sessionStorage.getItem("Authorization-Refresh");
 
-  await memberApi
-    .get(`${url}/reissue/v1?${reUrl}`, {
-      header: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": `http://localhost:8080`,
-        "Access-Control-Allow-Credentials": "true",
-      },
-    })
-    .then(success)
-    .catch(fail);
+  await memberApi.get(`${url}/reissue/v1?${reUrl}`).then(success).catch(fail);
 }
 
 async function signOut(success, fail) {
-  memberApi.defaults.headers["refreshToken"] = sessionStorage.getItem("refreshToken");
+  memberApi.defaults.headers["Authorization-Refresh"] =
+    sessionStorage.getItem("Authorization-refresh");
 
   memberApi
     .get(`${url}/signout/v1`, {
-      header: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": `http://localhost:8080`,
-        "Access-Control-Allow-Credentials": "true",
-      },
+      headers: { "Content-Type": `application/json` },
     })
     .then(success)
     .catch(fail);
