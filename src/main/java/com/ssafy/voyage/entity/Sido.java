@@ -1,6 +1,7 @@
 package com.ssafy.voyage.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ssafy.voyage.dto.response.SidoDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,4 +33,12 @@ public class Sido {
     @OneToMany(mappedBy = "sidoCode")
     @JsonManagedReference
     private List<AttractionInfo> attractionInfos = new ArrayList<>();
+
+    // -- Dto -- //
+    public SidoDto toDto() {
+        return SidoDto.builder()
+            .sidoCode(sidoCode)
+            .sidoName(sidoName)
+            .build();
+    }
 }

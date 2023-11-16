@@ -1,42 +1,40 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
+import contentTypeApi from '@/api/contentType.js'
 
-const attractions = ref({
-})
-
-const totalPages = ref(3819)
-const pages = reactive([])
+const attractions = ref({})
+const selectedContentType = ref("");
 
 const params = ref({
+    lastId: 0,
     sidoCode: 0,
     contentTypeId: 0,
-    page: 0
+    title: "",
+    pageSize: 0
 })
 
-const getAttraction = () => {
+const getAttractionList = () => {
     attractionApi.getList(params.value,
         ({ data }) => {
-            //data : json 부서목록
-            attractions.value = data.content
-            totalPages.value = data.totalPages
-            console.log(totalPages.value)
-        }, () => {
-            console.log("여행지 목록 조회에 실패")
+            attractions.value = data.content;
+        },
+        () => {
+            alert("여행지 목록 조회 실패");
         })
 }
 
-getAttraction()
-
-const pageCalc = () => {
-    for (var i = 1; i <= totalPages.value; i++) {
-        pages.push(i)
-    }
-
+const getContentType = () => {
+    contentTypeApi.getContentType(
+        ({ data }) => {
+            console.log(data);
+        },
+        () => {
+            alert("content type 조회 실패");
+        })
 }
 
-pageCalc()
-
+getAttractionList();
 </script>
 
 <template>
@@ -78,7 +76,6 @@ pageCalc()
                 <th>주소</th>
                 <th>위도</th>
                 <th>경도</th>
-
             </tr>
         </thead>
         <tbody>

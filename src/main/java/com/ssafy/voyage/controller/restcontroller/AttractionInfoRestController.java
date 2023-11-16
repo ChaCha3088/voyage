@@ -32,7 +32,15 @@ public class AttractionInfoRestController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity findAttractionInfoNoOffset(@Valid @RequestBody AttractionInfoRequestDto attractionInfoRequestDto) {
+    public ResponseEntity findAttractionInfoNoOffset(@Valid @RequestParam Long lastId, @Valid @RequestParam Integer sidoCode, @Valid @RequestParam Integer contentTypeId, @Valid @RequestParam String title, @Valid @RequestParam Integer pageSize) {
+        AttractionInfoRequestDto attractionInfoRequestDto = AttractionInfoRequestDto.builder()
+            .lastId(lastId)
+            .sidoCode(sidoCode)
+            .contentTypeId(contentTypeId)
+            .title(title)
+            .pageSize(pageSize)
+            .build();
+
         return ResponseEntity.ok()
             .body(attractionInfoService.findAttractionInfoDtoNoOffset(attractionInfoRequestDto)
             );
