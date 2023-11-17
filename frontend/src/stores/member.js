@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
-import { signIn, reIssue, signOut } from "@/api/member";
+import { signIn, reIssue, signOut, getMemberInfo } from "@/api/member";
 import { httpStatusCode } from "@/utils/http-status";
 
 export const useMemberStore = defineStore("memberStore", () => {
@@ -11,7 +11,10 @@ export const useMemberStore = defineStore("memberStore", () => {
 
   const isLogin = ref(false);
   const isLoginError = ref(false);
-  const userInfo = ref(null);
+  const userInfo = ref({
+    email: "",
+    name: "",
+  });
   const isValidToken = ref(false);
 
   const userSignIn = async (User) => {
@@ -20,7 +23,7 @@ export const useMemberStore = defineStore("memberStore", () => {
       (response) => {
         if (response.status === httpStatusCode.OK) {
           let accessToken = response.headers.get("Authorization");
-          let refreshToken = response.headers.get("Authorization-Refresh");
+          let refreshToken = response.headers.get("Authorization-refresh");
           console.log("accessToken", accessToken);
           console.log("refreshToken", refreshToken);
           isLogin.value = true;
@@ -42,38 +45,40 @@ export const useMemberStore = defineStore("memberStore", () => {
     );
   };
 
-  // const getUserInfo = (token) => {
-  //   let decodeToken = jwtDecode(token);
-  //   console.log("2. decodeToken", decodeToken);
-  //   findById(
-  //     decodeToken.userId,
-  //     (response) => {
-  //       if (response.status === httpStatusCode.OK) {
-  //         userInfo.value = response.data.userInfo;
-  //         console.log("3. getUserInfo data >> ", response.data);
-  //       } else {
-  //         console.log("유저 정보 없음");
-  //       }
-  //     },
-  //     async (error) => {
-  //       console.error("getUserInfo() error code [토큰 만료] ::: ", error.response.status);
-  //       isValidToken.value = false;
+  const getUserInfo = async () => {
+    await getMemberInfo(
+      (response) => {
+        if (response.status === httpStatusCode.OK) {
+          userInfo.value.email = response.data.email;
+          userInfo.value.name = response.data.name;
+          console.log("3. getUserInfo data >> ", response.data);
+        } else {
+          console.log("유저 정보 없음");
+        }
+      },
+      async (error) => {
+        console.error("getUserInfo() error code [토큰 만료] ::: ", error.response.status);
+        isValidToken.value = false;
 
-  //       await userReIssue();
-  //     }
-  //   );
-  // };
+        await userReIssue();
+      }
+    );
+  };
 
   const userReIssue = async () => {
-    console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("accessToken"));
-    const url = window.location.href;
+    console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("Authorization"));
+    const url = window.location.pathname;
+    console.log(url);
     await reIssue(
       url,
       (response) => {
         if (response.status === httpStatusCode.OK) {
-          let accessToken = response.data["access-token"];
+          let accessToken = response.headers.get("Authorization");
+          let refreshToken = response.headers.get("Authorization-refresh");
           console.log("재발급 완료 >> 새로운 토큰 : {}", accessToken);
-          sessionStorage.setItem("accessToken", accessToken);
+          console.log("재발급 완료 >> 새로운 리프레시 토큰 : {}", refreshToken);
+          sessionStorage.setItem("Authorization", accessToken);
+          sessionStorage.setItem("Authorization-refresh", refreshToken);
           isValidToken.value = true;
         }
       },
@@ -83,7 +88,7 @@ export const useMemberStore = defineStore("memberStore", () => {
           console.log("갱신 실패");
           // 다시 로그인 전 DB에 저장된 RefreshToken 제거.
           await signOut(
-            userInfo.value.userid,
+            userInfo.value.email,
             (response) => {
               if (response.status === httpStatusCode.OK) {
                 console.log("리프레시 토큰 제거 성공");
@@ -94,7 +99,7 @@ export const useMemberStore = defineStore("memberStore", () => {
               isLogin.value = false;
               userInfo.value = null;
               isValidToken.value = false;
-              router.push({ name: "user-login" });
+              router.push({ name: "login" });
             },
             (error) => {
               console.error(error);
@@ -133,7 +138,7 @@ export const useMemberStore = defineStore("memberStore", () => {
     userInfo,
     isValidToken,
     userSignIn,
-    //getUserInfo,
+    getUserInfo,
     userReIssue,
     userSignOut,
   };

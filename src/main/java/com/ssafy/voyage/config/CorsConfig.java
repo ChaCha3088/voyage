@@ -19,7 +19,7 @@ public class CorsConfig {
         config.setExposedHeaders(List.of("Authorization", "Authorization-Refresh", "Content-Type",  "access-control-allow-credentials", "access-control-allow-origin"));
 
         config.setAllowedOrigins(List.of("http://127.0.0.1:9000", "http://localhost:8080", "http://localhost:9000"));
-        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

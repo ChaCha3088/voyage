@@ -63,7 +63,7 @@
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <div class="col-lg-4">
-                <placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" />
+                <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
                 <h2>Heading</h2>
                 <p>Some representative placeholder content for the three columns of text below the carousel. This is the
@@ -71,7 +71,7 @@
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" />
+                <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
                 <h2>Heading</h2>
                 <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second
@@ -79,7 +79,7 @@
                 <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
-                <placeholder width="140" height="140" background="#777" color="#777" class="rounded-circle" />
+                <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
                 <h2>Heading</h2>
                 <p>And lastly this, the third column of representative placeholder content.</p>
@@ -100,8 +100,8 @@
                     here.</p>
             </div>
             <div class="col-md-5">
-                <placeholder width="500" height="500" background="#eee" color="#aaa"
-                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto" />
+                <div width="500" height="500" background="#eee" color="#aaa"
+                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
             </div>
         </div>
 
@@ -115,8 +115,8 @@
                     layout would work with some actual real-world content in place.</p>
             </div>
             <div class="col-md-5 order-md-1">
-                <placeholder width="500" height="500" background="#eee" color="#aaa"
-                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto" />
+                <div width="500" height="500" background-color="#eee" color="#aaa"
+                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
             </div>
         </div>
 
@@ -130,8 +130,8 @@
                     some actual content. Your content.</p>
             </div>
             <div class="col-md-5">
-                <placeholder width="500" height="500" background="#eee" color="#aaa"
-                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto" />
+                <div width="500" height="500" background-color="#eee" color="#aaa"
+                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
             </div>
         </div>
 

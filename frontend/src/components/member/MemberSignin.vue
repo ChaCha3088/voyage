@@ -6,7 +6,7 @@ import { useMemberStore } from "@/stores/member";
 
 const memberStore = useMemberStore();
 
-const { isLogin } = storeToRefs(memberStore);
+const { isLogin, userInfo } = storeToRefs(memberStore);
 const { userSignIn, getUserInfo } = memberStore;
 
 
@@ -24,7 +24,7 @@ const signIn = async () => {
     console.log("isLogin: ", isLogin);
     if (isLogin) {
         console.log("로그인 성공");
-        //getUserInfo(token);
+        await getUserInfo()
     }
     router.push("/");
 };

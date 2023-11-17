@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 const menuStore = useMenuStore();
 const memberStore = useMemberStore();
 
-const { isLogin } = storeToRefs(memberStore);
+const { isLogin, userInfo } = storeToRefs(memberStore);
 const { menuList } = storeToRefs(menuStore);
 const { changeMenuState } = menuStore;
 
@@ -15,10 +15,12 @@ const signout = () => {
   changeMenuState();
   memberStore.userSignOut()
 };
+
+
 </script>
 
 <template>
-  <div class="hello shadow-sm p-3 mb-5 bg-body rounded">
+  <div class="hello shadow-sm p-1 mb-1 bg-body rounded">
     <div class="logo text-center py-6 pt-10 dark:bg-gray-700">
       <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">|
         Voyage |</h1> <!-- <img src="{% static 'img/logo.svg' %}" class="h-20 dark:hidden" alt="Flowbite Logo"/>
@@ -67,7 +69,7 @@ const signout = () => {
               <template v-if="isLogin">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  로그인 중
+                  {{ userInfo.name }} 님
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                   <template v-for="menu in menuList" :key="menu.routeName">

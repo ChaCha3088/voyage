@@ -22,17 +22,22 @@ function signUp(param, success, fail) {
 async function reIssue(param, success, fail) {
   const reUrl = new URLSearchParams(param);
 
-  memberApi.defaults.headers["Authorization-Refresh"] =
-    sessionStorage.getItem("Authorization-Refresh");
+  memberApi.defaults.headers["Authorization-refresh"] =
+    sessionStorage.getItem("Authorization-refresh");
 
-  await memberApi.get(`${url}/reissue/v1?${reUrl}`).then(success).catch(fail);
+  await memberApi
+    .get(`${url}/reissue/v1?redirectUrl=${reUrl.toString()}`, {
+      data: {},
+    })
+    .then(success)
+    .catch(fail);
 }
 
 async function signOut(success, fail) {
-  memberApi.defaults.headers["Authorization-Refresh"] =
+  memberApi.defaults.headers["Authorization-refresh"] =
     sessionStorage.getItem("Authorization-refresh");
 
-  memberApi
+  await memberApi
     .get(`${url}/signout/v1`, {
       data: {},
     })
@@ -41,5 +46,37 @@ async function signOut(success, fail) {
     .catch(fail);
 }
 
-export { signIn, reIssue, signOut };
-export default { signUp };
+async function getMemberInfo(success, fail) {
+  memberApi.defaults.headers["Authorization"] = sessionStorage.getItem("Authorization");
+
+  await memberApi
+    .get(`/api/member`, {
+      data: {},
+    })
+    // .get(`${url}/signout/v1`)
+    .then(success)
+    .catch(fail);
+}
+
+function modifyMemberInfo(param, success, fail) {
+  memberApi.defaults.headers["Authorization"] = sessionStorage.getItem("Authorization");
+
+  memberApi
+    .put(`/api/member`, param)
+    // .get(`${url}/signout/v1`)
+    .then(success)
+    .catch(fail);
+}
+
+function deleteMemberInfo(success, fail) {
+  memberApi.defaults.headers["Authorization"] = sessionStorage.getItem("Authorization");
+
+  memberApi
+    .delete(`/api/member`)
+    // .get(`${url}/signout/v1`)
+    .then(success)
+    .catch(fail);
+}
+
+export { signIn, reIssue, signOut, getMemberInfo };
+export default { signUp, modifyMemberInfo, deleteMemberInfo };
