@@ -115,7 +115,8 @@ export const useMemberStore = defineStore("memberStore", () => {
           //userInfo.value = null;
           isValidToken.value = false;
           console.log("로그아웃");
-          sessionStorage.removeItem();
+          sessionStorage.removeItem("Authorization");
+          sessionStorage.removeItem("Authorization-refresh");
         } else {
           //console.error("유저 정보 없음");
         }

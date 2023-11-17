@@ -12,16 +12,7 @@ const url = "/api/auth";
 // };
 
 async function signIn(param, success, fail) {
-  await memberApi
-    .post(`${url}/signin/v1`, param, {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": `http://localhost:8080`,
-        "Access-Control-Allow-Credentials": "true",
-      },
-    })
-    .then(success)
-    .catch(fail);
+  await memberApi.post(`${url}/signin/v1`, param).then(success).catch(fail);
 }
 
 function signUp(param, success, fail) {
@@ -43,8 +34,9 @@ async function signOut(success, fail) {
 
   memberApi
     .get(`${url}/signout/v1`, {
-      headers: { "Content-Type": `application/json` },
+      data: {},
     })
+    // .get(`${url}/signout/v1`)
     .then(success)
     .catch(fail);
 }
