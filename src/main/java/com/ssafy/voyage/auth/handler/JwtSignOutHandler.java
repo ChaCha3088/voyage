@@ -34,7 +34,6 @@ public class JwtSignOutHandler implements LogoutHandler {
      */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        System.out.println("hey!");
         try {
             // refreshToken
             String[] emailAndRefreshToken = jwtService.validateAndExtractEmailFromRefreshToken(request);

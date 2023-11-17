@@ -7,8 +7,7 @@ import MemberApi from "@/api/member.js"
 
 const memberStore = useMemberStore();
 
-const { userInfo, isLogin } = storeToRefs(memberStore);
-const { getUserInfo, isValidToken } = memberStore;
+const { userInfo, isLogin, isValidToken } = storeToRefs(memberStore);
 
 const router = useRouter();
 
@@ -36,19 +35,19 @@ const modify = () => {
 }
 
 
-const deletes = () => {
+const deletes = async () => {
 
-    MemberApi.deleteMemberInfo(
-        (response) => {
+    await MemberApi.deleteMemberInfo(
+        ({ response }) => {
             isLogin.value = false;
             //userInfo.value = null;
             isValidToken.value = false;
-            console.log("로그아웃");
+            console.log("탈퇴");
             sessionStorage.removeItem("Authorization");
             sessionStorage.removeItem("Authorization-refresh");
 
-        }, ({ error }) => {
-            console.log(User.value)
+        }, (error) => {
+            console.error(error)
             console.log("탈퇴에 실패")
         })
     router.replace("/")

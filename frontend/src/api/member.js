@@ -68,11 +68,13 @@ function modifyMemberInfo(param, success, fail) {
     .catch(fail);
 }
 
-function deleteMemberInfo(success, fail) {
+async function deleteMemberInfo(success, fail) {
   memberApi.defaults.headers["Authorization"] = sessionStorage.getItem("Authorization");
 
-  memberApi
-    .delete(`/api/member`)
+  await memberApi
+    .delete(`/api/member`, {
+      data: {},
+    })
     // .get(`${url}/signout/v1`)
     .then(success)
     .catch(fail);

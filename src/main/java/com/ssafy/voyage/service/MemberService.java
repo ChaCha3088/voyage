@@ -79,10 +79,9 @@ public class MemberService {
 
         response.setHeader(JwtService.ACCESS_TOKEN_HEADER, "");
 
-        response.sendRedirect("/");
-
         return ResponseEntity
                 .noContent()
+                .header("Location", "/")
                 .build();
     }
 

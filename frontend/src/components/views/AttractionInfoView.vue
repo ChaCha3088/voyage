@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
+import sidoApi from '@/api/sido.js'
 import contentTypeApi from '@/components/views/contentType'
+const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const attractions = ref({})
 
@@ -13,12 +15,26 @@ const params = ref({
     pageSize: 0
 })
 
+
+const keys = ref({
+    serviceKey: VITE_OPEN_API_SERVICE_KEY,
+    numOfRows: 20,
+    pageNo: 1,
+    MobileOS: "ETC",
+    MobileApp: "AppTest",
+    _type: "json"
+})
+
+
+const code = ref({})
+
 const getAttractionList = () => {
     attractionApi.getList(params.value,
         ({ data }) => {
             attractions.value = data.content;
         },
-        () => {
+        (error) => {
+            console.error(error)
             alert("여행지 목록 조회 실패");
         })
 }
@@ -28,12 +44,30 @@ const getContentType = () => {
         ({ data }) => {
             console.log(data);
         },
-        () => {
+        (error) => {
+            console.error(error)
             alert("content type 조회 실패");
         })
 }
 
+const getSidoList = () => {
+    sidoApi.getSidoType(keys.value,
+        ({ data }) => {
+            code.value = data.response.body.items.item
+            // console.log(code.value)
+        },
+        (err) => {
+
+        }
+    );
+};
+
 getAttractionList();
+
+onMounted(() => {
+    getSidoList();
+});
+
 </script>
 
 <template>
@@ -43,10 +77,11 @@ getAttractionList();
             <!-- 관광지 검색 start -->
             <form class="d-flex my-3" onsubmit="return false;" role="search">
                 <div style="display: flex; justify-content : center;">
-                    <select id="search-area" class="form-select me-2">
+                    <select id="search-area" class="form-select me-2" v-model="params.sidoCode">
                         <option value="0" selected>검색 할 지역 선택</option>
+                        <option v-for="city in code" :key="city.rnum" :value="city.code">{{ city.name }}</option>
                     </select>
-                    <select id="search-content-id" class="form-select me-2">
+                    <select id="search-content-id" class="form-select me-2" v-model="params.contentTypeId">
                         <option value="0" selected>관광지 유형</option>
                         <option value="12">관광지</option>
                         <option value="14">문화시설</option>
