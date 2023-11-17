@@ -16,6 +16,7 @@ public class AttractionInfo {
     private int contentId;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "content_type_id")
 	private ContentType contentTypeId;
 
     @Column(columnDefinition = "varchar(100) default NULL")
