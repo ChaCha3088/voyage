@@ -29,6 +29,11 @@ const signIn = async () => {
     router.push("/");
 };
 
+const emailLength = (event) => {
+    // console.log(event.target.value.length)
+    console.log(event.target.value.includes("@"))
+}
+
 </script>
 
 
@@ -39,7 +44,7 @@ const signIn = async () => {
             <form action=" " class="group" method="POST" novalidate>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
-                        v-model="User.email">
+                        v-model="User.email" v-on:input="emailLength($event)">
                     <label for="floatingInput">이메일 주소</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -47,9 +52,10 @@ const signIn = async () => {
                         v-model="User.password" @keyup.enter="signIn">
                     <label for="floatingPassword">비밀번호</label>
                 </div>
-                <button class="btn btn-outline-success" type="button" @click="signIn">로그인</button>
+                <button class="w-100 btn btn-lg btn-primary" type="button" @click="signIn">Sign in</button>
             </form>
         </div>
+
         <div class="mt-4 flex justify-center items-center">
             <span class="text-gray-500 text-sm mr-2">아이디가 없으신가요? </span>
             <router-link :to="{ name: 'signup' }">회원가입</router-link>

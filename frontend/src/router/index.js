@@ -3,6 +3,7 @@ import Main from "../components/views/WelcomeView.vue";
 import Attraction from "../components/views/AttractionInfoView.vue";
 import Login from "../components/member/MemberSignin.vue";
 import Signup from "../components/member/MemberSignup.vue";
+import Profile from "../components/member/MemberProfile.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,14 +19,20 @@ const router = createRouter({
       component: Attraction,
     },
     {
-      path: "/auth/login",
+      path: "/login",
       name: "login",
       component: Login,
     },
     {
-      path: "/auth/signup",
+      path: "/signup",
       name: "signup",
       component: Signup,
+    },
+
+    {
+      path: "/profile",
+      name: "profile",
+      component: Profile,
     },
     // {
     //   path: '/about',

@@ -132,10 +132,6 @@ const signout = () => {
   background-color: white;
 }
 
-.hello {
-  background-color: white;
-}
-
 .logo-font {
   font-family: 'Yeongdo-Rg' !important;
   font-family: 'Yeongdo-Rg' !important;

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
-import contentTypeApi from '@/components/views/contentType.js'
+import contentTypeApi from '@/components/views/contentType'
 
 const attractions = ref({})
 
