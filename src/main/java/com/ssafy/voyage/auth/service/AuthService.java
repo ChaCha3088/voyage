@@ -1,21 +1,13 @@
 package com.ssafy.voyage.auth.service;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.ssafy.voyage.auth.exception.NoSuchRefreshTokenInDBException;
 import com.ssafy.voyage.auth.validator.AuthValidator;
 import com.ssafy.voyage.dto.member.MemberCreationDto;
-import com.ssafy.voyage.entity.Member;
-import com.ssafy.voyage.exception.MemberCreationValidationException;
-import com.ssafy.voyage.exception.NoSuchMemberException;
-import com.ssafy.voyage.repository.MemberRepository;
+import com.ssafy.voyage.exception.MemberFormValidationException;
 import com.ssafy.voyage.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.ssafy.voyage.message.message.MemberMessages.MEMBER;
-import static com.ssafy.voyage.message.message.Messages.*;
 
 @Service
 // Transactional 붙이지 마
@@ -28,7 +20,7 @@ public class AuthService {
 
     // 회원가입
     @Transactional
-    public void signUp(MemberCreationDto memberCreationDto) throws MemberCreationValidationException, DataIntegrityViolationException {
+    public void signUp(MemberCreationDto memberCreationDto) throws MemberFormValidationException, DataIntegrityViolationException {
         // 회원 가입 정보 검증
         authValidator.validateMemberCreationDto(memberCreationDto);
 

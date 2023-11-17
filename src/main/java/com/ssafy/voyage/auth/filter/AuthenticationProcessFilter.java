@@ -61,8 +61,11 @@ public class AuthenticationProcessFilter extends OncePerRequestFilter {
         }
         // accessToken이 유효하지 않으면,
         catch (JWTVerificationException e) {
+            // 인증되지 않음
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
             // 원래 가려던 곳 상태 저장해주기
-            response.sendRedirect("/api/auth/reissue/v1?redirectUrl=" + request.getRequestURI());
+            response.setHeader("redirectUrl", "/api/auth/reissue/v1?redirectUrl=" + request.getRequestURI());
         }
     }
 

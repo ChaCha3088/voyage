@@ -195,7 +195,7 @@ public class JwtService {
             return new String[]{email, accessToken};
         }
         catch (JWTVerificationException e) {
-            throw new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(INVALID.getMessage()).toString());
+            throw new JWTVerificationException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(INVALID.getMessage()).toString());
         }
     }
 
