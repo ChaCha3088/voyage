@@ -63,6 +63,8 @@ public class MemberRestController {
         String email = (String) request.getAttribute("email");
 
         memberService.deleteMember(email, response);
+
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 
     @ExceptionHandler(NoSuchMemberException.class)
