@@ -16,31 +16,32 @@ public class AttractionInfo {
     private int contentId;
 
     @ManyToOne(fetch = LAZY)
-    private ContentType contentTypeId;
+    @JoinColumn(name = "content_type_id")
+	private ContentType contentTypeId;
 
     @Column(columnDefinition = "varchar(100) default NULL")
-    private String title;
+	private String title;
 
     @Column(columnDefinition = "varchar(100) default NULL")
-    private String addr1;
+	private String addr1;
 
     @Column(columnDefinition = "varchar(50) default NULL")
-    private String addr2;
+	private String addr2;
 
     @Column(columnDefinition = "varchar(50) default NULL")
-    private String zipcode;
+	private String zipcode;
 
     @Column(columnDefinition = "varchar(50) default NULL")
-    private String tel;
+	private String tel;
 
     @Column(columnDefinition = "varchar(200) default NULL")
-    private String firstImage;
+	private String firstImage;
 
     @Column(columnDefinition = "varchar(200) default NULL")
-    private String firstImage2;
+	private String firstImage2;
 
     @Column(columnDefinition = "default NULL")
-    private int readcount;
+	private int readcount;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sido_code")
@@ -53,13 +54,13 @@ public class AttractionInfo {
     private Gugun gugunCode;
 
     @Column(columnDefinition = "decimal(20, 17) default NULL")
-    private double latitude;
+	private double latitude;
 
     @Column(columnDefinition = "decimal(20, 17) default NULL")
-    private double longitude;
+	private double longitude;
 
     @Column(columnDefinition = "varchar(2) default NULL")
-    private String mlevel;
+	private String mlevel;
 
     @OneToOne(mappedBy = "attractionInfo", fetch = LAZY)
     @PrimaryKeyJoinColumn
@@ -71,45 +72,45 @@ public class AttractionInfo {
 
     public AttractionInfoDto toAttractionInfoDtoForList() {
         return AttractionInfoDto.builder()
-                .contentId(contentId)
-                .attractionDetail(null)
-                .attractionDescription(null)
-                .contentTypeId(contentTypeId.getContentTypeId())
-                .title(title)
-                .addr1(addr1)
-                .addr2(null)
-                .zipcode(null)
-                .tel(null)
-                .firstImage(firstImage)
-                .firstImage2(null)
-                .readcount(null)
-                .sidoCode(null)
-                .gugunCode(null)
-                .latitude(latitude)
-                .longitude(longitude)
-                .mlevel(null)
-                .build();
+            .contentId(contentId)
+            .attractionDetail(null)
+            .attractionDescription(null)
+            .contentTypeId(contentTypeId.getContentTypeId())
+            .title(title)
+            .addr1(addr1)
+            .addr2(null)
+            .zipcode(null)
+            .tel(null)
+            .firstImage(firstImage)
+            .firstImage2(null)
+            .readcount(null)
+            .sidoCode(null)
+            .gugunCode(null)
+            .latitude(latitude)
+            .longitude(longitude)
+            .mlevel(null)
+        .build();
     }
 
     public AttractionInfoDto toAttractionInfoDtoWithAttractionDetailAndAttractionDescription() {
         return AttractionInfoDto.builder()
-                .contentId(contentId)
-                .attractionDetail(attractionDetail)
-                .attractionDescription(attractionDescription)
-                .contentTypeId(contentTypeId.getContentTypeId())
-                .title(title)
-                .addr1(addr1)
-                .addr2(addr2)
-                .zipcode(zipcode)
-                .tel(tel)
-                .firstImage(firstImage)
-                .firstImage2(firstImage2)
-                .readcount(readcount)
-                .sidoCode(sidoCode.getSidoCode())
-                .gugunCode(gugunCode.getGugunCode())
-                .latitude(latitude)
-                .longitude(longitude)
-                .mlevel(mlevel)
-                .build();
+            .contentId(contentId)
+            .attractionDetail(attractionDetail)
+            .attractionDescription(attractionDescription)
+            .contentTypeId(contentTypeId.getContentTypeId())
+            .title(title)
+            .addr1(addr1)
+            .addr2(addr2)
+            .zipcode(zipcode)
+            .tel(tel)
+            .firstImage(firstImage)
+            .firstImage2(firstImage2)
+            .readcount(readcount)
+            .sidoCode(sidoCode.getSidoCode())
+            .gugunCode(gugunCode.getGugunCode())
+            .latitude(latitude)
+            .longitude(longitude)
+            .mlevel(mlevel)
+        .build();
     }
 }
