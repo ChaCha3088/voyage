@@ -25,8 +25,9 @@ const signIn = async () => {
     if (isLogin) {
         console.log("로그인 성공");
         await getUserInfo()
-    }
-    router.push("/");
+        router.push("/");
+    } 
+    
 };
 
 const emailLength = (event) => {

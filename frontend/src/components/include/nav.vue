@@ -21,12 +21,10 @@ const signout = () => {
 
 <template>
   <div class="hello shadow-sm p-1 mb-1 bg-body rounded">
-    <div class="logo text-center py-6 pt-10 dark:bg-gray-700">
+    <!-- <div class="logo text-center py-6 pt-10 dark:bg-gray-700">
       <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">|
-        Voyage |</h1> <!-- <img src="{% static 'img/logo.svg' %}" class="h-20 dark:hidden" alt="Flowbite Logo"/>
-            <img src="{% static 'img/logo_white.png' %}" class="h-20 hidden dark:block" alt="Flowbite Logo"/> -->
-
-    </div>
+        Voyage |</h1>
+    </div> -->
     <nav class="navbar navbar-expand-lg sticky-top " style="background-color: white;">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
