@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import { userAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
@@ -8,26 +8,35 @@ const attractionStore = userAttractionStore();
 const { list, isDetail } = storeToRefs(attractionStore)
 const { nextAttraction, detail } = attractionStore
 
-const attractions = ref([
-])
+console.log("Result.vue")
+console.log(attractionStore.list)
+console.log(list)
 
-// console.log(attractions.value[attractions.value.length - 1].contentId)
+// const attractions = ref([
+// ])
 
-watch(
-    () => list.value,
-    (newParam) => {
-        console.log(newParam)
-        attractions.value = list.value
-        console.log(attractions.value)
-    }
-)
+// // console.log(attractions.value[attractions.value.length - 1].contentId)
 
-watch(
-    () => isDetail.value,
-    (newParam) => {
-        attractions.value = list.value
-    }
-)
+// watch(
+//     () => list.value,
+//     (newParam) => {
+//         console.log(newParam)
+//         attractions.value = list.value
+//         console.log(attractions.value)
+//     }
+// )
+
+// watch(() => attractions.value, () => {
+//     console.log("Result watch")
+//     console.log(attractions.value.length)
+// }, { deep: true, immediate: true })
+
+// watch(
+//     () => isDetail.value,
+//     (newParam) => {
+//         attractions.value = list.value
+//     }
+// )
 
 const more = () => {
     nextAttraction()
@@ -47,13 +56,13 @@ const change = (id) => {
                 </tr>
             </thead>
             <tbody>
-            <tbody v-if="attractions.length == 0">
+            <tbody v-if="list.length == 0">
                 <tr>
                     <td colspan="5">검색 결과가 없습니다.</td>
                 </tr>
             </tbody>
             <template v-else>
-                <tr v-for="(item) in attractions" :key="item.contentId">
+                <tr v-for="(item) in list" :key="item.contentId">
                     <td>
                         <div class="card mb-3" style="width: 22vw;">
                             <img :src="item.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">

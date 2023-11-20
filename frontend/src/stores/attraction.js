@@ -1,5 +1,4 @@
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { getList, getDetail } from "@/api/attractionInfo.js";
 import { httpStatusCode } from "@/utils/http-status";
@@ -20,13 +19,17 @@ export const userAttractionStore = defineStore("attractionStore", () => {
     getList(
       param.value,
       ({ data }) => {
-        list.value = data;
+        console.log("getAttraction");
+        console.log(list.value);
+        list.value = [];
+        data.forEach((item) => list.value.push(item));
         lastId.value = list.value[list.value.length - 1].contentId;
         // console.log(list.value.length);
         // console.log(lastId.value);
         // console.log(list.value);
         // console.log(data);
         // console.log(param);
+        console.log(list.value);
       },
       (error) => {
         console.error(error);
@@ -59,7 +62,7 @@ export const userAttractionStore = defineStore("attractionStore", () => {
     getDetail(
       selectId.value,
       ({ data }) => {
-        console.log(data);
+        // console.log(data);
         desc.value = data;
         // console.log(desc.value.attractionDescription.overview);
       },
@@ -69,6 +72,7 @@ export const userAttractionStore = defineStore("attractionStore", () => {
     );
   };
 
+  console.log("attraction store created..");
   return {
     list,
     isDetail,

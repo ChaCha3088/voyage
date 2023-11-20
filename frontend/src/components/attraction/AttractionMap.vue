@@ -5,24 +5,24 @@ import { storeToRefs } from "pinia";
 
 const attractionStore = userAttractionStore();
 
-const { list } = storeToRefs(attractionStore)
+const { list, desc } = storeToRefs(attractionStore)
 
 var map;
 const positions = ref([]);
 const markers = ref([]);
 
-// watch(
-//   () => props.selectStation.value,
-//   () => {
-//     // 이동할 위도 경도 위치를 생성합니다
-//     var moveLatLon = new kakao.maps.LatLng(props.selectStation.lat, props.selectStation.lng);
+watch(
+  () => desc.value,
+  () => {
+    // 이동할 위도 경도 위치를 생성합니다
+    var moveLatLon = new kakao.maps.LatLng(desc.value.latitude, desc.value.longitude);
 
-//     // 지도 중심을 부드럽게 이동시킵니다
-//     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-//     map.panTo(moveLatLon);
-//   },
-//   { deep: true }
-// );
+    // 지도 중심을 부드럽게 이동시킵니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    map.panTo(moveLatLon);
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   if (window.kakao && window.kakao.maps) {

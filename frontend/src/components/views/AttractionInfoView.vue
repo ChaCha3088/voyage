@@ -11,13 +11,6 @@ import result from '@/components/attraction/AttractionResult.vue'
 import detail from '@/components/attraction/AttractionDetail.vue'
 const { isDetail } = storeToRefs(attractionStore)
 
-const current = shallowRef(result)
-
-const change = () => {
-    return isDetail == true ? detail : result
-}
-
-
 </script>
 
 <template>

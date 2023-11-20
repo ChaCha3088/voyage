@@ -35,6 +35,7 @@ const getSidoList = () => {
 };
 
 onMounted(() => {
+    console.log("AttractionSearch onMounted...")
     getSidoList();
     getAttraction(params);
 });
