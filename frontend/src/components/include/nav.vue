@@ -25,7 +25,7 @@ const signout = () => {
       <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">|
         Voyage |</h1>
     </div> -->
-    <nav class="navbar navbar-expand-lg sticky-top " style="background-color: white;">
+    <nav class="navbar navbar-expand-lg sticky-top " style="background-color: rgba(255, 255, 255, 0);">
       <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
           aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,7 +129,7 @@ const signout = () => {
 }
 
 .hello {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 1)
 }
 
 .logo-font {

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import attractionApi from '@/api/attractionInfo.js'
-import contentTypeApi from '@/components/views/contentType'
+import contentTypeApi from '@/api/code.js'
 import search from '@/components/attraction/AttractionSearch.vue'
 import kakaomap from '@/components/attraction/AttractionMap.vue'
 import result from '@/components/attraction/AttractionResult.vue'
@@ -70,7 +70,6 @@ body {
 
 #left {
     width: 75vw;
-    background-color: cyan;
 }
 
 #right {

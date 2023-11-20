@@ -72,7 +72,7 @@ async function deleteMemberInfo(success, fail) {
   memberApi.defaults.headers["Authorization"] = sessionStorage.getItem("Authorization");
 
   await memberApi
-    .delete(`/api/member`, {
+    .delete(`/api/member/password`, {
       data: {},
     })
     // .get(`${url}/signout/v1`)

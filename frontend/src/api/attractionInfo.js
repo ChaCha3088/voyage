@@ -6,7 +6,12 @@ const url = "/api/attraction";
 
 const getList = (param, success, fail) => {
   const searchParams = new URLSearchParams(param);
-  axios.get(`${url}/list?${searchParams.toString()}`).then(success).catch(fail);
+  axios
+    .get(`${url}/list?${searchParams.toString()}`, {
+      data: {},
+    })
+    .then(success)
+    .catch(fail);
 };
 
 const findByTitleAndSidoCode = (param, success, fail) => {
@@ -22,3 +27,4 @@ const findByContentIdForDes = (contentId, success, fail) => {
 };
 
 export default { getList, findByTitleAndSidoCode, findByContentId, findByContentIdForDes };
+export { getList, findByTitleAndSidoCode, findByContentId, findByContentIdForDes };

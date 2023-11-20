@@ -1,10 +1,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import sidoApi from '@/api/sido.js'
+import sidoApi from '@/api/code.js'
+import { userAttractionStore } from "@/stores/attraction";
 
-const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
+const attractionStore = userAttractionStore();
 
-const code = ref({})
+const { getAttraction } = attractionStore
+
+// const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
+
+const code = ref({
+    sidoCode: 0,
+    sidoName: ""
+})
 
 const params = ref({
     lastId: 0,
@@ -14,20 +22,11 @@ const params = ref({
     pageSize: 0
 })
 
-const keys = ref({
-    serviceKey: VITE_OPEN_API_SERVICE_KEY,
-    numOfRows: 20,
-    pageNo: 1,
-    MobileOS: "ETC",
-    MobileApp: "AppTest",
-    _type: "json"
-})
-
 const getSidoList = () => {
-    sidoApi.getSidoType(keys.value,
+    sidoApi.getSidoType(
         ({ data }) => {
-            code.value = data.response.body.items.item
-            console.log(code.value)
+            code.value = data
+            // console.log(code.value)
         },
         (error) => {
             console.log(error)
@@ -37,7 +36,12 @@ const getSidoList = () => {
 
 onMounted(() => {
     getSidoList();
+    getAttraction(params);
 });
+
+const search = () => {
+    getAttraction(params);
+}
 
 </script>
 
@@ -49,7 +53,9 @@ onMounted(() => {
                 <div style="display: flex; justify-content : center;">
                     <select id="search-area" class="form-select me-2" v-model="params.sidoCode">
                         <option value="0" selected>검색 할 지역 선택</option>
-                        <option v-for="city in code" :key="city.rnum" :value="city.code">{{ city.name }}</option>
+                        <option v-for="(code, index) in code" :key="index" :value="code.sidoCode">{{
+                            code.sidoName }}
+                        </option>
                     </select>
                     <select id="search-content-id" class="form-select me-2" v-model="params.contentTypeId">
                         <option value="0" selected>관광지 유형</option>
@@ -64,15 +70,14 @@ onMounted(() => {
                     </select>
                     <input id="search-keyword" class="form-control me-2" type="search" placeholder="검색어" aria-label="검색어"
                         v-model="params.title" />
-                    <button id="btn-search" class="btn btn-outline-success" type="button"
-                        @click="getAttraction()">검색</button>
+                    <button id="btn-search" class="btn btn-outline-success" type="button" @click="search()">검색</button>
                 </div>
             </form>
         </div>
     </div>
 </template>
 <style scoped>
-    body {
+body {
     color: #666;
     font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
     font-size: 140%;
@@ -86,6 +91,5 @@ onMounted(() => {
 #wrapper-body {
     width: 100%;
 }
-
 </style>
 
