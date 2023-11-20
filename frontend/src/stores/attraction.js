@@ -1,13 +1,20 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
-import { getList } from "@/api/attractionInfo.js";
+import { getList, getDetail } from "@/api/attractionInfo.js";
 import { httpStatusCode } from "@/utils/http-status";
 
 export const userAttractionStore = defineStore("attractionStore", () => {
   const list = ref([]);
   const prev = ref({});
   const lastId = ref(0);
+
+  const isDetail = ref(false);
+
+  const selectId = ref(0);
+
+  const desc = ref({});
+
   const getAttraction = (param) => {
     prev.value = param.value;
     getList(
@@ -45,9 +52,29 @@ export const userAttractionStore = defineStore("attractionStore", () => {
     );
   };
 
+  const detail = (id) => {
+    isDetail.value = !isDetail.value;
+    selectId.value = id;
+
+    getDetail(
+      selectId.value,
+      ({ data }) => {
+        console.log(data);
+        desc.value = data;
+        // console.log(desc.value.attractionDescription.overview);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+
   return {
     list,
+    isDetail,
+    desc,
     getAttraction,
     nextAttraction,
+    detail,
   };
 });

@@ -1,39 +1,22 @@
 <script setup>
-import { ref } from "vue";
-import attractionApi from '@/api/attractionInfo.js'
-import contentTypeApi from '@/api/code.js'
+import { shallowRef } from "vue"
+import { storeToRefs } from "pinia";
+import { userAttractionStore } from "@/stores/attraction";
+
+const attractionStore = userAttractionStore();
+
 import search from '@/components/attraction/AttractionSearch.vue'
 import kakaomap from '@/components/attraction/AttractionMap.vue'
 import result from '@/components/attraction/AttractionResult.vue'
+import detail from '@/components/attraction/AttractionDetail.vue'
+const { isDetail } = storeToRefs(attractionStore)
 
-const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
+const current = shallowRef(result)
 
-const attractions = ref({})
-
-
-const code = ref({})
-
-const getAttractionList = () => {
-    attractionApi.getList(params.value,
-        ({ data }) => {
-            attractions.value = data.content;
-        },
-        (error) => {
-            console.error(error)
-            alert("여행지 목록 조회 실패");
-        })
+const change = () => {
+    return isDetail == true ? detail : result
 }
 
-const getContentType = () => {
-    contentTypeApi.getContentType(
-        ({ data }) => {
-            console.log(data);
-        },
-        (error) => {
-            console.error(error)
-            alert("content type 조회 실패");
-        })
-}
 
 </script>
 
@@ -46,7 +29,8 @@ const getContentType = () => {
                 <kakaomap />
             </div>
             <div id="right">
-                <result />
+                <result v-if="!isDetail" />
+                <detail v-if="isDetail" />
             </div>
         </div>
     </div>

@@ -1,41 +1,15 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
 import { userAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
 const attractionStore = userAttractionStore();
+const { desc } = storeToRefs(attractionStore)
+const { detail } = attractionStore
 
-const { list, isDetail } = storeToRefs(attractionStore)
-const { nextAttraction, detail } = attractionStore
-
-const attractions = ref([
-])
-
-// console.log(attractions.value[attractions.value.length - 1].contentId)
-
-watch(
-    () => list.value,
-    (newParam) => {
-        console.log(newParam)
-        attractions.value = list.value
-        console.log(attractions.value)
-    }
-)
-
-watch(
-    () => isDetail.value,
-    (newParam) => {
-        attractions.value = list.value
-    }
-)
-
-const more = () => {
-    nextAttraction()
+const change = () => {
+    detail(desc.value.contentId)
 }
 
-const change = (id) => {
-    detail(id)
-}
 </script>
 
 <template>
@@ -43,33 +17,27 @@ const change = (id) => {
         <table>
             <thead>
                 <tr>
-                    <th>검색 결과</th>
+                    <th>세부 내용<button @click="change">이전으로</button></th>
                 </tr>
             </thead>
             <tbody>
-            <tbody v-if="attractions.length == 0">
                 <tr>
-                    <td colspan="5">검색 결과가 없습니다.</td>
-                </tr>
-            </tbody>
-            <template v-else>
-                <tr v-for="(item) in attractions" :key="item.contentId">
                     <td>
                         <div class="card mb-3" style="width: 22vw;">
-                            <img :src="item.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
+                            <img :src="desc.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
-                                <h5 class="card-title" @click="change(item.contentId)">{{ item.title }}</h5>
-                                <p class="card-text">{{ item.addr1 }} {{ item.addr2 }}</p>
+                                <h5 class="card-title">{{ desc.title }}</h5>
+                                <p class="card-text">{{ desc.addr1 }} {{ desc.addr2 }}</p>
+                                <p class="card-text">{{ desc.attractionDescription.overview }}</p>
                             </div>
                         </div>
                     </td>
                 </tr>
-                <tr><button class="w-100 btn btn-lg btn-primary" type="button" @click="more">더보기</button></tr>
-            </template>
             </tbody>
         </table>
     </div>
 </template>
+
 <style scoped>
 .wrapper {
     height: 800px;
