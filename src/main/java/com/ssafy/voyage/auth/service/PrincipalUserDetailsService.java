@@ -22,11 +22,11 @@ public class PrincipalUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     //이런 요청이 들어왔는데, 얘 혹시 회원이야?
-    @Transactional(propagation = REQUIRES_NEW) // 부모 트랜잭션과 별개로 동작
+    @Transactional(noRollbackFor = UsernameNotFoundException.class) // 부모 트랜잭션과 별개로 동작
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Member를 찾는다.
-        Member member = memberRepository.findNotDeletedByEmail(email)
+        Member member = memberRepository.findNotDeletedByEmailForAuthentication(email)
                 // 없으면, UsernameNotFoundException 발생
                 .orElseThrow(() -> new UsernameNotFoundException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER).append(NOT_EXISTS.getMessage()).toString()));
 

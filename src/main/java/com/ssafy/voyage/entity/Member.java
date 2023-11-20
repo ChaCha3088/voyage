@@ -1,6 +1,5 @@
 package com.ssafy.voyage.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.voyage.auth.entity.RefreshToken;
 import com.ssafy.voyage.auth.enumstorage.MemberRole;
 import com.ssafy.voyage.auth.enumstorage.MemberStatus;
@@ -9,16 +8,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.Store;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -53,6 +48,8 @@ public class Member extends BaseEntity {
 
     @NotNull
     private int logInAttempt = 0;
+
+    private String profileImageUrl;
 
     @Builder
     protected Member(String name, String email, String password, String city, String street, String zipcode) {
@@ -115,13 +112,9 @@ public class Member extends BaseEntity {
         this.status = MemberStatus.DELETED;
     }
 
-    //== 테스트 로직 ==//
-    public void switchRole() {
-        if (this.role == MemberRole.ADMIN) {
-            this.role = MemberRole.MEMBER;
-        } else {
-            this.role = MemberRole.ADMIN;
-        }
+    //== 비즈니스 로직 ==//
+    public void setProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
     //==연관관계 메소드==//
@@ -138,6 +131,7 @@ public class Member extends BaseEntity {
         return MemberDto.builder()
             .email(this.email)
             .name(this.name)
+            .profileImageUrl(this.profileImageUrl)
             .build();
     }
 }

@@ -7,7 +7,6 @@ import com.ssafy.voyage.auth.dto.JwtFindDto;
 import com.ssafy.voyage.auth.entity.RefreshToken;
 import com.ssafy.voyage.auth.exception.NoAccessTokenException;
 import com.ssafy.voyage.auth.exception.NoSuchRefreshTokenInDBException;
-import com.ssafy.voyage.auth.message.JwtMessages;
 import com.ssafy.voyage.entity.Member;
 import com.ssafy.voyage.exception.NoSuchMemberException;
 import com.ssafy.voyage.auth.repository.refreshtoken.RefreshTokenRepository;
@@ -15,7 +14,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.voyage.repository.MemberRepository;

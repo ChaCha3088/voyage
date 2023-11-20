@@ -7,7 +7,6 @@ public enum MemberMessages {
     MEMBER("회원 "),
     SIGN_UP("가입 "),
     TEMPORARY_MEMBER("임시 회원 "),
-    NAME("이름 "),
     EMAIL("이메일 "),
     ID("아이디 "),
     PASSWORD("비밀번호 "),

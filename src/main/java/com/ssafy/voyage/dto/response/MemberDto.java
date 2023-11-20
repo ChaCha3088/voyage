@@ -3,14 +3,20 @@ package com.ssafy.voyage.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 public class MemberDto {
-    private String email;
-    private String name;
+    @NotBlank
+    protected String email;
+    @NotBlank
+    protected String name;
+    protected String profileImageUrl;
 
     @Builder
-    public MemberDto(String email, String name) {
+    protected MemberDto(String email, String name, String profileImageUrl) {
         this.email = email;
         this.name = name;
+        this.profileImageUrl = profileImageUrl;
     }
 }

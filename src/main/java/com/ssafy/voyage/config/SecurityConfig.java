@@ -8,7 +8,6 @@ import com.ssafy.voyage.auth.handler.MemberSignInFailureHandler;
 import com.ssafy.voyage.auth.handler.MemberSignInSuccessHandler;
 import com.ssafy.voyage.auth.provider.MemberAuthenticationProvider;
 import com.ssafy.voyage.auth.service.PrincipalUserDetailsService;
-import com.ssafy.voyage.filter.APIContentTypeFilter;
 import com.ssafy.voyage.auth.filter.AuthenticationProcessFilter;
 
 import com.ssafy.voyage.auth.filter.MemberAuthenticationFilter;
@@ -35,7 +34,6 @@ public class SecurityConfig {
     private final MemberSignInSuccessHandler memberSignInSuccessHandler;
     private final JwtSignOutHandler jwtSignOutHandler;
     private final AuthenticationProcessFilter authenticationProcessFilter;
-    private final APIContentTypeFilter apiContentTypeFilter;
     private final MemberAuthenticationProvider memberAuthenticationProvider;
     private final CorsConfig corsConfig;
 
@@ -69,8 +67,7 @@ public class SecurityConfig {
 
         //Filter
         http
-            .addFilterBefore(apiContentTypeFilter, LogoutFilter.class)
-            .addFilterAfter(authenticationProcessFilter, APIContentTypeFilter.class)
+            .addFilterBefore(authenticationProcessFilter, LogoutFilter.class)
             .addFilterAfter(memberAuthenticationFilter(), AuthenticationProcessFilter.class);
 
         //로그인

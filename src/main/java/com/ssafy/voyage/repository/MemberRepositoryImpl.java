@@ -1,5 +1,6 @@
 package com.ssafy.voyage.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.voyage.auth.enumstorage.MemberStatus;
 import com.ssafy.voyage.entity.Member;
@@ -39,6 +40,20 @@ public class MemberRepositoryImpl implements MemberRepositoryQueryDsl {
                         .fetchOne()
         );
     }
+
+    @Override
+    public Optional<Member> findNotDeletedByEmailForAuthentication(String email) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(member)
+                        .where(member.email.eq(email)
+                                .and(member.status.ne(MemberStatus.DELETED)))
+                        .fetchOne()
+        );
+    }
+
 
     @Override
     public Optional<Member> findNotDeletedByEmailWithRefreshToken(String email) {

@@ -9,14 +9,14 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class MemberUpdateDto {
+public class MemberPasswordUpdateDto {
     @NotBlank
     private String password;
     @NotBlank
     private String passwordAgain;
 
     @Builder
-    public MemberUpdateDto(String password, String passwordAgain) {
+    public MemberPasswordUpdateDto(String password, String passwordAgain) {
         this.password = password;
         this.passwordAgain = passwordAgain;
     }

@@ -22,6 +22,7 @@ public enum Messages {
     ALREADY("이미 "),
     SUCH("해당하는 "),
     FORMAT("형식 "),
+    NAME("이름 "),
     REPEATED("반복된 "),
     CONTAINED("포함된 "),
     IN("안에 "),
@@ -29,7 +30,11 @@ public enum Messages {
     REQUEST_VALIDATION("요청 검증 "),
     ATTEMPT("시도 "),
     REQUEST_HEADER("Request Header "),
-    HEADER("header ");
+    HEADER("header "),
+    ONLY("오직 "),
+    VALID("유효 "),
+    ONE("한개 ")
+    ;
 
     private final String message;
 
