@@ -18,6 +18,7 @@ export const useMemberStore = defineStore("memberStore", () => {
   const isValidToken = ref(false);
 
   const userSignIn = async (User) => {
+    // 로그인
     await signIn(
       User,
       (response) => {
@@ -46,6 +47,7 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const getUserInfo = async () => {
+    // 회원정보
     await getMemberInfo(
       (response) => {
         if (response.status === httpStatusCode.OK) {
@@ -66,6 +68,7 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const userReIssue = async () => {
+    // 재발급
     console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("Authorization"));
     const url = window.location.pathname;
     console.log(url);
@@ -113,6 +116,7 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const userSignOut = async () => {
+    // 로그아웃
     await signOut(
       (response) => {
         if (response.status === httpStatusCode.OK) {

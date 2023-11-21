@@ -22,7 +22,7 @@ const { isDetail } = storeToRefs(attractionStore)
                 <kakaomap />
             </div>
             <div id="right">
-                <result v-if="!isDetail" />
+                <result v-show="!isDetail" />
                 <detail v-if="isDetail" />
             </div>
         </div>

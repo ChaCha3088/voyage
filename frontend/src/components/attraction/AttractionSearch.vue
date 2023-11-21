@@ -1,18 +1,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import sidoApi from '@/api/code.js'
+import { storeToRefs } from "pinia"
 import { userAttractionStore } from "@/stores/attraction";
 
 const attractionStore = userAttractionStore();
 
+const { isConfirm } = storeToRefs(attractionStore)
 const { getAttraction } = attractionStore
 
 // const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
-const code = ref({
-    sidoCode: 0,
-    sidoName: ""
-})
+const code = ref([
+])
 
 const params = ref({
     lastId: 0,
@@ -22,11 +22,11 @@ const params = ref({
     pageSize: 0
 })
 
-const getSidoList = () => {
+const getSidoList = async () => {
     sidoApi.getSidoType(
         ({ data }) => {
             code.value = data
-            // console.log(code.value)
+            console.log(code.value)
         },
         (error) => {
             console.log(error)
@@ -37,12 +37,16 @@ const getSidoList = () => {
 onMounted(() => {
     console.log("AttractionSearch onMounted...")
     getSidoList();
-    getAttraction(params);
+    console.log(code.value)
+
+    params.value.sidoCode = Math.floor(Math.random() * 8);
+    getAttraction(params)
 });
 
 const search = () => {
     getAttraction(params);
 }
+
 
 </script>
 

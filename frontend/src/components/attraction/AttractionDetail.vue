@@ -17,7 +17,10 @@ const change = () => {
         <table>
             <thead>
                 <tr>
-                    <th>세부 내용<button @click="change">이전으로</button></th>
+                    <th style="display: flex;">세부 내용<div data-bs-theme="dark">
+                            <button type="button" class="btn-close" aria-label="Close" @click="change"></button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
