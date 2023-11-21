@@ -24,17 +24,22 @@ export const userAttractionStore = defineStore("attractionStore", () => {
     prev.value = param.value;
     getList(
       param.value,
-      ({ data }) => {
+      ({ data }, response) => {
+        // if (response.status === httpStatusCode.OK) {
+        console.log(param);
+        console.log(data);
         console.log("getAttraction");
         attractionList.value = data;
         // data.forEach((item) => attractionList.push(item));
-        lastId.value = attractionList.value[attractionList.value.length - 1].contentId;
+        if (attractionList.value.length != 0)
+          lastId.value = attractionList.value[attractionList.value.length - 1].contentId;
         // console.log(list.value.length);
         // console.log(lastId.value);
         // console.log(list.value);
         // console.log(data);
         // console.log(param);
         console.log(attractionList.value);
+        // }
       },
       (error) => {
         console.error(error);
@@ -48,7 +53,9 @@ export const userAttractionStore = defineStore("attractionStore", () => {
       prev.value,
       ({ data }) => {
         data.forEach((item) => attractionList.value.push(item));
-        lastId.value = attractionList.value[attractionList.value.length - 1].contentId;
+
+        if (attractionList.value.length != 0)
+          lastId.value = attractionList.value[attractionList.value.length - 1].contentId;
         // console.log(lastId.value);
         // console.log(list);
         // console.log(data);

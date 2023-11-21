@@ -6,7 +6,6 @@ import { userAttractionStore } from "@/stores/attraction";
 
 const attractionStore = userAttractionStore();
 
-const { isConfirm } = storeToRefs(attractionStore)
 const { getAttraction } = attractionStore
 
 // const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
@@ -38,13 +37,13 @@ onMounted(() => {
     console.log("AttractionSearch onMounted...")
     getSidoList();
     console.log(code.value)
-
-    params.value.sidoCode = Math.floor(Math.random() * 8);
+    //Math.floor(Math.random() * 8),
     getAttraction(params)
 });
 
 const search = () => {
     getAttraction(params);
+
 }
 
 

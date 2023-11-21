@@ -10,6 +10,7 @@ const { fullList, desc, isConfirm } = storeToRefs(attractionStore)
 var map;
 const positions = ref([]);
 const markers = ref([]);
+const layers = ref([]);
 
 watch(
   () => desc.value,
@@ -61,6 +62,7 @@ watch(
   { deep: true }
 ); // 관광지 리스트 변경시 마커 새로 
 
+
 // 맵 초기화
 const initMap = () => {
   const container = document.getElementById("map");
@@ -83,6 +85,7 @@ const loadMarkers = () => {
   //   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
   // 마커를 생성합니다
   markers.value = [];
+  layers.value = [];
   positions.value.forEach((pos) => {
     const marker = new kakao.maps.Marker({
       map: map, // 마커를 표시할 지도
@@ -150,8 +153,14 @@ const loadMarkers = () => {
     // desc - > ellipsis
 
     overlay.setContent(content);
+    layers.value.push(overlay)
 
     kakao.maps.event.addListener(marker, 'click', function () {
+
+      layers.value.forEach((item) => {
+        item.setMap(null)
+      })
+
       overlay.setMap(map);
     });
 
