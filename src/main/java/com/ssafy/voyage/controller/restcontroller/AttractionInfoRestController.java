@@ -7,6 +7,7 @@ import com.ssafy.voyage.message.cause.AttractionCause;
 import com.ssafy.voyage.message.cause.Causes;
 import com.ssafy.voyage.service.AttractionInfoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import static com.ssafy.voyage.message.message.Messages.REQUEST_VALIDATION;
 import static com.ssafy.voyage.message.message.Messages.INVALID;
 
 @RestController
-@RequestMapping("/api/attraction")
+@RequestMapping(value = "/api/attraction", consumes = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class AttractionInfoRestController {
     private final AttractionInfoService attractionInfoService;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.voyage.auth.dto.SignInRequestDto;
 import com.ssafy.voyage.auth.handler.MemberSignInFailureHandler;
 import com.ssafy.voyage.auth.handler.MemberSignInSuccessHandler;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -45,9 +46,9 @@ public class MemberAuthenticationFilter extends AbstractAuthenticationProcessing
     //5. JWT를 만들어서 응답해주면 됨
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
-        // Content-Type이 null이거나, method가 POST가 아니면 예외 발생
-        if (request.getContentType() == null || !request.getMethod().equals("POST")) {
-            response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        // Content-Type이 null이거나, application/json이 아니거나, method가 POST가 아니면 예외 발생
+        if (request.getContentType() == null || !request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE) || !request.getMethod().equals("POST")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
             throw new AuthenticationException("Authentication method not supported: " + request.getMethod() + " " + request.getContentType()) {
                 @Override

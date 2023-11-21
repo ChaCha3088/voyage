@@ -60,6 +60,9 @@ dependencies {
         "javax.annotation:javax.annotation-api",
         "com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
+    // AWS
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
     // Lombok
     compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
