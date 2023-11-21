@@ -20,23 +20,25 @@ export const useMemberStore = defineStore("member", () => {
 
     const refreshToken = ref(localStorage.getItem("Authorization-refresh"));
 
-    const setRefreshToken = computed(() => {
-        refreshToken.value = localStorage.getItem("Authorization-refresh");
+    // const setRefreshToken = computed(() => {
+    //     refreshToken.value = localStorage.getItem("Authorization-refresh")
 
-        return refreshToken.value;
-    });
+    //     return refreshToken.value;
+    // }) ;
 
     const userInit = false;
 
     watch(tokenChange, () => {
-        refreshToken.value = setRefreshToken.value;
+        refreshToken.value = localStorage.getItem("Authorization-refresh")
+        
         console.log(refreshToken.value);
 
         if (refreshToken.value != null) {
             console.log("memberGet");
             memberGet();
         }
-    });
+
+    }, { deep: true });
 
     const memberSignIn = async (userForm) => {
         await signIn(
@@ -54,7 +56,7 @@ export const useMemberStore = defineStore("member", () => {
             },
             (error) => {
                 alert("로그인 실패" + "\n" + error.response.data);
-            }
+            },
         );
     };
 
@@ -123,7 +125,7 @@ export const useMemberStore = defineStore("member", () => {
                 if (response.status === httpStatusCode.OK) {
                     localStorage.removeItem("Authorization");
                     localStorage.removeItem("Authorization-refresh");
-                    refreshToken.value = null
+                    // refreshToken.value = localStorage.getItem("Authorization-refresh")
                     tokenChange.value += 1;
 
                     // userInfo 비우기
