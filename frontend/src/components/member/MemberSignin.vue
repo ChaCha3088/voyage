@@ -1,7 +1,13 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import memberApi from '@/api/member.js'
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+
+const memberStore = useMemberStore();
+
+const { isLogin, userInfo } = storeToRefs(memberStore);
+const { userSignIn, getUserInfo } = memberStore;
 
 
 const router = useRouter();
@@ -11,14 +17,22 @@ const User = ref({
     password: "",
 });
 
-const signIn = () => {
-    memberApi.signIn(User.value,
-        ({ data }) => {
+const signIn = async () => {
+    await userSignIn(User.value);
+    let token = sessionStorage.getItem("Authorization");
+    console.log("토큰. ", token);
+    console.log("isLogin: ", isLogin);
+    if (isLogin) {
+        console.log("로그인 성공");
+        await getUserInfo()
+        router.push("/");
+    } 
+    
+};
 
-        }, (error) => {
-            console.log(error)
-        })
-    router.push("/");
+const emailLength = (event) => {
+    // console.log(event.target.value.length)
+    console.log(event.target.value.includes("@"))
 }
 
 </script>
@@ -31,7 +45,7 @@ const signIn = () => {
             <form action=" " class="group" method="POST" novalidate>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
-                        v-model="User.email">
+                        v-model="User.email" v-on:input="emailLength($event)">
                     <label for="floatingInput">이메일 주소</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -39,9 +53,10 @@ const signIn = () => {
                         v-model="User.password" @keyup.enter="signIn">
                     <label for="floatingPassword">비밀번호</label>
                 </div>
-                <button class="btn btn-outline-success" type="button" @click="signIn">로그인</button>
+                <button class="w-100 btn btn-lg btn-primary" type="button" @click="signIn">Sign in</button>
             </form>
         </div>
+
         <div class="mt-4 flex justify-center items-center">
             <span class="text-gray-500 text-sm mr-2">아이디가 없으신가요? </span>
             <router-link :to="{ name: 'signup' }">회원가입</router-link>

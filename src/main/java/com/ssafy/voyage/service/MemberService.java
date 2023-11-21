@@ -49,10 +49,10 @@ public class MemberService {
     @Transactional
     public long createMember(MemberCreationDto memberCreationDto) throws DataIntegrityViolationException {
         Member newMember = Member.builder()
-            .email(memberCreationDto.getEmail())
-            .password(passwordEncoder.encode(memberCreationDto.getPassword()))
-            .name(memberCreationDto.getName())
-            .build();
+                .email(memberCreationDto.getEmail())
+                .password(passwordEncoder.encode(memberCreationDto.getPassword()))
+                .name(memberCreationDto.getName())
+                .build();
 
         return memberRepository.save(newMember).getId();
     }
@@ -124,7 +124,7 @@ public class MemberService {
     @Transactional
     public void deleteMember(String email, HttpServletResponse response) throws NoSuchMemberException,IllegalArgumentException, SdkBaseException {
         Member member = memberRepository.findNotDeletedByEmailWithRefreshToken(email)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
 
         // 발급한 RefreshToken 전부 지우세요
         for (RefreshToken refreshToken : member.getRefreshTokens()) {
@@ -143,6 +143,6 @@ public class MemberService {
 
     private Member getMemberByEmail(String email) {
         return memberRepository.findNotDeletedByEmail(email)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
     }
 }

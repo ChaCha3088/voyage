@@ -37,8 +37,8 @@ public class Sido {
     // -- Dto -- //
     public SidoDto toDto() {
         return SidoDto.builder()
-            .sidoCode(sidoCode)
-            .sidoName(sidoName)
-            .build();
+                .sidoCode(sidoCode)
+                .sidoName(sidoName)
+                .build();
     }
 }

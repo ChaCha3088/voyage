@@ -40,7 +40,7 @@ a,
 
 .p {
   text-align: center;
-  padding-top: 140px;
+  padding-top: 3vh;
   padding-bottom: 3vh;
   font-size: 14px;
 }

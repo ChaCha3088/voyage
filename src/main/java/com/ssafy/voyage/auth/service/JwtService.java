@@ -64,7 +64,7 @@ public class JwtService {
     public String[] issueJwts(String email) throws NoSuchMemberException {
         // email로 member를 찾는다.
         Member member = memberRepository.findNotDeletedByEmailWithRefreshToken(email)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
 
         // 기존 Refresh Token 전부 삭제
         Set<RefreshToken> refreshTokensInDB = member.getRefreshTokens();
@@ -72,32 +72,32 @@ public class JwtService {
 
         // refresh token을 발급한다.
         String newRefreshToken = JWT.create()
-            .withIssuer("LetMeKnow")
-            .withSubject("refreshToken")
-            .withIssuedAt(new Date(System.currentTimeMillis()))
-            .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
-            .withClaim("email", member.getEmail())
-            .withClaim("issuedTime", System.currentTimeMillis())
-            .sign(Algorithm.HMAC512(secret));
+                .withIssuer("LetMeKnow")
+                .withSubject("refreshToken")
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .withClaim("email", member.getEmail())
+                .withClaim("issuedTime", System.currentTimeMillis())
+                .sign(Algorithm.HMAC512(secret));
 
         // 새로 발급한 refreshToken을 DB에 저장
         RefreshToken refreshTokenEntity = RefreshToken.builder()
-            .member(member)
-            .refreshToken(newRefreshToken)
-            .build();
+                .member(member)
+                .refreshToken(newRefreshToken)
+                .build();
 
         refreshTokenRepository.save(refreshTokenEntity);
         memberRepository.save(member);
 
         // access token을 발급한다.
         String newAccessToken = JWT.create()
-            .withIssuer("LetMeKnow")
-            .withSubject("accessToken")
-            .withIssuedAt(new Date(System.currentTimeMillis()))
-            .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
-            .withClaim("email", email)
-            .withClaim("issuedTime", System.currentTimeMillis())
-            .sign(Algorithm.HMAC512(secret));
+                .withIssuer("LetMeKnow")
+                .withSubject("accessToken")
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .withClaim("email", email)
+                .withClaim("issuedTime", System.currentTimeMillis())
+                .sign(Algorithm.HMAC512(secret));
 
         return new String[] {newAccessToken, newRefreshToken};
     }
@@ -105,48 +105,48 @@ public class JwtService {
     @Transactional(noRollbackFor = NoSuchRefreshTokenInDBException.class)
     public String[] reissueJwts(String email, String refreshToken) throws IllegalArgumentException, JWTVerificationException, NoSuchMemberException, NoSuchRefreshTokenInDBException {
         Member member = memberRepository.findNotDeletedByEmailWithRefreshToken(email)
-            .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
+                .orElseThrow(() -> new NoSuchMemberException(new StringBuffer().append(SUCH.getMessage()).append(MEMBER.getMessage()).append(NOT_EXISTS.getMessage()).toString()));
 
         RefreshToken refreshTokenInDB = refreshTokenRepository.findByRefreshToken(refreshToken)
-            // DB에 해당 refreshToken이 없으면, 유효하지 않은 refreshToken이므로
-            .orElseThrow(()
-                // 예외 발생
-                -> {
-                // refreshToken 전부 지우기
-                removeAllRefreshTokens(member.getRefreshTokens());
-                memberRepository.save(member);
+                // DB에 해당 refreshToken이 없으면, 유효하지 않은 refreshToken이므로
+                .orElseThrow(()
+                        // 예외 발생
+                        -> {
+                    // refreshToken 전부 지우기
+                    removeAllRefreshTokens(member.getRefreshTokens());
+                    memberRepository.save(member);
 
-                return new NoSuchRefreshTokenInDBException(new StringBuffer().append(SUCH.getMessage()).append(REFRESH_TOKEN.getMessage()).append(NOT_EXISTS.getMessage()).toString());
-            });
+                    return new NoSuchRefreshTokenInDBException(new StringBuffer().append(SUCH.getMessage()).append(REFRESH_TOKEN.getMessage()).append(NOT_EXISTS.getMessage()).toString());
+                });
 
         // 원래 있는 refresh Token 전부 날린다.
         removeAllRefreshTokens(member.getRefreshTokens());
 
         // refresh token을 발급한다.
         String newRefreshToken = JWT.create()
-            .withIssuer("LetMeKnow")
-            .withSubject("refreshToken")
-            .withIssuedAt(new Date(System.currentTimeMillis()))
-            .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
-            .withClaim("email", email)
-            .withClaim("issuedTime", System.currentTimeMillis())
-            .sign(Algorithm.HMAC512(secret));
+                .withIssuer("LetMeKnow")
+                .withSubject("refreshToken")
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .withClaim("email", email)
+                .withClaim("issuedTime", System.currentTimeMillis())
+                .sign(Algorithm.HMAC512(secret));
 
         // access token을 발급한다.
         String newAccessToken = JWT.create()
-            .withIssuer("LetMeKnow")
-            .withSubject("accessToken")
-            .withIssuedAt(new Date(System.currentTimeMillis()))
-            .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
-            .withClaim("email", email)
-            .withClaim("issuedTime", System.currentTimeMillis())
-            .sign(Algorithm.HMAC512(secret));
+                .withIssuer("LetMeKnow")
+                .withSubject("accessToken")
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .withClaim("email", email)
+                .withClaim("issuedTime", System.currentTimeMillis())
+                .sign(Algorithm.HMAC512(secret));
 
         // 새 refresh Token을 저장한다.
         RefreshToken newRefreshTokenEntity = RefreshToken.builder()
-            .refreshToken(newRefreshToken)
-            .member(member)
-            .build();
+                .refreshToken(newRefreshToken)
+                .member(member)
+                .build();
 
         refreshTokenRepository.save(newRefreshTokenEntity);
         memberRepository.save(member);
@@ -167,14 +167,14 @@ public class JwtService {
      */
     public String extractAccessToken(HttpServletRequest request) throws NoAccessTokenException {
         return Optional.ofNullable(request.getHeader(ACCESS_TOKEN_HEADER))
-            .orElseThrow(() -> new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(HEADER.getMessage()).append(NOT_FOUND.getMessage()).toString()))
-            .replace(BEARER, "");
+                .orElseThrow(() -> new NoAccessTokenException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(HEADER.getMessage()).append(NOT_FOUND.getMessage()).toString()))
+                .replace(BEARER, "");
     }
 
     public String[] validateAndExtractEmailFromAccessToken(HttpServletRequest request) throws JWTVerificationException {
         String accessToken = Optional.ofNullable(request.getHeader(ACCESS_TOKEN_HEADER))
-            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
-            .replace(BEARER, "");
+                .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(ACCESS_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
+                .replace(BEARER, "");
 
         if (accessToken.isBlank()) {
             throw new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString());
@@ -183,12 +183,12 @@ public class JwtService {
         try {
             // accessToken 값 검증
             String email = JWT.require(Algorithm.HMAC512(secret))
-                .withIssuer("LetMeKnow")
-                .withSubject("accessToken")
-                .build() // 반환된 빌더로 JWT verifier 생성
-                .verify(accessToken) // accessToken을 검증하고 유효하지 않다면 예외 발생
-                .getClaim("email") // claim(Email) 가져오기
-                .asString();
+                    .withIssuer("LetMeKnow")
+                    .withSubject("accessToken")
+                    .build() // 반환된 빌더로 JWT verifier 생성
+                    .verify(accessToken) // accessToken을 검증하고 유효하지 않다면 예외 발생
+                    .getClaim("email") // claim(Email) 가져오기
+                    .asString();
 
             return new String[]{email, accessToken};
         }
@@ -204,8 +204,8 @@ public class JwtService {
      */
     public String[] validateAndExtractEmailFromRefreshToken(HttpServletRequest request) throws IllegalArgumentException {
         String refreshToken = Optional.ofNullable(request.getHeader(REFRESH_TOKEN_HEADER))
-            .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
-            .replace(BEARER, "");
+                .orElseThrow(() -> new IllegalArgumentException(new StringBuffer().append(REFRESH_TOKEN.getMessage()).append(NOT_FOUND.getMessage()).toString()))
+                .replace(BEARER, "");
 
         // refreshToken 값 검증
         if (refreshToken.isBlank()) {
@@ -215,12 +215,12 @@ public class JwtService {
         try {
             // refreshToken을 검증한다.
             String emailInRefreshToken = JWT.require(Algorithm.HMAC512(secret))
-                .withIssuer("LetMeKnow")
-                .withSubject("refreshToken")
-                .build()
-                .verify(refreshToken)
-                .getClaim("email")
-                .asString();
+                    .withIssuer("LetMeKnow")
+                    .withSubject("refreshToken")
+                    .build()
+                    .verify(refreshToken)
+                    .getClaim("email")
+                    .asString();
 
             return new String[]{emailInRefreshToken, refreshToken};
         }

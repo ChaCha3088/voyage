@@ -41,7 +41,7 @@ public class AuthRestController {
         authService.signUp(memberCreationDto);
 
         return ResponseEntity.created(
-            URI.create("/api/auth/signin/v1")
+                URI.create("/api/auth/signin/v1")
         ).build();
     }
 
@@ -62,10 +62,10 @@ public class AuthRestController {
         response.setHeader("Location", redirectUrl);
 
         return ResponseEntity.ok(
-            Response.builder()
-                .cause("")
-                .message(new StringBuffer().append(JWT.getMessage()).append(REISSUE.getMessage()).append(SUCCESS.getMessage()).toString())
-                .build()
+                Response.builder()
+                        .cause("")
+                        .message(new StringBuffer().append(JWT.getMessage()).append(REISSUE.getMessage()).append(SUCCESS.getMessage()).toString())
+                        .build()
         );
     }
 
@@ -73,10 +73,10 @@ public class AuthRestController {
     @ExceptionHandler(MemberFormValidationException.class)
     public ResponseEntity handleMemberCreationValidationException(Exception e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(FORM.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(FORM.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 
@@ -84,10 +84,10 @@ public class AuthRestController {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(EMAIL.getMessage())
-                .message(new StringBuffer().append(MemberMessages.EMAIL.getMessage()).append(ALREADY.getMessage()).append(EXISTS.getMessage()).toString())
-                .build()
+                Response.builder()
+                        .cause(EMAIL.getMessage())
+                        .message(new StringBuffer().append(MemberMessages.EMAIL.getMessage()).append(ALREADY.getMessage()).append(EXISTS.getMessage()).toString())
+                        .build()
         );
     }
 
@@ -96,10 +96,10 @@ public class AuthRestController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(JwtCauses.JWT.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(JwtCauses.JWT.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 
@@ -108,13 +108,13 @@ public class AuthRestController {
     @ExceptionHandler({JWTVerificationException.class, NoSuchRefreshTokenInDBException.class})
     public ResponseEntity handleInvalidJWT(RuntimeException e) {
         Response response = Response.builder()
-            .cause(JwtCauses.JWT.getMessage())
-            .message(e.getMessage())
-            .build();
+                .cause(JwtCauses.JWT.getMessage())
+                .message(e.getMessage())
+                .build();
 
         return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .body(response);
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
     }
 
     // 회원이 없을 때
@@ -122,10 +122,10 @@ public class AuthRestController {
     @ExceptionHandler({NoSuchMemberException.class})
     public ResponseEntity handleNoSuchMemberException(NoSuchMemberException e) {
         return ResponseEntity.badRequest().body(
-            Response.builder()
-                .cause(MemberCause.MEMBER.getMessage())
-                .message(e.getMessage())
-                .build()
+                Response.builder()
+                        .cause(MemberCause.MEMBER.getMessage())
+                        .message(e.getMessage())
+                        .build()
         );
     }
 }
