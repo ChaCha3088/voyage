@@ -1,52 +1,87 @@
 <script setup>
-import { ref } from "vue";
+import {computed, ref} from "vue";
+import { useMemberStore } from "@/stores/member";
 import { useRouter } from "vue-router";
-import MemberApi from "@/api/member.js"
 
 const router = useRouter();
 
-const User = ref({
+const memberStore = useMemberStore();
+
+const emailRegex = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
+const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";
+
+const emailValidation = computed(() => {
+    const result = !(userForm.value.email == null || userForm.value.email.trim() === "" || !userForm.value.email.match(emailRegex));
+    console.log("email", result);
+
+    return result;
+});
+
+const passwordValidation = computed(() => {
+    const result = !(userForm.value.password == null || userForm.value.password !== userForm.value.passwordAgain || userForm.value.password.trim() === "" || !userForm.value.password.match(passwordRegex));
+    console.log("password", result);
+
+    return result;
+});
+
+const nameValidation = computed(() => {
+    const result = !(userForm.value.name == null || userForm.value.name.trim() === "");
+    console.log("name", result);
+
+    return result;
+});
+
+const userForm = ref({
     email: "",
     password: "",
     passwordAgain: "",
     name: ""
 });
 
-const signUp = () => {
-    MemberApi.signUp(User.value,
-        ({ data }) => {
-
-        }, () => {
-            console.log("회원가입에 실패")
-        })
-    router.push("/");
+const signUp = async () => {
+    if (emailValidation.value === true && passwordValidation.value === true && nameValidation.value === true) {
+        await memberStore.memberSignUp(userForm.value)
+            .then(() => {
+                router.push({ name: "signin" });
+            });
+    }
+    else {
+        alert("이메일과 비밀번호를 확인해주세요.");
+    }
 }
-
 </script>
-
 
 <template>
     <div class="login container mt-5 pt-5 mx-auto max-w-xs" id="login">
         <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">| SignUp |</h1>
         <div id="form">
             <form action=" " class="group" method="POST" novalidate>
+                <div v-show="!emailValidation" class="validation">
+                    이메일을 확인해주세요.
+                </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
-                        v-model="User.email">
+                        v-model.lazy="userForm.email">
                     <label for="floatingInput">이메일 주소</label>
+                </div>
+                <div v-show="!passwordValidation" class="validation">
+                    대문자, 소문자, 숫자, 특수문자를 포함 8자리 이상이어야 합니다.
                 </div>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-                        v-model="User.password">
+                        v-model.lazy="userForm.password">
                     <label for="floatingPassword">비밀번호</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPasswordAgain" placeholder="Password"
-                        v-model="User.passwordAgain">
+                        v-model.lazy="userForm.passwordAgain">
                     <label for="floatingPassword">비밀번호 확인</label>
                 </div>
+                <div v-show="!nameValidation" class="validation">
+                    이름을 입력해주세요.
+                </div>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingName" placeholder="홍길동" v-model="User.name">
+                    <input type="email" class="form-control" id="floatingName" placeholder="홍길동" v-model.lazy="userForm.name">
                     <label for="floatingInput">이름</label>
                 </div>
                 <button class="btn btn-outline-success" type="button" @click="signUp">회원가입</button>
@@ -54,7 +89,7 @@ const signUp = () => {
         </div>
         <div class="mt-4 flex justify-center items-center">
             <span class="text-gray-500 text-sm mr-2">이미 아이디가 있으신가요? </span>
-            <router-link :to="{ name: 'login' }">로그인</router-link>
+            <router-link :to="{ name: 'signin' }">로그인</router-link>
         </div>
     </div>
 </template>
@@ -98,5 +133,12 @@ const signUp = () => {
     width: 17vw;
     margin-bottom: 1vh;
 
+}
+
+.validation {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: var(--bs-form-invalid-color);
 }
 </style>
