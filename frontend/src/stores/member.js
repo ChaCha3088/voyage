@@ -123,7 +123,7 @@ export const useMemberStore = defineStore("member", () => {
                 if (response.status === httpStatusCode.OK) {
                     localStorage.removeItem("Authorization");
                     localStorage.removeItem("Authorization-refresh");
-
+                    refreshToken.value = null
                     tokenChange.value += 1;
 
                     // userInfo 비우기
