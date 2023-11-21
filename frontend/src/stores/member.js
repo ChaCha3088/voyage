@@ -1,149 +1,192 @@
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { defineStore } from "pinia";
-import { jwtDecode } from "jwt-decode";
+import {computed, ref, watch} from "vue";
+import {useRouter} from "vue-router";
+import {defineStore} from "pinia";
 
-import { signIn, reIssue, signOut, getMemberInfo } from "@/api/member";
-import { httpStatusCode } from "@/utils/http-status";
+import { signIn, signUp, reissueJwts, signOut, getMember } from "@/api/member";
+import { changeMemberPassword, deleteMember } from "@/api/member.js"
 
-export const useMemberStore = defineStore("memberStore", () => {
-  const router = useRouter();
+import {httpStatusCode} from "@/utils/http-status";
 
-  const isLogin = ref(false);
-  const isLoginError = ref(false);
-  const userInfo = ref({
-    email: "",
-    name: "",
-  });
-  const isValidToken = ref(false);
+export const useMemberStore = defineStore("member", () => {
+    const router = useRouter();
 
-  const userSignIn = async (User) => {
-    // 로그인
-    await signIn(
-      User,
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          let accessToken = response.headers.get("Authorization");
-          let refreshToken = response.headers.get("Authorization-refresh");
-          console.log("accessToken", accessToken);
-          console.log("refreshToken", refreshToken);
-          isLogin.value = true;
-          isLoginError.value = false;
-          isValidToken.value = true;
-          sessionStorage.setItem("Authorization", accessToken);
-          sessionStorage.setItem("Authorization-refresh", refreshToken);
-          console.log("sessiontStorage 저장", isLogin.value);
-        } else {
-          console.log("로그인 실패");
-          isLogin.value = false;
-          isLoginError.value = true;
-          isValidToken.value = false;
+    let userInfo = ref({
+        email: "",
+        name: "",
+        profileImageUrl: "",
+    });
+
+    const tokenChange = ref(0);
+
+    const refreshToken = ref(localStorage.getItem("Authorization-refresh"));
+
+    const setRefreshToken = computed(() => {
+        refreshToken.value = localStorage.getItem("Authorization-refresh");
+
+        return refreshToken.value;
+    });
+
+    const userInit = false;
+
+    watch(tokenChange, () => {
+        refreshToken.value = setRefreshToken.value;
+        console.log(refreshToken.value);
+
+        if (refreshToken.value != null) {
+            console.log("memberGet");
+            memberGet();
         }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  };
+    });
 
-  const getUserInfo = async () => {
-    // 회원정보
-    await getMemberInfo(
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          userInfo.value.email = response.data.email;
-          userInfo.value.name = response.data.name;
-          console.log("3. getUserInfo data >> ", response.data);
-        } else {
-          console.log("유저 정보 없음");
-        }
-      },
-      async (error) => {
-        console.error("getUserInfo() error code [토큰 만료] ::: ", error.response.status);
-        isValidToken.value = false;
-
-        await userReIssue();
-      }
-    );
-  };
-
-  const userReIssue = async () => {
-    // 재발급
-    console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("Authorization"));
-    const url = window.location.pathname;
-    console.log(url);
-    await reIssue(
-      url,
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          let accessToken = response.headers.get("Authorization");
-          let refreshToken = response.headers.get("Authorization-refresh");
-          console.log("재발급 완료 >> 새로운 토큰 : {}", accessToken);
-          console.log("재발급 완료 >> 새로운 리프레시 토큰 : {}", refreshToken);
-          sessionStorage.setItem("Authorization", accessToken);
-          sessionStorage.setItem("Authorization-refresh", refreshToken);
-          isValidToken.value = true;
-        }
-      },
-      async (error) => {
-        // HttpStatus.UNAUTHORIZE(401) : RefreshToken 기간 만료 >> 다시 로그인!!!!
-        if (error.response.status === httpStatusCode.UNAUTHORIZED) {
-          console.log("갱신 실패");
-          // 다시 로그인 전 DB에 저장된 RefreshToken 제거.
-          await signOut(
-            userInfo.value.email,
+    const memberSignIn = async (userForm) => {
+        await signIn(
+            userForm,
             (response) => {
-              if (response.status === httpStatusCode.OK) {
-                console.log("리프레시 토큰 제거 성공");
-              } else {
-                console.log("리프레시 토큰 제거 실패");
-              }
-              alert("RefreshToken 기간 만료 다시 로그인해 주세요.");
-              isLogin.value = false;
-              userInfo.value = null;
-              isValidToken.value = false;
-              router.push({ name: "login" });
+                if (response.status === httpStatusCode.OK) {
+                    let accessToken = response.headers.get("Authorization");
+                    let refreshToken = response.headers.get("Authorization-refresh");
+
+                    localStorage.setItem("Authorization", accessToken);
+                    localStorage.setItem("Authorization-refresh", refreshToken);
+
+                    tokenChange.value += 1;
+                }
             },
             (error) => {
-              console.error(error);
-              isLogin.value = false;
-              userInfo.value = null;
+                alert("로그인 실패" + "\n" + error.response.data);
             }
-          );
-        }
-      }
-    );
-  };
+        );
+    };
 
-  const userSignOut = async () => {
-    // 로그아웃
-    await signOut(
-      (response) => {
-        if (response.status === httpStatusCode.OK) {
-          isLogin.value = false;
-          //userInfo.value = null;
-          isValidToken.value = false;
-          console.log("로그아웃");
-          sessionStorage.removeItem("Authorization");
-          sessionStorage.removeItem("Authorization-refresh");
-        } else {
-          //console.error("유저 정보 없음");
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  };
+    const memberSignUp = async (userForm) => {
+        await signUp(
+            userForm,
+            (response) => {
+                if (response.status === httpStatusCode.CREATED) {
+                    alert("회원가입 성공");
+                }
+            },
+            (error) => {
+                alert("회원가입 실패" + "\n" + error.response.data);
+            }
+        );
+    }
 
-  return {
-    isLogin,
-    isLoginError,
-    userInfo,
-    isValidToken,
-    userSignIn,
-    getUserInfo,
-    userReIssue,
-    userSignOut,
-  };
+    const memberGet = async () => {
+        await getMember(
+            (response) => {
+                if (response.status === httpStatusCode.OK) {
+                    userInfo.value.email = response.data.email;
+                    userInfo.value.name = response.data.name;
+                    userInfo.value.profileImageUrl = response.data.profileImageUrl;
+                }
+            },
+            async () => {
+                await memberSignOut();
+            }
+        );
+    };
+
+    const jwtReissue = async () => {
+        const url = window.location.pathname;
+
+        await reissueJwts(
+            url,
+            (response) => {
+                if (response.status === httpStatusCode.OK) {
+                    let accessToken = response.headers.get("Authorization");
+                    let refreshToken = response.headers.get("Authorization-refresh");
+
+                    localStorage.setItem("Authorization", accessToken);
+                    localStorage.setItem("Authorization-refresh", refreshToken);
+
+                    tokenChange.value += 1;
+                }
+            },
+            async () => {
+
+                localStorage.removeItem("Authorization");
+                localStorage.removeItem("Authorization-refresh");
+
+                tokenChange.value += 1;
+
+                alert("RefreshToken 기간 만료 다시 로그인해 주세요.");
+
+                router.push({name : "SignIn"});
+            }
+        );
+    };
+
+    const memberSignOut = async () => {
+        await signOut(
+            (response) => {
+                if (response.status === httpStatusCode.OK) {
+                    localStorage.removeItem("Authorization");
+                    localStorage.removeItem("Authorization-refresh");
+
+                    tokenChange.value += 1;
+
+                    // userInfo 비우기
+                    userInfo = ref({
+                        email: "",
+                        name: "",
+                        profileImageUrl: "",
+                    });
+                }
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    };
+
+    const memberChangePassword = async (userForm) => {
+        await changeMemberPassword({
+                password: userForm.value.password,
+                passwordAgain: userForm.value.passwordAgain
+            },
+            () => {
+                userForm.value.password = "";
+                userForm.value.passwordAgain = "";
+                alert("비밀번호 수정 완료");
+            },
+            (error) => {
+                alert("비밀번호 수정 실패" + "\n" + error.response.data);
+            });
+    }
+
+    const memberDelete = async () => {
+        await deleteMember(
+            () => {
+                localStorage.removeItem("Authorization");
+                localStorage.removeItem("Authorization-refresh");
+
+                tokenChange.value += 1;
+                // userInfo 비우기
+                userInfo = ref({
+                    email: "",
+                    name: "",
+                    profileImageUrl: "",
+                });
+
+                router.push("/")
+            },
+            (error) => {
+                alert("회원 탈퇴 실패" + "\n" + error.response.data);
+            })
+    }
+
+    return {
+        userInfo,
+        tokenChange,
+        refreshToken,
+        userInit,
+        memberSignIn,
+        memberSignUp,
+        memberGet,
+        jwtReissue,
+        memberSignOut,
+        memberChangePassword,
+        memberDelete
+    };
 });

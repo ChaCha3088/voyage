@@ -50,17 +50,9 @@ public class MemberRestController {
     public ResponseEntity updatePassword(@Valid @RequestBody MemberPasswordUpdateDto memberPasswordUpdateDto, HttpServletRequest request) throws NoSuchMemberException, MemberFormValidationException {
         String email = (String) request.getAttribute("email");
 
-        Member updatedMember = memberService.updatePassword(memberPasswordUpdateDto, email);
+        memberService.updatePassword(memberPasswordUpdateDto, email);
 
-        return ResponseEntity.ok()
-            .body(
-                MemberDto
-                    .builder()
-                    .email(updatedMember.getEmail())
-                    .name(updatedMember.getName())
-                    .profileImageUrl(updatedMember.getProfileImageUrl())
-                    .build()
-            );
+        return ResponseEntity.noContent().build();
     }
 
     // 회원 프로필 사진 수정
