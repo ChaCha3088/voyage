@@ -1,9 +1,8 @@
 <script setup>
-import { watch } from "vue";
-import { userAttractionStore } from "@/stores/attraction";
+import { useAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
-const attractionStore = userAttractionStore();
+const attractionStore = useAttractionStore();
 
 const { fullList } = storeToRefs(attractionStore)
 const { nextAttraction, detail } = attractionStore

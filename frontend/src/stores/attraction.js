@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { getList, getDetail } from "@/api/attractionInfo.js";
 import { httpStatusCode } from "@/utils/http-status";
 
-export const userAttractionStore = defineStore("attractionStore", () => {
+export const useAttractionStore = defineStore("attractionStore", () => {
   const attractionList = ref([]); // 관광지 목록
   const prev = ref({}); // 이전 파라미터
   const lastId = ref(0);

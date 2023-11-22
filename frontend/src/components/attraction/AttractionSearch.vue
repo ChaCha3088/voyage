@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import sidoApi from '@/api/code.js'
-import { userAttractionStore } from "@/stores/attraction";
+import { useAttractionStore } from "@/stores/attraction";
 import { httpStatusCode } from "@/utils/http-status";
 
-const attractionStore = userAttractionStore();
+const attractionStore = useAttractionStore();
 
 const { getAttraction } = attractionStore
 

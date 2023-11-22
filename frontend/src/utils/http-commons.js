@@ -25,4 +25,17 @@ function attrationAxios() {
   return instance;
 } // 관광지 api용
 
-export { localAxios, attrationAxios };
+function profileAxios() {
+  const instance = axios.create({
+    baseURL: VITE_API_BASE_URL,
+    // baseURL: "http://localhost:8080",
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": `http://localhost:8080`,
+      "Access-Control-Allow-Credentials": "true",
+    },
+  });
+  return instance;
+}
+
+export { localAxios, attrationAxios, profileAxios };

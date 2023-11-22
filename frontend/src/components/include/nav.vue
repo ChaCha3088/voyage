@@ -76,7 +76,9 @@ onMounted(() => {
                             <div v-show="refreshToken != null">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    {{ userInfo.name }} 님
+                                    <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="45"
+                                        height="45" style="margin-bottom: 10%;" :src="userInfo.profileImageUrl">{{
+                                            userInfo.name }} 님
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                                     <template v-for="menu in menuList" :key="menu.routeName">
