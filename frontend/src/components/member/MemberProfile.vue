@@ -15,7 +15,7 @@ const userForm = ref({
     password: "",
     passwordAgain: "",
     name: userInfo.value.name,
-    profileImage: userInfo.value.profileImage
+    profileImageUrl: userInfo.value.profileImageUrl
 });
 
 const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";
@@ -38,8 +38,6 @@ const changeMemberPassword = async () => {
     }
 };
 
-console.log("refreshToken", refreshToken.value);
-
 if (refreshToken.value == null) {
     router.push({ name: "signin" });
 }
@@ -48,6 +46,18 @@ const deleteMember = async () => {
     await memberDelete()
 }
 
+const profileImageFormData = new FormData();
+
+const file = ref(null);
+
+const addProfileImage = () => {
+
+};
+
+const clear = () => {
+    profileImageFormData.delete("ProfileImage");
+};
+
 </script>
 
 <template>
@@ -55,12 +65,20 @@ const deleteMember = async () => {
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img v-if="userInfo.profileImage != null" class="rounded-circle mt" width="150" height="150"
-                        style="margin-bottom: 10%;" :src="userForm.profileImage">
+                    <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="150" height="150"
+                        style="margin-bottom: 10%;" :src="userForm.profileImageUrl">
+                    <img v-if="file != null" class="rounded-circle mt" width="150" height="150"
+                        style="margin-bottom: 10%;" :src="URL.createObjectURL(file.value)">
                     <img v-else class="rounded-circle mt" width="150" height="150" style="margin-bottom: 10%;"
                         src="https://mblogthumb-phinf.pstatic.net/MjAyMTAyMDRfNjIg/MDAxNjEyNDA4OTk5NDQ4.6UGs399-0EXjIUwwWsYg7o66lDb-MPOVQ-zNDy1Wnnkg.m-WZz0IKKnc5OO2mjY5dOD-0VsfpXg7WVGgds6fKwnIg.JPEG.sunny_side_up12/1612312679152%EF%BC%8D2.jpg?type=w800">
                     <div class="font-weight-bold">{{ userForm.name }}</div>
                     <div class="text-black-50">{{ userForm.email }}</div>
+
+                    <div class="information">
+                        <button class="btn btn-primary profile-button" @click="$refs.fileRef.click">이미지 선택</button>
+                        <input type="file" @change="addProfileImage" ref="fileRef" hidden/>
+                    </div>
+
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
                             @click="changeProfileImage">프로필 사진 변경</button></div>
                     <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
