@@ -8,45 +8,13 @@ const attractionStore = userAttractionStore();
 const { fullList } = storeToRefs(attractionStore)
 const { nextAttraction, detail } = attractionStore
 
-
-// console.log("AttractionResult.vue")
-// // console.log(attractionStore.list)
-// // console.log(list)
-// console.log(fullList.value)
-
-// const attractions = ref([
-// ])
-
-// // console.log(attractions.value[attractions.value.length - 1].contentId)
-
-// watch(
-//     () => fullList.value,
-//     () => {
-//         console.log("AttractionResult.vue watch..")
-//         console.log(fullList.value)
-//     },
-//     { immediate: true }
-// )
-
-// watch(() => attractions.value, () => {
-//     console.log("Result watch")
-//     console.log(attractions.value.length)
-// }, { deep: true, immediate: true })
-
-// watch(
-//     () => isDetail.value,
-//     (newParam) => {
-//         attractions.value = list.value
-//     }
-// )
-
 const more = () => {
     nextAttraction()
-}
+} // 더보기 버튼 클릭시 다음 관광지 목록 얻어오기
 
 const change = (id) => {
     detail(id)
-}
+} // 카드 클릭시
 </script>
 
 <template>

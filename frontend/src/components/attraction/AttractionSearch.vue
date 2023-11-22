@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import sidoApi from '@/api/code.js'
-import { storeToRefs } from "pinia"
 import { userAttractionStore } from "@/stores/attraction";
+import { httpStatusCode } from "@/utils/http-status";
 
 const attractionStore = userAttractionStore();
 
@@ -11,21 +11,22 @@ const { getAttraction } = attractionStore
 // const { VITE_OPEN_API_SERVICE_KEY } = import.meta.env;
 
 const code = ref([
-])
+]) // 시도 코드 - 지역 순
 
 const params = ref({
-    lastId: 0,
+    lastId: 0, // 마지막 id, 0으로 일단 보냄
     sidoCode: 0,
     contentTypeId: 0,
     title: "",
     pageSize: 0
-})
+}) // 관광지 목록을 얻는 파라미터
 
 const getSidoList = async () => {
     sidoApi.getSidoType(
-        ({ data }) => {
-            code.value = data
-            console.log(code.value)
+        (response) => {
+            if (response.status === httpStatusCode.OK) {
+                code.value = response.data
+            }
         },
         (error) => {
             console.log(error)
@@ -34,17 +35,14 @@ const getSidoList = async () => {
 };
 
 onMounted(() => {
-    console.log("AttractionSearch onMounted...")
     getSidoList();
-    console.log(code.value)
     //Math.floor(Math.random() * 8),
     getAttraction(params)
-});
+}); // mount시 시도리스트와 초기 관광지 목록 부르기
 
 const search = () => {
     getAttraction(params);
-
-}
+} // 검색 버튼 클릭시 지정된 파라미터로 검색하기
 
 
 </script>

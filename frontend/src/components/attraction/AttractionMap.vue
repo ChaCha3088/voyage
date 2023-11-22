@@ -5,12 +5,12 @@ import { storeToRefs } from "pinia";
 
 const attractionStore = userAttractionStore();
 
-const { fullList, desc, isConfirm } = storeToRefs(attractionStore)
+const { fullList, desc } = storeToRefs(attractionStore)
 
 var map;
-const positions = ref([]);
-const markers = ref([]);
-const layers = ref([]);
+const positions = ref([]); // 위치
+const markers = ref([]); // 마커
+const layers = ref([]); // 오버레이 객체 관리
 
 watch(
   () => desc.value,
@@ -50,14 +50,14 @@ watch(
       fullList.value.forEach((attr) => {
         let obj = {};
         obj.latlng = new kakao.maps.LatLng(attr.latitude, attr.longitude);
-        obj.title = attr.title;
-        obj.addr = attr.addr1
-        obj.img = attr.firstImage
+        obj.title = attr.title; // 관광지 제목
+        obj.addr = attr.addr1 // 관광지 주소
+        obj.img = attr.firstImage // 관광지 이미지
 
         positions.value.push(obj);
         loadMarkers();
       });
-    }, 100);
+    }, 100); // 동시 참조시 오류 발생해서 시간차이를 두었음
   },
   { deep: true }
 ); // 관광지 리스트 변경시 마커 새로 
@@ -102,6 +102,8 @@ const loadMarkers = () => {
       position: marker.getPosition()
     });
 
+    // 오버레이 생성
+    // 부모 -> 자식
     var content = document.createElement('div');
     content.classList.add("wrap");
 
@@ -159,13 +161,13 @@ const loadMarkers = () => {
 
       layers.value.forEach((item) => {
         item.setMap(null)
-      })
+      }) // 클릭 이벤트 발생시 이미 있는 오버레이 모두 제거
 
-      overlay.setMap(map);
+      overlay.setMap(map); // 이후 새로 오버레이 세팅
     });
 
 
-    // var clusterer = new kakao.maps.MarkerClusterer({
+    //   var clusterer = new kakao.maps.MarkerClusterer({
     //   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
     //   averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
     //   minLevel: 8, // 클러스터 할 최소 지도 레벨
@@ -183,6 +185,8 @@ const loadMarkers = () => {
 
     // clusterer.addMarkers(cluster);
 
+
+
   });
 
   // 4. 지도를 이동시켜주기
@@ -194,6 +198,8 @@ const loadMarkers = () => {
 
   map.setBounds(bounds);
 };
+
+
 
 const deleteMarkers = () => {
   if (markers.value.length > 0) {

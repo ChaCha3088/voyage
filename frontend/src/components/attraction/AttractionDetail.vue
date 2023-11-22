@@ -8,7 +8,8 @@ const { detail } = attractionStore
 
 const change = () => {
     detail(desc.value.contentId)
-}
+} // x 버튼 클릭시
+// 지정된 파라미터는 요구 사항이라 보내는 것이고 실제 쓰지는 않음
 
 </script>
 

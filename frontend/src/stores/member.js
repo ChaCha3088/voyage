@@ -1,194 +1,199 @@
-import {computed, ref, watch} from "vue";
-import {useRouter} from "vue-router";
-import {defineStore} from "pinia";
+import { computed, ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { defineStore } from "pinia";
 
 import { signIn, signUp, reissueJwts, signOut, getMember } from "@/api/member";
-import { changeMemberPassword, deleteMember } from "@/api/member.js"
+import { changeMemberPassword, deleteMember } from "@/api/member.js";
 
-import {httpStatusCode} from "@/utils/http-status";
+import { httpStatusCode } from "@/utils/http-status";
 
 export const useMemberStore = defineStore("member", () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    let userInfo = ref({
-        email: "",
-        name: "",
-        profileImageUrl: "",
-    });
+  let userInfo = ref({
+    email: "",
+    name: "",
+    profileImageUrl: "",
+  });
 
-    const tokenChange = ref(0);
+  const tokenChange = ref(0);
 
-    const refreshToken = ref(localStorage.getItem("Authorization-refresh"));
+  const refreshToken = ref(localStorage.getItem("Authorization-refresh"));
 
-    // const setRefreshToken = computed(() => {
-    //     refreshToken.value = localStorage.getItem("Authorization-refresh")
+  // const setRefreshToken = computed(() => {
+  //     refreshToken.value = localStorage.getItem("Authorization-refresh")
 
-    //     return refreshToken.value;
-    // }) ;
+  //     return refreshToken.value;
+  // }) ;
 
-    const userInit = false;
+  const userInit = false;
 
-    watch(tokenChange, () => {
-        refreshToken.value = localStorage.getItem("Authorization-refresh")
-        
-        console.log(refreshToken.value);
+  watch(
+    tokenChange,
+    () => {
+      refreshToken.value = localStorage.getItem("Authorization-refresh");
 
-        if (refreshToken.value != null) {
-            console.log("memberGet");
-            memberGet();
+      console.log(refreshToken.value);
+
+      if (refreshToken.value != null) {
+        console.log("memberGet");
+        memberGet();
+      }
+    },
+    { deep: true }
+  );
+
+  const memberSignIn = async (userForm) => {
+    await signIn(
+      userForm,
+      (response) => {
+        if (response.status === httpStatusCode.OK) {
+          let accessToken = response.headers.get("Authorization");
+          let refreshToken = response.headers.get("Authorization-refresh");
+
+          localStorage.setItem("Authorization", accessToken);
+          localStorage.setItem("Authorization-refresh", refreshToken);
+
+          tokenChange.value += 1;
         }
+      },
+      (error) => {
+        alert("로그인 실패" + "\n" + error.response.data);
+      }
+    );
+  };
 
-    }, { deep: true });
+  const memberSignUp = async (userForm) => {
+    await signUp(
+      userForm,
+      (response) => {
+        if (response.status === httpStatusCode.CREATED) {
+          alert("회원가입 성공");
+        }
+      },
+      (error) => {
+        alert("회원가입 실패" + "\n" + error.response.data);
+      }
+    );
+  };
 
-    const memberSignIn = async (userForm) => {
-        await signIn(
-            userForm,
-            (response) => {
-                if (response.status === httpStatusCode.OK) {
-                    let accessToken = response.headers.get("Authorization");
-                    let refreshToken = response.headers.get("Authorization-refresh");
+  const memberGet = async () => {
+    await getMember(
+      (response) => {
+        if (response.status === httpStatusCode.OK) {
+          userInfo.value.email = response.data.email;
+          userInfo.value.name = response.data.name;
+          userInfo.value.profileImageUrl = response.data.profileImageUrl;
+        }
+      },
+      async () => {
+        await memberSignOut();
+      }
+    );
+  };
 
-                    localStorage.setItem("Authorization", accessToken);
-                    localStorage.setItem("Authorization-refresh", refreshToken);
+  const jwtReissue = async () => {
+    const url = window.location.pathname;
 
-                    tokenChange.value += 1;
-                }
-            },
-            (error) => {
-                alert("로그인 실패" + "\n" + error.response.data);
-            },
-        );
-    };
+    await reissueJwts(
+      url,
+      (response) => {
+        if (response.status === httpStatusCode.OK) {
+          let accessToken = response.headers.get("Authorization");
+          let refreshToken = response.headers.get("Authorization-refresh");
 
-    const memberSignUp = async (userForm) => {
-        await signUp(
-            userForm,
-            (response) => {
-                if (response.status === httpStatusCode.CREATED) {
-                    alert("회원가입 성공");
-                }
-            },
-            (error) => {
-                alert("회원가입 실패" + "\n" + error.response.data);
-            }
-        );
-    }
+          localStorage.setItem("Authorization", accessToken);
+          localStorage.setItem("Authorization-refresh", refreshToken);
 
-    const memberGet = async () => {
-        await getMember(
-            (response) => {
-                if (response.status === httpStatusCode.OK) {
-                    userInfo.value.email = response.data.email;
-                    userInfo.value.name = response.data.name;
-                    userInfo.value.profileImageUrl = response.data.profileImageUrl;
-                }
-            },
-            async () => {
-                await memberSignOut();
-            }
-        );
-    };
+          tokenChange.value += 1;
+        }
+      },
+      async () => {
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("Authorization-refresh");
 
-    const jwtReissue = async () => {
-        const url = window.location.pathname;
+        tokenChange.value += 1;
 
-        await reissueJwts(
-            url,
-            (response) => {
-                if (response.status === httpStatusCode.OK) {
-                    let accessToken = response.headers.get("Authorization");
-                    let refreshToken = response.headers.get("Authorization-refresh");
+        alert("RefreshToken 기간 만료 다시 로그인해 주세요.");
 
-                    localStorage.setItem("Authorization", accessToken);
-                    localStorage.setItem("Authorization-refresh", refreshToken);
+        router.push({ name: "SignIn" });
+      }
+    );
+  };
 
-                    tokenChange.value += 1;
-                }
-            },
-            async () => {
+  const memberSignOut = async () => {
+    await signOut(
+      (response) => {
+        if (response.status === httpStatusCode.OK) {
+          localStorage.removeItem("Authorization");
+          localStorage.removeItem("Authorization-refresh");
 
-                localStorage.removeItem("Authorization");
-                localStorage.removeItem("Authorization-refresh");
+          tokenChange.value += 1;
 
-                tokenChange.value += 1;
+          // userInfo 비우기
+          userInfo = ref({
+            email: "",
+            name: "",
+            profileImageUrl: "",
+          });
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
 
-                alert("RefreshToken 기간 만료 다시 로그인해 주세요.");
+  const memberChangePassword = async (userForm) => {
+    await changeMemberPassword(
+      {
+        password: userForm.value.password,
+        passwordAgain: userForm.value.passwordAgain,
+      },
+      () => {
+        userForm.value.password = "";
+        userForm.value.passwordAgain = "";
+        alert("비밀번호 수정 완료");
+      },
+      (error) => {
+        alert("비밀번호 수정 실패" + "\n" + error.response.data);
+      }
+    );
+  };
 
-                router.push({name : "SignIn"});
-            }
-        );
-    };
+  const memberDelete = async () => {
+    await deleteMember(
+      () => {
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("Authorization-refresh");
 
-    const memberSignOut = async () => {
-        await signOut(
-            (response) => {
-                if (response.status === httpStatusCode.OK) {
-                    localStorage.removeItem("Authorization");
-                    localStorage.removeItem("Authorization-refresh");
-                    // refreshToken.value = localStorage.getItem("Authorization-refresh")
-                    tokenChange.value += 1;
+        tokenChange.value += 1;
+        // userInfo 비우기
+        userInfo = ref({
+          email: "",
+          name: "",
+          profileImageUrl: "",
+        });
 
-                    // userInfo 비우기
-                    userInfo = ref({
-                        email: "",
-                        name: "",
-                        profileImageUrl: "",
-                    });
-                }
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
-    };
+        router.push("/");
+      },
+      (error) => {
+        alert("회원 탈퇴 실패" + "\n" + error.response.data);
+      }
+    );
+  };
 
-    const memberChangePassword = async (userForm) => {
-        await changeMemberPassword({
-                password: userForm.value.password,
-                passwordAgain: userForm.value.passwordAgain
-            },
-            () => {
-                userForm.value.password = "";
-                userForm.value.passwordAgain = "";
-                alert("비밀번호 수정 완료");
-            },
-            (error) => {
-                alert("비밀번호 수정 실패" + "\n" + error.response.data);
-            });
-    }
-
-    const memberDelete = async () => {
-        await deleteMember(
-            () => {
-                localStorage.removeItem("Authorization");
-                localStorage.removeItem("Authorization-refresh");
-
-                tokenChange.value += 1;
-                // userInfo 비우기
-                userInfo = ref({
-                    email: "",
-                    name: "",
-                    profileImageUrl: "",
-                });
-
-                router.push("/")
-            },
-            (error) => {
-                alert("회원 탈퇴 실패" + "\n" + error.response.data);
-            })
-    }
-
-    return {
-        userInfo,
-        tokenChange,
-        refreshToken,
-        userInit,
-        memberSignIn,
-        memberSignUp,
-        memberGet,
-        jwtReissue,
-        memberSignOut,
-        memberChangePassword,
-        memberDelete
-    };
+  return {
+    userInfo,
+    tokenChange,
+    refreshToken,
+    userInit,
+    memberSignIn,
+    memberSignUp,
+    memberGet,
+    jwtReissue,
+    memberSignOut,
+    memberChangePassword,
+    memberDelete,
+  };
 });

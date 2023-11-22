@@ -13,7 +13,7 @@ function localAxios() {
     },
   });
   return instance;
-}
+} // 유저 api용
 
 function attrationAxios() {
   const instance = axios.create({
@@ -23,7 +23,7 @@ function attrationAxios() {
     },
   });
   return instance;
-}
+} // 관광지 api용
 
 function weatherAxios() {
   const instance = axios.create({

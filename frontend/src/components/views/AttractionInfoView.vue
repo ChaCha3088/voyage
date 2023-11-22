@@ -1,14 +1,12 @@
 <script setup>
 import { shallowRef } from "vue"
 import { storeToRefs } from "pinia";
-import { userAttractionStore } from "@/stores/attraction";
-
-const attractionStore = userAttractionStore();
-
+import { userAttractionStore } from "@/stores/attraction"
 import search from '@/components/attraction/AttractionSearch.vue'
 import kakaomap from '@/components/attraction/AttractionMap.vue'
 import result from '@/components/attraction/AttractionResult.vue'
 import detail from '@/components/attraction/AttractionDetail.vue'
+const attractionStore = userAttractionStore();
 const { isDetail } = storeToRefs(attractionStore)
 
 </script>
