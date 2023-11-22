@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
@@ -7,7 +7,7 @@ import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
 
 const { userInfo, refreshToken } = storeToRefs(memberStore);
-const { memberDelete } = memberStore
+const { memberDelete, profileModify, profileRemove } = memberStore
 const router = useRouter();
 
 const userForm = ref({
@@ -16,6 +16,10 @@ const userForm = ref({
     passwordAgain: "",
     name: userInfo.value.name,
     profileImageUrl: userInfo.value.profileImageUrl
+});
+
+onMounted(() => {
+    userForm.value = userInfo.value
 });
 
 const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";
@@ -46,17 +50,42 @@ const deleteMember = async () => {
     await memberDelete()
 }
 
-const profileImageFormData = new FormData();
-
 const file = ref(null);
+const param = ref(null)
+const addProfileImage = async (event) => {
 
-const addProfileImage = () => {
+    const files = event.target?.files
+    if (files.length > 0) {
+        const temp = files[0]
+        // FileReader 객체 : 웹 애플리케이션이 데이터를 읽고, 저장하게 해줌
+        const reader = new FileReader()
+        param.value = temp
+        // load 이벤트 핸들러. 리소스 로딩이 완료되면 실행됨.
+        reader.onload = (e) => {
+            file.value = e.target.result
+        } // ref previewImage 값 변경
+
+        // 컨텐츠를 특정 file에서 읽어옴. 읽는 행위가 종료되면 loadend 이벤트 트리거함 
+        // & base64 인코딩된 스트링 데이터가 result 속성에 담김
+        reader.readAsDataURL(temp)
+    }
 
 };
+
 
 const clear = () => {
-    profileImageFormData.delete("ProfileImage");
+    file.value = null
+    param.value = null
 };
+
+const changeProfileImage = () => {
+    profileModify(param)
+}
+
+const deleteProfileImage = () => {
+    profileRemove()
+}
+
 
 </script>
 
@@ -65,24 +94,28 @@ const clear = () => {
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="150" height="150"
+                    <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="200" height="200"
                         style="margin-bottom: 10%;" :src="userForm.profileImageUrl">
-                    <img v-if="file != null" class="rounded-circle mt" width="150" height="150"
-                        style="margin-bottom: 10%;" :src="URL.createObjectURL(file.value)">
-                    <img v-else class="rounded-circle mt" width="150" height="150" style="margin-bottom: 10%;"
-                        src="https://mblogthumb-phinf.pstatic.net/MjAyMTAyMDRfNjIg/MDAxNjEyNDA4OTk5NDQ4.6UGs399-0EXjIUwwWsYg7o66lDb-MPOVQ-zNDy1Wnnkg.m-WZz0IKKnc5OO2mjY5dOD-0VsfpXg7WVGgds6fKwnIg.JPEG.sunny_side_up12/1612312679152%EF%BC%8D2.jpg?type=w800">
                     <div class="font-weight-bold">{{ userForm.name }}</div>
-                    <div class="text-black-50">{{ userForm.email }}</div>
+                    <div class="text-black-50" style="margin-bottom: 5vh;">{{ userForm.email }}</div>
 
-                    <div class="information">
-                        <button class="btn btn-primary profile-button" @click="$refs.fileRef.click">이미지 선택</button>
-                        <input type="file" @change="addProfileImage" ref="fileRef" hidden/>
+                    <div v-if="file != null" style="flex-direction:column margin-top:3vh">
+                        <h3>미리보기</h3>
+                        <img class="rounded-circle mt" width="200" height="200" :src="file">
+                        <div class="mt-5 text-center" style="margin-bottom: 2vh;"><button class="btn btn-danger"
+                                type="button" @click="clear">취소</button></div>
+                        <div class="mt-5 text-center" style="margin-bottom: 2vh;"><button class="btn btn-primary"
+                                type="button" @click="changeProfileImage">프로필 사진
+                                변경</button></div>
                     </div>
 
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
-                            @click="changeProfileImage">프로필 사진 변경</button></div>
-                    <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
-                            @click="deleteProfileImage">프로필 사진 삭제</button></div>
+                    <div class="information">
+                        <h4 class="text-right">프로필 사진 변경</h4>
+                        <button class="btn btn-primary profile-button" @click="$refs.fileRef.click">이미지 선택</button>
+                        <input type="file" accept="image/*" @change="addProfileImage" ref="fileRef" hidden />
+                        <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
+                                @click="deleteProfileImage">프로필 사진 삭제</button></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-5 border-right">
@@ -178,3 +211,4 @@ body {
     color: var(--bs-form-invalid-color);
 }
 </style>
+`

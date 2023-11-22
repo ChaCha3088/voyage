@@ -1,8 +1,8 @@
 <script setup>
-import { userAttractionStore } from "@/stores/attraction";
+import { useAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
-const attractionStore = userAttractionStore();
+const attractionStore = useAttractionStore();
 const { desc } = storeToRefs(attractionStore)
 const { detail } = attractionStore
 

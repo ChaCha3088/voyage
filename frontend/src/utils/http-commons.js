@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { VITE_API_BASE_URL, VITE_ATTRACTION_URL, VITE_WETHER_MIDDLE_URL } = import.meta.env;
+const { VITE_API_BASE_URL, VITE_ATTRACTION_URL } = import.meta.env;
 // local vue api axios instance
 function localAxios() {
   const instance = axios.create({
@@ -25,14 +25,17 @@ function attrationAxios() {
   return instance;
 } // 관광지 api용
 
-function weatherAxios() {
+function profileAxios() {
   const instance = axios.create({
-    baseURL: VITE_WETHER_MIDDLE_URL,
+    baseURL: VITE_API_BASE_URL,
+    // baseURL: "http://localhost:8080",
     headers: {
-      "Content-Type": "application/json;charset=utf-8",
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": `http://localhost:8080`,
+      "Access-Control-Allow-Credentials": "true",
     },
   });
   return instance;
 }
 
-export { localAxios, attrationAxios, weatherAxios };
+export { localAxios, attrationAxios, profileAxios };

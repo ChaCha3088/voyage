@@ -1,14 +1,14 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
-import { userAttractionStore } from "@/stores/attraction";
+import { useAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
-const attractionStore = userAttractionStore();
+const attractionStore = useAttractionStore();
 
 const { fullList, desc } = storeToRefs(attractionStore)
 
 var map;
-var clusterer;
+// var clusterer;
 const positions = ref([]); // 위치
 const markers = ref([]); // 마커
 const layers = ref([]); // 오버레이 객체 관리
@@ -74,12 +74,12 @@ const initMap = () => {
   };
   map = new kakao.maps.Map(container, options);
 
-  clusterer = new kakao.maps.MarkerClusterer({
-    map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-    averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-    minLevel: 5, // 클러스터 할 최소 지도 레벨 
-    markers: markers // 클러스터에 마커 추가
-  });
+  // clusterer = new kakao.maps.MarkerClusterer({
+  //   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+  //   averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+  //   minLevel: 5, // 클러스터 할 최소 지도 레벨 
+  //   markers: markers // 클러스터에 마커 추가
+  // });
 
   loadMarkers();
 };
