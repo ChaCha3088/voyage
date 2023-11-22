@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
@@ -16,6 +16,10 @@ const userForm = ref({
     passwordAgain: "",
     name: userInfo.value.name,
     profileImage: userInfo.value.profileImage
+});
+
+onMounted(() => {
+    userForm.value = userInfo.value
 });
 
 const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";

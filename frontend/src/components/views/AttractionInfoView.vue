@@ -1,5 +1,4 @@
 <script setup>
-import { shallowRef } from "vue"
 import { storeToRefs } from "pinia";
 import { userAttractionStore } from "@/stores/attraction"
 import search from '@/components/attraction/AttractionSearch.vue'

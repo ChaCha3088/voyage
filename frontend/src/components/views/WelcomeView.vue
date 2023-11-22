@@ -1,4 +1,5 @@
-<script setup ang="jsx">
+<script setup>
+
 </script>
 
 <template>
