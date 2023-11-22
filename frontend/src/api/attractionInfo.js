@@ -12,7 +12,7 @@ const getList = (param, success, fail) => {
     })
     .then(success)
     .catch(fail);
-};
+}; // 관광지 목록 구하기
 
 const getDetail = (contentId, success, fail) => {
   axios
@@ -21,7 +21,7 @@ const getDetail = (contentId, success, fail) => {
     })
     .then(success)
     .catch(fail);
-};
+}; // 특정 관광지의 상세정보 구하기
 
 export default { getList, getDetail };
 export { getList, getDetail };

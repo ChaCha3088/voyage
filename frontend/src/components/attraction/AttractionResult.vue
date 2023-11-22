@@ -1,50 +1,20 @@
 <script setup>
-import { ref, watch, watchEffect } from "vue";
+import { watch } from "vue";
 import { userAttractionStore } from "@/stores/attraction";
 import { storeToRefs } from "pinia";
 
 const attractionStore = userAttractionStore();
 
-const { list, isDetail } = storeToRefs(attractionStore)
+const { fullList } = storeToRefs(attractionStore)
 const { nextAttraction, detail } = attractionStore
-
-console.log("Result.vue")
-console.log(attractionStore.list)
-console.log(list)
-
-// const attractions = ref([
-// ])
-
-// // console.log(attractions.value[attractions.value.length - 1].contentId)
-
-// watch(
-//     () => list.value,
-//     (newParam) => {
-//         console.log(newParam)
-//         attractions.value = list.value
-//         console.log(attractions.value)
-//     }
-// )
-
-// watch(() => attractions.value, () => {
-//     console.log("Result watch")
-//     console.log(attractions.value.length)
-// }, { deep: true, immediate: true })
-
-// watch(
-//     () => isDetail.value,
-//     (newParam) => {
-//         attractions.value = list.value
-//     }
-// )
 
 const more = () => {
     nextAttraction()
-}
+} // 더보기 버튼 클릭시 다음 관광지 목록 얻어오기
 
 const change = (id) => {
     detail(id)
-}
+} // 카드 클릭시
 </script>
 
 <template>
@@ -52,22 +22,22 @@ const change = (id) => {
         <table>
             <thead>
                 <tr>
-                    <th>검색 결과</th>
+                    <th>관광지 목록</th>
                 </tr>
             </thead>
             <tbody>
-            <tbody v-if="list.length == 0">
+            <tbody v-if="fullList.length == 0">
                 <tr>
                     <td colspan="5">검색 결과가 없습니다.</td>
                 </tr>
             </tbody>
             <template v-else>
-                <tr v-for="(item) in list" :key="item.contentId">
+                <tr v-for="(item) in fullList" :key="item.contentId">
                     <td>
-                        <div class="card mb-3" style="width: 22vw;">
+                        <div class="card mb-3" style="width: 22vw;" @click="change(item.contentId)">
                             <img :src="item.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
-                                <h5 class="card-title" @click="change(item.contentId)">{{ item.title }}</h5>
+                                <h5 class="card-title">{{ item.title }}</h5>
                                 <p class="card-text">{{ item.addr1 }} {{ item.addr2 }}</p>
                             </div>
                         </div>

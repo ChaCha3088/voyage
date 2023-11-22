@@ -1,9 +1,9 @@
 <script setup>
 import { useRouter } from "vue-router";
-import {useMenuStore} from "@/stores/menu";
-import {useMemberStore} from "@/stores/member";
-import {storeToRefs} from "pinia";
-import { ref, computed, watch } from "vue";
+import { useMenuStore } from "@/stores/menu";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
 
 const router = useRouter();
 
@@ -12,10 +12,19 @@ const memberStore = useMemberStore();
 
 const { userInfo, refreshToken } = storeToRefs(memberStore);
 const { menuList } = storeToRefs(menuStore);
+const { memberGet } = memberStore
 
 const signOut = () => {
     memberStore.memberSignOut();
 };
+
+onMounted(() => {
+    if (refreshToken.value != null) {
+        memberGet()
+    }
+
+}); // 로그인 상태서 새로고침시 이름을 불러오기 위함
+// 
 
 </script>
 
@@ -28,7 +37,7 @@ const signOut = () => {
         <nav class="navbar navbar-expand-lg sticky-top " style="background-color: rgba(255, 255, 255, 0);">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
-                        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
@@ -44,14 +53,14 @@ const signOut = () => {
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                               aria-expanded="false">
+                                aria-expanded="false">
                                 HELP DESK
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">공지사항</a></li>
                                 <li><a class="dropdown-item" href="#">FAQ</a></li>
                                 <li>
-                                    <hr class="dropdown-divider"/>
+                                    <hr class="dropdown-divider" />
                                 </li>
                                 <li><a class="dropdown-item" href="#">규정</a></li>
                             </ul>
@@ -59,7 +68,7 @@ const signOut = () => {
 
                     </ul>
                     <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search"/>
+                        <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search" />
                         <button class="btn btn-outline-success" type="button">search</button>
                     </form>
 
@@ -67,7 +76,7 @@ const signOut = () => {
                         <li class="nav-item dropdown" style="list-style: none; margin-right: 2vw; clear:both">
                             <div v-show="refreshToken != null">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
+                                    aria-expanded="false">
                                     {{ userInfo.name }} 님
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
@@ -91,7 +100,7 @@ const signOut = () => {
                             </div>
                             <div v-show="refreshToken == null">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false">
+                                    aria-expanded="false">
                                     회원 메뉴
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">

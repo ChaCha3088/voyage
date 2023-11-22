@@ -8,7 +8,8 @@ const { detail } = attractionStore
 
 const change = () => {
     detail(desc.value.contentId)
-}
+} // x 버튼 클릭시
+// 지정된 파라미터는 요구 사항이라 보내는 것이고 실제 쓰지는 않음
 
 </script>
 
@@ -17,7 +18,10 @@ const change = () => {
         <table>
             <thead>
                 <tr>
-                    <th>세부 내용<button @click="change">이전으로</button></th>
+                    <th style="display: flex;">세부 내용<div data-bs-theme="dark">
+                            <button type="button" class="btn-close" aria-label="Close" @click="change"></button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
