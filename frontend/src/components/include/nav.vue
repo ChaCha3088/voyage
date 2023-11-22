@@ -77,7 +77,7 @@ onMounted(() => {
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="45"
-                                        height="45" style="margin-bottom: 10%;" :src="userInfo.profileImageUrl">{{
+                                        height="45" style="margin-right: 0.5vw;" :src="userInfo.profileImageUrl">{{
                                             userInfo.name }} 님
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
