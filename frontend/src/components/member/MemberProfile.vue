@@ -7,7 +7,7 @@ import { useMemberStore } from "@/stores/member";
 const memberStore = useMemberStore();
 
 const { userInfo, refreshToken } = storeToRefs(memberStore);
-
+const { memberDelete } = memberStore
 const router = useRouter();
 
 const userForm = ref({
@@ -44,6 +44,10 @@ if (refreshToken.value == null) {
     router.push({ name: "signin" });
 }
 
+const deleteMember = async () => {
+    await memberDelete()
+}
+
 </script>
 
 <template>
@@ -51,13 +55,16 @@ if (refreshToken.value == null) {
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img v-if="userInfo.profileImage != null" class="rounded-circle mt" width="150" height="150" style="margin-bottom: 10%;" :src="userForm.profileImage">
+                    <img v-if="userInfo.profileImage != null" class="rounded-circle mt" width="150" height="150"
+                        style="margin-bottom: 10%;" :src="userForm.profileImage">
                     <img v-else class="rounded-circle mt" width="150" height="150" style="margin-bottom: 10%;"
                         src="https://mblogthumb-phinf.pstatic.net/MjAyMTAyMDRfNjIg/MDAxNjEyNDA4OTk5NDQ4.6UGs399-0EXjIUwwWsYg7o66lDb-MPOVQ-zNDy1Wnnkg.m-WZz0IKKnc5OO2mjY5dOD-0VsfpXg7WVGgds6fKwnIg.JPEG.sunny_side_up12/1612312679152%EF%BC%8D2.jpg?type=w800">
                     <div class="font-weight-bold">{{ userForm.name }}</div>
                     <div class="text-black-50">{{ userForm.email }}</div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" @click="changeProfileImage">프로필 사진 변경</button></div>
-                    <div class="mt-5 text-center"><button class="btn btn-danger" type="button" @click="deleteProfileImage">프로필 사진 삭제</button></div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button"
+                            @click="changeProfileImage">프로필 사진 변경</button></div>
+                    <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
+                            @click="deleteProfileImage">프로필 사진 삭제</button></div>
                 </div>
             </div>
             <div class="col-md-5 border-right">
@@ -67,16 +74,17 @@ if (refreshToken.value == null) {
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-12"><label class="labels">이름</label><input type="text" class="form-control"
-                                                                                      placeholder="name" v-model="userForm.name" disabled></div>
+                                placeholder="name" v-model="userForm.name" disabled></div>
                         <div class="col-md-12"><label class="labels">이메일</label><input type="text" class="form-control"
-                                                                                       placeholder="email" v-model="userForm.email" disabled></div>
+                                placeholder="email" v-model="userForm.email" disabled></div>
                     </div>
                     <div class="row mt-3">
 
                         <div class="col-md-12"><label class="labels">비밀번호</label><input type="password" class="form-control"
                                 placeholder="enter password" v-model.lazy="userForm.password"></div>
                         <div class="col-md-12"><label class="labels">비밀번호 확인</label><input type="password"
-                                class="form-control" placeholder="enter password again" v-model.lazy="userForm.passwordAgain"></div>
+                                class="form-control" placeholder="enter password again"
+                                v-model.lazy="userForm.passwordAgain"></div>
                         <div v-show="!passwordValidation" class="validation">
                             대문자, 소문자, 숫자, 특수문자를 포함 8자리 이상이어야 합니다.
                         </div>
@@ -90,7 +98,8 @@ if (refreshToken.value == null) {
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">회원 탈퇴</h4>
                     </div>
-                    <div class="mt-5 text-center"><button class="btn btn btn-danger" type="button" @click="deleteMember">회원 탈퇴</button>
+                    <div class="mt-5 text-center"><button class="btn btn btn-danger" type="button" @click="deleteMember">회원
+                            탈퇴</button>
                     </div>
                 </div>
             </div>
