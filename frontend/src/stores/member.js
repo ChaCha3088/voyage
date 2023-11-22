@@ -55,6 +55,7 @@ export const useMemberStore = defineStore("member", () => {
           localStorage.setItem("Authorization-refresh", refreshToken);
 
           tokenChange.value += 1;
+          alert("로그인 성공");
         }
       },
       (error) => {
@@ -129,13 +130,12 @@ export const useMemberStore = defineStore("member", () => {
           localStorage.removeItem("Authorization-refresh");
 
           tokenChange.value += 1;
-
+          console.log(userInfo);
           // userInfo 비우기
-          userInfo = ref({
-            email: "",
-            name: "",
-            profileImageUrl: "",
-          });
+
+          userInfo.value.email = "";
+          userInfo.value.name = "";
+          userInfo.value.profileImageUrl = "";
         }
       },
       (error) => {
@@ -169,12 +169,10 @@ export const useMemberStore = defineStore("member", () => {
 
         tokenChange.value += 1;
         // userInfo 비우기
-        userInfo = ref({
-          email: "",
-          name: "",
-          profileImageUrl: "",
-        });
-
+        userInfo.value.email = "";
+        userInfo.value.name = "";
+        userInfo.value.profileImageUrl = "";
+        alert("회원 탈퇴 완료");
         router.push("/");
       },
       (error) => {
