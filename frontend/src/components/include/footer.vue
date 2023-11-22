@@ -2,9 +2,11 @@
 
 <template>
   <p class="p">
-  <div class="right">Copyright © All rights reserved</div>
   <div>서울 강남구 테헤란로 212</div>
-  <div>역삼 멀티 캠퍼스</div>
+  <div> <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp" target="_blank">역삼 멀티 캠퍼스</a>
+  </div>
+  <div style="margin-top: 3vh;"></div>
+  <div class="right">Copyright © All rights reserved</div>
   <div style="margin-top: 3vh;">Demo by cha_cha and mushroom <a
       href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions" target="_blank">See
       article</a></div>
@@ -43,8 +45,8 @@ a,
 
 .p {
   text-align: center;
-  padding-top: 3vh;
-  padding-bottom: 3vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
   font-size: 14px;
 }
 </style>
