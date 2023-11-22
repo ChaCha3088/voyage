@@ -97,28 +97,25 @@ const deleteProfileImage = () => {
                     <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="200" height="200"
                         style="margin-bottom: 10%;" :src="userForm.profileImageUrl">
                     <div class="font-weight-bold">{{ userForm.name }}</div>
-                    <div class="text-black-50">{{ userForm.email }}</div>
+                    <div class="text-black-50" style="margin-bottom: 5vh;">{{ userForm.email }}</div>
 
                     <div v-if="file != null" style="flex-direction:column margin-top:3vh">
                         <h3>미리보기</h3>
                         <img class="rounded-circle mt" width="200" height="200" :src="file">
                         <div class="mt-5 text-center" style="margin-bottom: 2vh;"><button class="btn btn-danger"
                                 type="button" @click="clear">취소</button></div>
-                        <div class="mt-5 text-center" style="margin-bottom: 2vh;"><button
-                                class="btn btn-primary profile-button" type="button" @click="changeProfileImage"
-                                style="background-color:blue;">프로필 사진
+                        <div class="mt-5 text-center" style="margin-bottom: 2vh;"><button class="btn btn-primary"
+                                type="button" @click="changeProfileImage">프로필 사진
                                 변경</button></div>
                     </div>
 
                     <div class="information">
+                        <h4 class="text-right">프로필 사진 변경</h4>
                         <button class="btn btn-primary profile-button" @click="$refs.fileRef.click">이미지 선택</button>
                         <input type="file" accept="image/*" @change="addProfileImage" ref="fileRef" hidden />
+                        <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
+                                @click="deleteProfileImage">프로필 사진 삭제</button></div>
                     </div>
-
-
-                    <div class="mt-5 text-center"><button class="btn btn-danger" type="button"
-                            @click="deleteProfileImage">프로필 사진 삭제</button></div>
-
                 </div>
             </div>
             <div class="col-md-5 border-right">
