@@ -2,9 +2,12 @@
 
 <template>
   <p class="p">
-  <div class="right">All rights reserved</div>
-  Demo by cha_cha and mushroom <a href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions"
-    target="_blank">See article</a>
+  <div class="right">Copyright © All rights reserved</div>
+  <div>서울 강남구 테헤란로 212</div>
+  <div>역삼 멀티 캠퍼스</div>
+  <div style="margin-top: 3vh;">Demo by cha_cha and mushroom <a
+      href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions" target="_blank">See
+      article</a></div>
   </p>
 </template>
 
@@ -14,7 +17,7 @@
 
 .right {
   font-family: 'Edu TAS Beginner', cursive;
-  font-size: 30px
+  font-size: 20px
 }
 
 #footer {
