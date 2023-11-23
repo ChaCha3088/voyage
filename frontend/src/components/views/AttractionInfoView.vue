@@ -27,6 +27,10 @@ const { isDetail } = storeToRefs(attractionStore)
 </template>
 
 <style scoped lang="scss">
+#wrap {
+    margin-top: 5vh;
+}
+
 h2 {
     text-align: center;
     padding: 20px 0px 0px 0px;

@@ -2,9 +2,14 @@
 
 <template>
   <p class="p">
-  <div class="right">All rights reserved</div>
-  Demo by cha_cha and mushroom <a href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions"
-    target="_blank">See article</a>
+  <div>서울 강남구 테헤란로 212</div>
+  <div> <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp" target="_blank">역삼 멀티 캠퍼스</a>
+  </div>
+  <div style="margin-top: 3vh;"></div>
+  <div class="right">Copyright © All rights reserved</div>
+  <div style="margin-top: 3vh;">Demo by cha_cha and mushroom <a
+      href="http://www.sitepoint.com/responsive-data-tables-comprehensive-list-solutions" target="_blank">See
+      article</a></div>
   </p>
 </template>
 
@@ -14,12 +19,12 @@
 
 .right {
   font-family: 'Edu TAS Beginner', cursive;
-  font-size: 30px
+  font-size: 20px
 }
 
 #footer {
   max-width: 1280px;
-  margin: 0 auto;
+  padding: 0 auto;
   padding: 2rem;
 
   font-weight: normal;
@@ -43,5 +48,6 @@ a,
   padding-top: 3vh;
   padding-bottom: 3vh;
   font-size: 14px;
+  background-color: rgb(180, 180, 180);
 }
 </style>

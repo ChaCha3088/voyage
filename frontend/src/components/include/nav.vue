@@ -1,11 +1,8 @@
 <script setup>
-import { useRouter } from "vue-router";
 import { useMenuStore } from "@/stores/menu";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
-
-const router = useRouter();
 
 const menuStore = useMenuStore();
 const memberStore = useMemberStore();
@@ -33,7 +30,7 @@ onMounted(() => {
           <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">|
             Voyage |</h1>
         </div> -->
-        <nav class="navbar navbar-expand-lg sticky-top " style="background-color: rgba(255, 255, 255, 0);">
+        <nav id="nav" class="navbar navbar-expand-lg fixed-top ">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
                     aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,13 +38,13 @@ onMounted(() => {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'home' }" class="nav-link">메인페이지</router-link>
+                        <li class="nav-item font">
+                            <router-link :to="{ name: 'home' }" class="nav-link">Voyage</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'attractionInfo' }" class="nav-link">여행 검색</router-link>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">커뮤니티</a>
                         </li>
                         <li class="nav-item dropdown">
@@ -63,7 +60,7 @@ onMounted(() => {
                                 </li>
                                 <li><a class="dropdown-item" href="#">규정</a></li>
                             </ul>
-                        </li>
+                        </li> -->
 
                     </ul>
                     <form class="d-flex" role="search">
@@ -77,7 +74,7 @@ onMounted(() => {
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="45"
-                                        height="45" style="margin-bottom: 10%;" :src="userInfo.profileImageUrl">{{
+                                        height="45" style="margin-right: 0.5vw;" :src="userInfo.profileImageUrl">{{
                                             userInfo.name }} 님
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
@@ -145,7 +142,6 @@ onMounted(() => {
 
 .logo-font {
     font-family: 'Yeongdo-Rg' !important;
-    font-family: 'Yeongdo-Rg' !important;
 }
 
 .logo {
@@ -154,10 +150,14 @@ onMounted(() => {
     margin-bottom: 3vh;
 }
 
+.font {
+    font-family: 'Yeongdo-Rg' !important;
+    font-size: 25px;
+}
+
 /* ul {
   margin-left: auto;
 } */
-
 
 .search {
     padding-right: 1vw;

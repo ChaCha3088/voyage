@@ -18,10 +18,13 @@ const change = () => {
         <table>
             <thead>
                 <tr>
-                    <th style="display: flex;">세부 내용<div data-bs-theme="dark">
-                            <button type="button" class="btn-close" aria-label="Close" @click="change"></button>
-                        </div>
-                    </th>
+                    <div>
+                        <th class="d-flex justify-content-between" style="display: flex;">{{ desc.title }} 상세 정보<div
+                                data-bs-theme="dark">
+                                <button type="button" class="btn-close" aria-label="Close" @click="change"></button>
+                            </div>
+                        </th>
+                    </div>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +34,9 @@ const change = () => {
                             <img :src="desc.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
                                 <h5 class="card-title">{{ desc.title }}</h5>
-                                <p class="card-text">{{ desc.addr1 }} {{ desc.addr2 }}</p>
+                                <p class="card-text">{{ desc.tel }} </p>
+                                <p class="card-text">{{ desc.addr1 }} {{ desc.addr2 }} 우) {{ desc.zipcode }}</p>
+
                                 <p class="card-text">{{ desc.attractionDescription.overview }}</p>
                             </div>
                         </div>
