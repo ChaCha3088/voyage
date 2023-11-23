@@ -15,8 +15,8 @@
                 <img src="../images/다운로드.jpg" class="d-block w-100" alt="이미지3">
                 <div class="container">
                     <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
-                        <p>Some representative placeholder content for the first slide of the carousel.</p>
+                        <h1>처음이신가요?</h1>
+                        <p>회원가입을 통해 회원이 되고 정보를 얻어보세요</p>
                         <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signup' }"
                                     class="nav-link">회원가입하기</router-link></a></p>
                     </div>
@@ -27,8 +27,8 @@
 
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
+                        <h1>이미 회원이신가요?</h1>
+                        <p>로그인하고 정보를 관리해보세요</p>
                         <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signin' }"
                                     class="nav-link">로그인하기</router-link></a></p>
                     </div>
@@ -39,8 +39,8 @@
 
                 <div class="container">
                     <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
+                        <h1>여행에 관해 더 자세하게</h1>
+                        <p>관광지를 검색해보세요</p>
                         <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'attractionInfo' }"
                                     class="nav-link">검색하러가기</router-link></a></p>
                     </div>
