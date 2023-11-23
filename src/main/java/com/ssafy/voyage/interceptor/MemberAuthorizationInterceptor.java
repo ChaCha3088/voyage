@@ -19,8 +19,6 @@ import static com.ssafy.voyage.message.message.Messages.NOT_FOUND;
 @Component
 @RequiredArgsConstructor
 public class MemberAuthorizationInterceptor implements HandlerInterceptor {
-    private final MemberRepository memberRepository;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AuthorizationException {
         // email이 없으면, 인증 실패
