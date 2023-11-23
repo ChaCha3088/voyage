@@ -94,7 +94,7 @@ const deleteProfileImage = () => {
     <div class="container rounded bg-white mt-5 mb-5">
         <div class="row">
             <div class="col-md-3 border-right">
-                <div class="d-flex flex-column align-items-center text-center p-3 py-5"> <!-- 맨 오른쪽 프로필 정보 구역-->
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"> <!-- 맨 왼쪽 프로필 정보 구역-->
                     <img v-if="userForm.profileImageUrl != null" class="rounded-circle mt" width="200" height="200"
                         style="margin-bottom: 10%;" :src="userForm.profileImageUrl"> <!-- 프로필 사진 -->
 
