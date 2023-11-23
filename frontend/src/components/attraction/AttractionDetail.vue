@@ -29,15 +29,15 @@ const change = () => {
             </thead>
             <tbody>
                 <tr>
-                    <td>
+                    <td style="text-align: center;"> <!-- 카드를 이용하여 상세 정보 표시-->
                         <div class="card mb-3" style="width: 22vw;">
                             <img :src="desc.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
-                                <h5 class="card-title">{{ desc.title }}</h5>
-                                <p class="card-text">{{ desc.tel }} </p>
+                                <h5 class="card-title">{{ desc.title }}</h5> <!-- 관광지명 -->
+                                <p class="card-text">{{ desc.tel }} </p><!-- 연락처 -->
                                 <p class="card-text">{{ desc.addr1 }} {{ desc.addr2 }} 우) {{ desc.zipcode }}</p>
-
-                                <p class="card-text">{{ desc.attractionDescription.overview }}</p>
+                                <!-- 주소, 우편번호 순 -->
+                                <p class="card-text">{{ desc.attractionDescription.overview }}</p> <!-- 상세 설명 -->
                             </div>
                         </div>
                     </td>

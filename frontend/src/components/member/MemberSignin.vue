@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 
@@ -8,14 +8,16 @@ const memberStore = useMemberStore();
 
 const emailRegex = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
 const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";
+// 이메일, 비밀번호 정규식
 
 const emailValidation = computed(() => {
     return !(userForm.value.email == null || userForm.value.email.trim() === "" || !userForm.value.email.match(emailRegex));
 });
-
+// 이메일 검증
 const passwordValidation = computed(() => {
     return !(userForm.value.password == null || userForm.value.password.trim() === "" || !userForm.value.password.match(passwordRegex));
 });
+// 비밀번호 검증
 
 const userForm = ref({
     email: "",
@@ -28,11 +30,11 @@ const signIn = async () => {
             .then(() => {
                 router.push({ name: "home" });
             });
-    }
+    } // 이메일, 비밀번호 검증 통과시 
     else {
         alert("이메일과 비밀번호를 확인해주세요.");
     }
-};
+}; // 로그인 시도 
 </script>
 
 <template>
@@ -45,7 +47,7 @@ const signIn = async () => {
                 </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
-                           v-model.lazy="userForm.email" @input="emailValidation">
+                        v-model.lazy="userForm.email" @input="emailValidation">
                     <label for="floatingInput">이메일 주소</label>
                 </div>
                 <div v-show="!passwordValidation" class="validation">
@@ -53,7 +55,7 @@ const signIn = async () => {
                 </div>
                 <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-                           v-model="userForm.password" @keyup.enter="signIn">
+                        v-model="userForm.password" @keyup.enter="signIn">
                     <label for="floatingPassword">비밀번호</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="button" @click="signIn">Sign in</button>

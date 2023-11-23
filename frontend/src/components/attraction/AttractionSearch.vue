@@ -32,7 +32,7 @@ const getSidoList = async () => {
             console.log(error)
         }
     );
-};
+}; // 시도 리스트를 받기
 
 onMounted(() => {
     getSidoList();
@@ -57,7 +57,7 @@ const search = () => {
                         <option value="0" selected>검색 할 지역 선택</option>
                         <option v-for="(code, index) in code" :key="index" :value="code.sidoCode">{{
                             code.sidoName }}
-                        </option>
+                        </option> <!-- 시도리스트 적용점 -->
                     </select>
                     <select id="search-content-id" class="form-select me-2" v-model="params.contentTypeId">
                         <option value="0" selected>관광지 유형</option>
@@ -71,7 +71,7 @@ const search = () => {
                         <option value="39">음식점</option>
                     </select>
                     <input id="search-keyword" class="form-control me-2" type="search" placeholder="검색어" aria-label="검색어"
-                        v-model="params.title" />
+                        v-model="params.title" /> <!-- 관광지 명 input -->
                     <button id="btn-search" class="btn btn-outline-success" type="button" @click="search()">검색</button>
                 </div>
             </form>
