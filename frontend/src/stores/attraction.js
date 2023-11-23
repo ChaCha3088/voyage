@@ -78,6 +78,7 @@ export const useAttractionStore = defineStore("attractionStore", () => {
       (response) => {
         if (response.status === httpStatusCode.OK) {
           desc.value = response.data;
+          console.log(desc.value);
         }
       },
       (error) => {

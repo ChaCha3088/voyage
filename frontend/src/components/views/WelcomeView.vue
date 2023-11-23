@@ -17,7 +17,8 @@
                     <div class="carousel-caption text-start">
                         <h1>Example headline.</h1>
                         <p>Some representative placeholder content for the first slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signup' }"
+                                    class="nav-link">회원가입하기</router-link></a></p>
                     </div>
                 </div>
             </div>
@@ -28,7 +29,8 @@
                     <div class="carousel-caption">
                         <h1>Another example headline.</h1>
                         <p>Some representative placeholder content for the second slide of the carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signin' }"
+                                    class="nav-link">로그인하기</router-link></a></p>
                     </div>
                 </div>
             </div>
@@ -39,7 +41,8 @@
                     <div class="carousel-caption text-end">
                         <h1>One more for good measure.</h1>
                         <p>Some representative placeholder content for the third slide of this carousel.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'attractionInfo' }"
+                                    class="nav-link">검색하러가기</router-link></a></p>
                     </div>
                 </div>
             </div>
@@ -60,31 +63,144 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
     <div class="container marketing">
-
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading" style="margin-bottom: 3vh;"><span class="text-muted">미리보기</span>
+                </h2>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <div width="500" height="500" background-color="#eee" color="#aaa"
+                    class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
+            </div>
+        </div>
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <div class="col-lg-4">
                 <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
-                <h2>Heading</h2>
-                <p>Some representative placeholder content for the three columns of text below the carousel. This is the
-                    first column.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                <div class="card mb-3" style="width: 20vw;"> <!-- 메인 페이지용 정보 하드 코딩1 start -->
+                    <img src="http://tong.visitkorea.or.kr/cms/resource/45/1903045_image2_1.jpg" class="card-img-top"
+                        alt="이미지 없음" width="9rem">
+                    <div class="card-body">
+                        <h5 class="card-title">서울신라호텔</h5>
+                        <p class="card-text">서울특별시 중구 동호로 249</p>
+                    </div>
+                    <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop1">자세히 보기</a></p>
+
+                    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">서울신라호텔</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="card mb-3" style="width: 24vw;">
+                                        <img src="http://tong.visitkorea.or.kr/cms/resource/45/1903045_image2_1.jpg"
+                                            class="card-img-top" alt="이미지 없음" width="9rem">
+                                        <div class="card-body">
+                                            <h5 class="card-title">서울신라호텔</h5>
+                                            <p class="card-text">서울특별시 중구 동호로 249 (장충동2가) 우) 4605</p>
+                                            <p class="card-text">02-2233-3131 </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- 메인 페이지용 정보 하드 코딩1 end -->
+
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
-                <h2>Heading</h2>
-                <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second
-                    column.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                <div class="card mb-3" style="width: 20vw;"> <!-- 메인 페이지용 정보 하드 코딩2 start -->
+                    <img src="http://tong.visitkorea.or.kr/cms/resource/71/2539471_image2_1.JPG" class="card-img-top"
+                        alt="이미지 없음" width="9rem">
+                    <div class="card-body">
+                        <h5 class="card-title">에버랜드</h5>
+                        <p class="card-text">경기도 용인시 처인구 포곡읍 에버랜드로 199</p>
+                    </div>
+                    <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop2">자세히 보기</a></p>
+
+                    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">에버랜드</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="card mb-3" style="width: 24vw;">
+                                        <img src="http://tong.visitkorea.or.kr/cms/resource/71/2539471_image2_1.JPG"
+                                            class="card-img-top" alt="이미지 없음" width="9rem">
+                                        <div class="card-body">
+                                            <h5 class="card-title">에버랜드</h5>
+                                            <p class="card-text">경기도 용인시 처인구 포곡읍 에버랜드로 199 (포곡읍) 우) 63920</p>
+                                            <p class="card-text">031-320-5000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- 메인 페이지용 정보 하드 코딩2 end -->
             </div><!-- /.col-lg-4 -->
             <div class="col-lg-4">
                 <div width="140" height="140" background="#777" color="#777" class="rounded-circle"></div>
 
-                <h2>Heading</h2>
-                <p>And lastly this, the third column of representative placeholder content.</p>
-                <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+                <div class="card mb-3" style="width: 20vw;"> <!-- 메인 페이지용 정보 하드 코딩3 start -->
+                    <img src="http://tong.visitkorea.or.kr/cms/resource/37/2712637_image2_1.jpg" class="card-img-top"
+                        alt="이미지 없음" width="9rem">
+                    <div class="card-body">
+                        <h5 class="card-title">경주 불국사</h5>
+                        <p class="card-text">경상북도 경주시 불국로 385</p>
+                    </div>
+                    <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop3">자세히 보기</a></p>
+
+                    <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">경주 불국사</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="card mb-3" style="width: 24vw;">
+                                        <img src="http://tong.visitkorea.or.kr/cms/resource/37/2712637_image2_1.jpg"
+                                            class="card-img-top" alt="이미지 없음" width="9rem">
+                                        <div class="card-body">
+                                            <h5 class="card-title">경주 불국사</h5>
+                                            <p class="card-text">경상북도 경주시 불국로 385 (진현동) 우) 38127</p>
+                                            <p class="card-text">054-746-9913</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- 메인 페이지용 정보 하드 코딩3 end -->
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
 
@@ -95,24 +211,24 @@
 
         <div class="row featurette">
             <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your
-                        mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose
-                    here.</p>
+                <h2 class="featurette-heading"><span class="text-muted">여행을 계획중이신가요? </span></h2>
+                <p class="lead">관광지에 관해 먼저 검색해보세요.</p>
             </div>
             <div class="col-md-5">
                 <div width="500" height="500" background="#eee" color="#aaa"
                     class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
             </div>
         </div>
-
+        <!-- 
         <hr class="featurette-divider">
 
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span>
+                <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for
+                        yourself.</span>
                 </h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
+                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how
+                    this
                     layout would work with some actual real-world content in place.</p>
             </div>
             <div class="col-md-5 order-md-1">
@@ -127,14 +243,15 @@
             <div class="col-md-7">
                 <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
                 <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
-                    intended to be actually read, simply here to give you a better view of what this would look like with
+                    intended to be actually read, simply here to give you a better view of what this would look like
+                    with
                     some actual content. Your content.</p>
             </div>
             <div class="col-md-5">
                 <div width="500" height="500" background-color="#eee" color="#aaa"
                     class="bd-placeholder-img-lg featurette-image img-fluid mx-auto"></div>
             </div>
-        </div>
+        </div> -->
 
         <hr class="featurette-divider">
 
@@ -157,7 +274,7 @@
 a,
 .green {
     text-decoration: none;
-    color: hsla(160, 100%, 37%, 1);
+    color: white;
     transition: 0.4s;
 }
 

@@ -24,7 +24,7 @@
 
 #footer {
   max-width: 1280px;
-  margin: 0 auto;
+  padding: 0 auto;
   padding: 2rem;
 
   font-weight: normal;
@@ -45,8 +45,9 @@ a,
 
 .p {
   text-align: center;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
   font-size: 14px;
+  background-color: rgb(180, 180, 180);
 }
 </style>
