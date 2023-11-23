@@ -1,4 +1,4 @@
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 
@@ -42,7 +42,8 @@ export const useMemberStore = defineStore("member", () => {
       }
     },
     { deep: true }
-  );
+  ); // tokenChange값이 바뀔 때마다(api가 호출될 때마다) refresh토큰 값을 가져오고,
+  // 토큰으로 유저정보를 구함
 
   const memberSignIn = async (userForm) => {
     await signIn(
@@ -54,6 +55,8 @@ export const useMemberStore = defineStore("member", () => {
 
           localStorage.setItem("Authorization", accessToken);
           localStorage.setItem("Authorization-refresh", refreshToken);
+          // 로그인 성공시, 헤더에서 Authorization토큰과 refresh토큰을 가져와서
+          // 로컬 스토리지에 저장
 
           tokenChange.value += 1;
           alert("로그인 성공");
@@ -86,7 +89,8 @@ export const useMemberStore = defineStore("member", () => {
           userInfo.value.email = response.data.email;
           userInfo.value.name = response.data.name;
           userInfo.value.profileImageUrl = response.data.profileImageUrl;
-        }
+        } // 회원 정보를 저장해주기
+        // 하나씩 해주어야 함
       },
       async () => {
         await memberSignOut();
@@ -119,6 +123,7 @@ export const useMemberStore = defineStore("member", () => {
         alert("RefreshToken 기간 만료 다시 로그인해 주세요.");
 
         router.push({ name: "SignIn" });
+        // 재발급 실패시 토큰 삭제 후, 로그인 페이지로
       }
     );
   };
@@ -129,11 +134,12 @@ export const useMemberStore = defineStore("member", () => {
         if (response.status === httpStatusCode.OK) {
           localStorage.removeItem("Authorization");
           localStorage.removeItem("Authorization-refresh");
+          // 토큰 삭제
 
           tokenChange.value += 1;
           console.log(userInfo);
-          // userInfo 비우기
 
+          // userInfo 비우기
           userInfo.value.email = "";
           userInfo.value.name = "";
           userInfo.value.profileImageUrl = "";
@@ -161,7 +167,7 @@ export const useMemberStore = defineStore("member", () => {
         userForm.value.passwordAgain = "";
         alert("비밀번호 수정 실패" + "\n" + error.response.data);
       }
-    );
+    ); // 수정여부에 관계없이 폼 비우기
   };
 
   const memberDelete = async () => {
@@ -169,7 +175,7 @@ export const useMemberStore = defineStore("member", () => {
       () => {
         localStorage.removeItem("Authorization");
         localStorage.removeItem("Authorization-refresh");
-
+        // 토큰 비우기
         tokenChange.value += 1;
         // userInfo 비우기
         userInfo.value.email = "";
@@ -190,7 +196,7 @@ export const useMemberStore = defineStore("member", () => {
       (response) => {
         if (response.status === httpStatusCode.OK) {
           alert("프로필 이미지 변경에 성공하였습니다");
-          router.go(0);
+          router.go(0); // 새로고침
         }
       },
       (error) => {
@@ -206,7 +212,7 @@ export const useMemberStore = defineStore("member", () => {
         // catch탭에 있는 이유, 삭제 성공시 api는 204를 반환함
         if (response.status === httpStatusCode.NOCONTENT) {
           alert("프로필 이미지 삭제에 성공하였습니다");
-          router.go(0);
+          router.go(0); // 새로고침
         }
       }
     );
