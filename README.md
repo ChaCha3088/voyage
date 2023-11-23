@@ -51,7 +51,6 @@
 - ERD Cloud
 
 ## [API Document](https://cha3088.notion.site/API-54ad5cc3557b4485959a965e3f1b4b82?pvs=4)
------------------
 ## 기능 구현 목록
 ### 협업
 - [x] Git Flow
@@ -129,6 +128,6 @@
 ### 8. Delete Member
 ![Delete Member](https://file.notion.so/f/f/93d88247-7ea3-4e21-aa86-4d58e8afca25/262dc7d5-d5be-4f8e-9539-ba36a85df556/9.-Delete-Member.gif?id=ce3eca6e-cd48-4ab9-ad64-c21f6a7aae05&table=block&spaceId=93d88247-7ea3-4e21-aa86-4d58e8afca25&expirationTimestamp=1700841600000&signature=kwlDl6S77PmYVsguqutgHpcEn--hHzXpjX1IDMqEJbM&downloadName=9.-Delete-Member.gif)
 ### 9. Summary Video
-![Summary Video](https://file.notion.so/f/f/93d88247-7ea3-4e21-aa86-4d58e8afca25/ed0de011-9baf-455f-9155-13994fec4ae7/발표_영상.mov?id=b3609e8e-e5a0-4ef4-b25e-ec00afba1e6f&table=block&spaceId=93d88247-7ea3-4e21-aa86-4d58e8afca25&expirationTimestamp=1700841600000&signature=k86XeV5kD_u2g3sBwIR4Hkcp_PHTDx52HHI_VU9mM0Y&downloadName=발표+영상.mov)
+[Summary Video Link](https://file.notion.so/f/f/93d88247-7ea3-4e21-aa86-4d58e8afca25/ed0de011-9baf-455f-9155-13994fec4ae7/발표_영상.mov?id=b3609e8e-e5a0-4ef4-b25e-ec00afba1e6f&table=block&spaceId=93d88247-7ea3-4e21-aa86-4d58e8afca25&expirationTimestamp=1700841600000&signature=k86XeV5kD_u2g3sBwIR4Hkcp_PHTDx52HHI_VU9mM0Y&downloadName=발표+영상.mov)
 
 [Back to Table of Contents](#table-of-contents)
