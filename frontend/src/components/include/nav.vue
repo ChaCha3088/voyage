@@ -37,7 +37,7 @@ onMounted(() => {
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item font">
                             <router-link :to="{ name: 'home' }" class="nav-link">Voyage</router-link> <!-- 메인 페이지 -->
                         </li>

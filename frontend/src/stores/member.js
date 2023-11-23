@@ -196,6 +196,7 @@ export const useMemberStore = defineStore("member", () => {
       (response) => {
         if (response.status === httpStatusCode.OK) {
           alert("프로필 이미지 변경에 성공하였습니다");
+          tokenChange.value += 1;
           router.go(0); // 새로고침
         }
       },
@@ -212,6 +213,7 @@ export const useMemberStore = defineStore("member", () => {
         // catch탭에 있는 이유, 삭제 성공시 api는 204를 반환함
         if (response.status === httpStatusCode.NOCONTENT) {
           alert("프로필 이미지 삭제에 성공하였습니다");
+          tokenChange.value += 1;
           router.go(0); // 새로고침
         }
       }
