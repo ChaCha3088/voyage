@@ -16,7 +16,7 @@ async function changeProfile(param, success, fail) {
     })
     .then(success)
     .catch(fail);
-}
+} // 프로필 사진 변경 api
 
 async function deleteProfile(param, success, fail) {
   profileAPI.defaults.headers["Authorization"] = localStorage.getItem("Authorization");
@@ -30,6 +30,6 @@ async function deleteProfile(param, success, fail) {
     })
     .then(success)
     .catch(fail);
-}
+} // 프로필 사진 삭제 api
 
 export { changeProfile, deleteProfile };

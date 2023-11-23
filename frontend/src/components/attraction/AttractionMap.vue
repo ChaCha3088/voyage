@@ -122,7 +122,7 @@ const loadMarkers = () => {
       position: marker.getPosition()
     });
 
-    // 오버레이 생성
+    // 오버레이 element 생성
     // 부모 -> 자식
     var content = document.createElement('div');
     content.classList.add("wrap");
@@ -212,7 +212,7 @@ const loadMarkers = () => {
   // });
 };
 
-
+// 마커 삭제
 const deleteMarkers = () => {
   if (markers.value.length > 0) {
     markers.value.forEach((marker) => marker.setMap(null));

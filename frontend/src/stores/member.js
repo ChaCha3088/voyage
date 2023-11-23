@@ -203,6 +203,7 @@ export const useMemberStore = defineStore("member", () => {
     await deleteProfile(
       () => {},
       (response) => {
+        // catch탭에 있는 이유, 삭제 성공시 api는 204를 반환함
         if (response.status === httpStatusCode.NOCONTENT) {
           alert("프로필 이미지 삭제에 성공하였습니다");
           router.go(0);

@@ -39,7 +39,7 @@ onMounted(() => {
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
                         <li class="nav-item font">
-                            <router-link :to="{ name: 'home' }" class="nav-link">Voyage</router-link>
+                            <router-link :to="{ name: 'home' }" class="nav-link">Voyage</router-link> <!-- 메인 페이지 -->
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'attractionInfo' }" class="nav-link">여행 검색</router-link>
@@ -70,12 +70,12 @@ onMounted(() => {
 
                     <div class="dropdown-center" style="padding-left: 2vw;">
                         <li class="nav-item dropdown" style="list-style: none; margin-right: 2vw; clear:both">
-                            <div v-show="refreshToken != null">
+                            <div v-show="refreshToken != null"> <!-- 로그인 상태 메뉴 -->
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <img v-if="userInfo.profileImageUrl != null" class="rounded-circle mt" width="45"
                                         height="45" style="margin-right: 0.5vw;" :src="userInfo.profileImageUrl">{{
-                                            userInfo.name }} 님
+                                            userInfo.name }} 님 <!-- 로그인 상태일 때, 이름과 프로필 사진 보여주기. 프로필 사진은 있을 때만 -->
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
                                     <template v-for="menu in menuList" :key="menu.routeName">
@@ -96,7 +96,7 @@ onMounted(() => {
                                     </template>
                                 </ul>
                             </div>
-                            <div v-show="refreshToken == null">
+                            <div v-show="refreshToken == null"> <!-- 로그아웃 메뉴 -->
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     회원 메뉴

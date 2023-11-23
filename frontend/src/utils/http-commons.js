@@ -36,6 +36,6 @@ function profileAxios() {
     },
   });
   return instance;
-}
+} // 프로필 api용
 
 export { localAxios, attrationAxios, profileAxios };

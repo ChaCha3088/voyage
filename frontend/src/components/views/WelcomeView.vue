@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel"> <!-- 3개의 탭이 있는 캐러셀 -->
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
                 aria-label="Slide 1"></button>
@@ -11,7 +11,7 @@
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item active"> <!-- 첫번째 탭 -->
                 <img src="../images/다운로드.jpg" class="d-block w-100" alt="이미지3">
                 <div class="container">
                     <div class="carousel-caption text-start">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item"> <!-- 두번째 탭 -->
                 <img src="../images/다운로드2.jpg" class="d-block w-100" alt="이미지3">
 
                 <div class="container">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="carousel-item">
+            <div class="carousel-item"> <!-- 세번째 탭 -->
                 <img src="../images/다운로드3.jpg" class="d-block w-100" alt="이미지3">
 
                 <div class="container">
@@ -62,7 +62,7 @@
   ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    <div class="container marketing">
+    <div class="container marketing"> <!--캐러셀 아래 정보탭-->
         <div class="row featurette">
             <div class="col-md-7 order-md-2">
                 <h2 class="featurette-heading" style="margin-bottom: 3vh;"><span class="text-muted">미리보기</span>
@@ -86,7 +86,7 @@
                         <p class="card-text">서울특별시 중구 동호로 249</p>
                     </div>
                     <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop1">자세히 보기</a></p>
+                            data-bs-target="#staticBackdrop1">자세히 보기</a></p> <!-- 누르면 해당 target 모달창 나옴 -->
 
                     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -129,7 +129,7 @@
                         <p class="card-text">경기도 용인시 처인구 포곡읍 에버랜드로 199</p>
                     </div>
                     <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop2">자세히 보기</a></p>
+                            data-bs-target="#staticBackdrop2">자세히 보기</a></p> <!-- 누르면 해당 target 모달창 나옴 -->
 
                     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -171,7 +171,7 @@
                         <p class="card-text">경상북도 경주시 불국로 385</p>
                     </div>
                     <p><a class="btn btn-secondary" style="margin-bottom: 1vw;" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop3">자세히 보기</a></p>
+                            data-bs-target="#staticBackdrop3">자세히 보기</a></p> <!-- 누르면 해당 target 모달창 나옴 -->
 
                     <div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

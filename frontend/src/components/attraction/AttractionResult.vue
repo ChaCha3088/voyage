@@ -36,8 +36,8 @@ const change = (id) => {
                         <div class="card mb-3" style="width: 22vw;" @click="change(item.contentId)">
                             <img :src="item.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
-                                <h5 class="card-title">{{ item.title }}</h5>
-                                <p class="card-text">{{ item.addr1 }} {{ item.addr2 }}</p>
+                                <h5 class="card-title">{{ item.title }}</h5> <!-- 관광지 명 -->
+                                <p class="card-text">{{ item.addr1 }} {{ item.addr2 }}</p> <!-- 관광지 주소 -->
                             </div>
                         </div>
                     </td>

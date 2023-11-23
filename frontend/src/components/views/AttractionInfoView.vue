@@ -16,12 +16,14 @@ const { isDetail } = storeToRefs(attractionStore)
         <search />
         <div id="info">
             <div id="left">
-                <kakaomap />
+                <kakaomap /> <!-- 지도 -->
             </div>
-            <div id="right">
+            <div id="right"> <!-- 검색 결과 / 상세 정보-->
                 <result v-show="!isDetail" />
                 <detail v-if="isDetail" />
-            </div>
+            </div> <!-- isDetail 값에 따라 컴포넌트 변경-->
+            <!-- result가 show인 이유, detail에서 나가더라도 이전 검색 결과를 남기기 위함 -->
+            <!-- 이 때문인지 작동은 하지만 오류 메시지가 발생하긴 함-->
         </div>
     </div>
 </template>
@@ -42,6 +44,7 @@ body {
     overflow: hidden;
 }
 
+// 맵 - 검색(& 상세 정보 배치)
 #info {
     display: flex;
 }

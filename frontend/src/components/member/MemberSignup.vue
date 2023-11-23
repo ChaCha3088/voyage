@@ -1,5 +1,5 @@
 <script setup>
-import {computed, ref} from "vue";
+import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 import { useRouter } from "vue-router";
 
@@ -9,6 +9,7 @@ const memberStore = useMemberStore();
 
 const emailRegex = "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))";
 const passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,30}$";
+// 이메일, 비밀번호 정규식
 
 const emailValidation = computed(() => {
     const result = !(userForm.value.email == null || userForm.value.email.trim() === "" || !userForm.value.email.match(emailRegex));
@@ -30,6 +31,7 @@ const nameValidation = computed(() => {
 
     return result;
 });
+// 위에서부터 이메일, 비밀번호, 이름 검증
 
 const userForm = ref({
     email: "",
@@ -44,11 +46,11 @@ const signUp = async () => {
             .then(() => {
                 router.push({ name: "signin" });
             });
-    }
+    } // 검증 통과시
     else {
         alert("이메일과 비밀번호를 확인해주세요.");
     }
-}
+} // 회원가입
 </script>
 
 <template>
@@ -81,7 +83,8 @@ const signUp = async () => {
                     이름을 입력해주세요.
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingName" placeholder="홍길동" v-model.lazy="userForm.name">
+                    <input type="email" class="form-control" id="floatingName" placeholder="홍길동"
+                        v-model.lazy="userForm.name">
                     <label for="floatingInput">이름</label>
                 </div>
                 <button class="btn btn-outline-success" type="button" @click="signUp">회원가입</button>
