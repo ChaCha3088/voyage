@@ -51,7 +51,7 @@ const deleteMember = async () => {
     await memberDelete()
 } // 회원 탈퇴
 
-const file = ref(null); // 미리보기에 보여줄 이미지 정보를 저장
+const file = ref(null); // 미리보기 보여줄 이미지 정보를 저장
 const param = ref(null) // 이미지 파일 정보
 const addProfileImage = async (event) => {
 

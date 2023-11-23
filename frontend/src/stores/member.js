@@ -197,6 +197,7 @@ export const useMemberStore = defineStore("member", () => {
         if (response.status === httpStatusCode.OK) {
           alert("프로필 이미지 변경에 성공하였습니다");
           tokenChange.value += 1;
+          // console.log(param.value);
           router.go(0); // 새로고침
         }
       },
