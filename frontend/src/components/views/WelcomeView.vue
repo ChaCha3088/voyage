@@ -1,5 +1,16 @@
 <script setup>
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 
+const memberStore = useMemberStore();
+
+const { refreshToken } = storeToRefs(memberStore);
+
+
+
+//     if (refreshToken.value != null) 
+
+//   // 로그인 상태서 새로고침시 이름을 불러오기 위함
 </script>
 
 <template>
@@ -17,8 +28,13 @@
                     <div class="carousel-caption text-start">
                         <h1>처음이신가요?</h1>
                         <p>회원가입을 통해 회원이 되고 정보를 얻어보세요</p>
-                        <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signup' }"
-                                    class="nav-link">회원가입하기</router-link></a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#">
+                                <div v-if="refreshToken == null">
+                                    <router-link :to="{ name: 'signup' }" class="nav-link">회원가입하기</router-link>
+                                </div>
+                                <div v-else><router-link :to="{ name: 'profile' }" class="nav-link">회원가입하기</router-link>
+                                </div>
+                            </a></p>
                     </div>
                 </div>
             </div>
@@ -29,8 +45,13 @@
                     <div class="carousel-caption">
                         <h1>이미 회원이신가요?</h1>
                         <p>로그인하고 정보를 관리해보세요</p>
-                        <p><a class="btn btn-lg btn-primary" href="#"><router-link :to="{ name: 'signin' }"
-                                    class="nav-link">로그인하기</router-link></a></p>
+                        <p><a class="btn btn-lg btn-primary" href="#">
+                                <div v-if="refreshToken == null">
+                                    <router-link :to="{ name: 'signin' }" class="nav-link">로그인하기</router-link>
+                                </div>
+                                <div v-else><router-link :to="{ name: 'profile' }" class="nav-link">로그인하기</router-link>
+                                </div>
+                            </a></p>
                     </div>
                 </div>
             </div>
