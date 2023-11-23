@@ -32,8 +32,8 @@ const change = (id) => {
             </tbody>
             <template v-else>
                 <tr v-for="(item) in fullList" :key="item.contentId">
-                    <td>
-                        <div class="card mb-3" style="width: 22vw;" @click="change(item.contentId)">
+                    <td style="text-align: center;">
+                        <div class="card mb-3" style="width: 23vw;" @click="change(item.contentId)">
                             <img :src="item.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
                                 <h5 class="card-title">{{ item.title }}</h5> <!-- 관광지 명 -->
@@ -81,6 +81,7 @@ th {
     position: sticky;
     top: 0px;
 }
+
 
 tr:first-child th:first-child {
     border-top-left-radius: 6px;

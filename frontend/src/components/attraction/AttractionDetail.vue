@@ -29,7 +29,7 @@ const change = () => {
             </thead>
             <tbody>
                 <tr>
-                    <td> <!-- 카드를 이용하여 상세 정보 표시-->
+                    <td style="text-align: center;"> <!-- 카드를 이용하여 상세 정보 표시-->
                         <div class="card mb-3" style="width: 22vw;">
                             <img :src="desc.firstImage" class="card-img-top" alt="이미지 없음" width="9rem">
                             <div class="card-body">
