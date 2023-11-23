@@ -20,7 +20,11 @@
     - [Authentication](#authentication)
     - [회원](#회원)
     - [여행 정보](#여행-정보)
+    - [Validation](#validation)
   - [Frontend](#frontend-1)
+- [Validation](#validation-1)
+  - [authentication](#authentication-1)
+  - [controller단](#controller단)
 - [Demo](#demo)
 
 ### 개발 기간
@@ -88,6 +92,14 @@
   - [x] QueryDsl 적용
   - [x] BooleanExpression 적용
 
+#### [Validation](#Validation-1)
+##### authentication
+- [x] AuthValidator
+  - [x] 회원 가입 시, 이메일 규칙, 비밀번호 규칙 검증
+##### controller단
+- [x] @Valid 적용
+- [x] @RequestMapping cosume Content-Type 적용
+
 ### Frontend
 - [ ] Vue3
   - [ ] 메인
@@ -109,6 +121,17 @@
     - [ ] 삭제
 
 [Back to Table of Contents](#table-of-contents)
+
+## Validation
+### authentication
+#### 회원 가입 시, 이메일 규칙, 비밀번호 규칙 검증
+![회원 가입 시, 이메일 규칙, 비밀번호 규칙 검증](https://github.com/ChaCha3088/voyage/assets/90785316/61055b4b-bf2b-4b68-8c7b-7bd41085d4ee)
+
+### controller단
+#### @Valid 적용
+![@Valid](https://github.com/ChaCha3088/voyage/assets/90785316/a8c95c85-0044-482e-848b-bfbdde1d798f)
+#### @RequestMapping consume Content-Type 적용
+![@RequestMapping consume Content-Type](https://github.com/ChaCha3088/voyage/assets/90785316/99b25549-f914-4d6b-806d-22a437322e16)
 
 ## Demo
 ### 1. Main Page

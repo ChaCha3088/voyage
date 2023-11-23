@@ -16,7 +16,6 @@ import static com.ssafy.voyage.message.message.Messages.*;
 @Component
 @RequiredArgsConstructor
 public class AuthValidator {
-
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
             "(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))"
     );
