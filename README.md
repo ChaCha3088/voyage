@@ -1,14 +1,24 @@
 # Voyage
 ## About This Project
 > 여행 정보를 조회하고 검색할 수 있는 서비스입니다.
+
+### 개발 기간
+> 2023 11/01 - 2023/11/24
+
+### Developers
+#### Backend
+**[Cha Cha](https://github.com/ChaCha3088)**
+#### Frontend
+이혜지
+
 ## Table of Contents
 - [Voyage](#voyage)
   - [About This Project](#about-this-project)
-  - [Table of Contents](#table-of-contents)
     - [개발 기간](#개발-기간)
-  - [Developers](#developers)
-    - [Backend](#backend)
-    - [Frontend](#frontend)
+    - [Developers](#developers)
+      - [Backend](#backend)
+      - [Frontend](#frontend)
+  - [Table of Contents](#table-of-contents)
   - [Tech Stack](#tech-stack)
     - [Backend](#backend-1)
     - [Frontend](#frontend-1)
@@ -23,7 +33,7 @@
     - [API Document](#api-document)
   - [ERD](#erd-1)
   - [API Document](#api-document-1)
-- [중점 사항](#중점 사항)
+- [중점 사항](#중점-사항)
   - [JWT 재발급 로직 개선](#JWT-재발급-로직-개선)
   - [Validation](#validation)
     - [Authentication](#authentication)
@@ -42,15 +52,6 @@
   - [7. Change Password](#7-change-password)
   - [8. Delete Member](#8-delete-member)
   - [9. Summary Video](#9-summary-video)
-
-### 개발 기간
-> 2023 11/01 - 2023/11/24
-
-## Developers
-### Backend
-**[Cha Cha](https://github.com/ChaCha3088)**
-### Frontend
-이혜지
 
 ## Tech Stack
 ![Tech Stack](https://github.com/ChaCha3088/voyage/assets/90785316/29b79f2f-00f6-4f78-a7df-9d16e479a849)
