@@ -84,6 +84,7 @@ public class S3Service {
 
         String wholeName = fileDir + "/" + PROFILE_IMAGE_NAME + "." + fileType;
 
+        // S3에 파일 업로드
         amazonS3.putObject(new PutObjectRequest(bucket, wholeName, multipartFile.getInputStream(), metadata)
             .withCannedAcl(CannedAccessControlList.PublicRead));
 
